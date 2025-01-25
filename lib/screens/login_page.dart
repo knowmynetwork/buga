@@ -39,6 +39,8 @@ class LoginPage extends StatelessWidget {
                 // Perform login logic here
                 debugPrint('Email: ${emailController.text}');
                 debugPrint('Password: ${passwordController.text}');
+                Navigator.pushNamed(context, '/home'); // Navigate to home page
+
               },
               child: const Text('Login'),
             ),

@@ -1,3 +1,4 @@
+import 'package:buga/screens/home_screen.dart';
 import 'package:buga/screens/login_page.dart';
 import 'package:buga/theme/app_theme.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +22,8 @@ class RideSharingApp extends StatelessWidget {
         '/login': (context) => LoginPage(),
         '/signup': (context) => SignUpPage(),
         '/otp': (context) => OtpValidationPage(),
-      },    );
+        '/home': (context) => HomeScreen(),
+      },    
+    );
   }
 }
