@@ -48,8 +48,8 @@ class WalletBalanceCard extends StatelessWidget {
         children: [
           const Icon(Icons.account_balance_wallet, size: 40),
           const SizedBox(height: 8),
-          Text('₦15,235', style: AppTextStyles.heading),
-          Text('WALLET BALANCE', style: AppTextStyles.body),
+          Text('₦15,235'),
+          Text('WALLET BALANCE'),
           const SizedBox(height: 10),
           ElevatedButton(
             onPressed: () {},

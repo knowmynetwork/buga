@@ -1,3 +1,5 @@
+import 'package:buga/constant/navigation.dart';
+import 'package:buga/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatelessWidget {
@@ -39,14 +41,15 @@ class LoginPage extends StatelessWidget {
                 // Perform login logic here
                 debugPrint('Email: ${emailController.text}');
                 debugPrint('Password: ${passwordController.text}');
-                Navigator.pushNamed(context, '/home'); // Navigate to home page
-
+                pushReplacementScreen(HomeScreen());
+                // Navigator.pushNamed(context, '/home'); // Navigate to home page
               },
               child: const Text('Login'),
             ),
             TextButton(
               onPressed: () {
-                Navigator.pushNamed(context, '/signup'); // Navigate to signup page
+                pushScreen('/signup');
+                // Navigator.pushNamed(context, '/signup'); // Navigate to signup page
               },
               child: const Text('Don\'t have an account? Sign up'),
             ),

@@ -32,9 +32,9 @@ class RideOptionCard extends StatelessWidget {
         children: [
           Icon(icon, size: 40, color: Theme.of(context).primaryColor),
           const SizedBox(height: 10),
-          Text(title, style: AppTextStyles.subHeading),
+          Text(title,),
           const SizedBox(height: 5),
-          Text(subtitle, style: AppTextStyles.small),
+          Text(subtitle,),
         ],
       ),
     );
