@@ -37,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
 }
 
 class WalletBalanceCard extends StatelessWidget {
-  const WalletBalanceCard({Key? key}) : super(key: key);
+  const WalletBalanceCard({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +63,7 @@ class WalletBalanceCard extends StatelessWidget {
 }
 
 class RideOptions extends StatelessWidget {
-  const RideOptions({Key? key}) : super(key: key);
+  const RideOptions({super.key});
 
   @override
   Widget build(BuildContext context) {
