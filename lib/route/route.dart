@@ -1,0 +1,9 @@
+String loginRoute = '/login';
+String splashRoute = '/splash';
+String signUpRoute = '/signup';
+String otpRoute = '/otp';
+String home = '/home';
+String verificationOtp = '/otp_verification';
+String emergencyRoute = '/emergency';
+// String loaderRoute = '/loader';
+String forgotPageRoute = '/forgot';
