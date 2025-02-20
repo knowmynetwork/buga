@@ -1,4 +1,6 @@
 import 'package:buga/constant/images.dart';
+import 'package:buga/route/navigation.dart';
+import 'package:buga/screens/onboarding_driver_view/screen/login_page.dart';
 import 'package:buga/theme/app_colors.dart';
 import 'package:buga/theme/app_text_styles.dart';
 import 'package:flutter/material.dart';
@@ -46,7 +48,9 @@ class _OnboardingViewState extends State<OnboardingView> {
                       tabView("Rider", AppColors.black, AppColors.white),
                       SizedBox(width: 3.w),
                       GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+                            navigateTo(LoginScreen());
+                          },
                           child: tabView(
                               "Driver", AppColors.white, AppColors.black))
                     ],
