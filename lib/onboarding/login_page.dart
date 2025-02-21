@@ -78,7 +78,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 navigateTo(HomeScreen());
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.yellow,
+                backgroundColor: AppColors.yellow,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8.0),
                 ),
