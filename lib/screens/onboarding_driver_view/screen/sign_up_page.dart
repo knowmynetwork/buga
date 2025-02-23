@@ -1,9 +1,11 @@
-import 'package:buga/route/navigation.dart';
-import 'package:buga/screens/emergency_cont.dart';
+
 import 'package:flutter/material.dart';
 
 class RiderSignUpView extends StatefulWidget {
+  const RiderSignUpView({super.key});
+
   @override
+  // ignore: library_private_types_in_public_api
   _RiderSignUpViewState createState() => _RiderSignUpViewState();
 }
 
@@ -307,7 +309,7 @@ class _RiderSignUpViewState extends State<RiderSignUpView> {
     required String label,
     String? Function(String?)? validator,
   }) {
-    bool _obscureText = true;
+    bool obscureText = true;
 
     return StatefulBuilder(
       builder: (BuildContext context, StateSetter setState) {
@@ -337,17 +339,17 @@ class _RiderSignUpViewState extends State<RiderSignUpView> {
             const SizedBox(height: 8.0),
             TextFormField(
               controller: controller, // Assign the controller
-              obscureText: _obscureText,
+              obscureText: obscureText,
               decoration: InputDecoration(
                 hintText: label,
                 prefixIcon: const Icon(Icons.lock),
                 suffixIcon: IconButton(
                   icon: Icon(
-                    _obscureText ? Icons.visibility_off : Icons.visibility,
+                    obscureText ? Icons.visibility_off : Icons.visibility,
                   ),
                   onPressed: () {
                     setState(() {
-                      _obscureText = !_obscureText;
+                      obscureText = !obscureText;
                     });
                   },
                 ),

@@ -2,9 +2,10 @@ import 'export.dart';
 
 
 class EmergencyContactScreen extends StatefulWidget {
-  const EmergencyContactScreen({Key? key}) : super(key: key);
+  const EmergencyContactScreen({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _EmergencyContactScreenState createState() => _EmergencyContactScreenState();
 }
 
