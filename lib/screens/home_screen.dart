@@ -32,6 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: _buildAppBar(),
+      drawer: _buildSidebar(),
       body: Column(
         children: [
           _buildWalletBalanceCard(),
@@ -47,9 +48,13 @@ class _HomeScreenState extends State<HomeScreen> {
     return AppBar(
       backgroundColor: const Color(0xFFFFD700),
       elevation: 0,
-      leading: IconButton(
-        icon: const Icon(Icons.menu, color: Colors.black),
-        onPressed: () {},
+      leading: Builder(
+        builder: (context) => IconButton(
+          icon: const Icon(Icons.menu, color: Colors.black),
+          onPressed: () {
+            Scaffold.of(context).openDrawer();
+          },
+        ),
       ),
       title: const Text(
         'Hi there, Oreoluwa',
@@ -62,6 +67,100 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ],
       centerTitle: true,
+    );
+  }
+
+  Drawer _buildSidebar() {
+    return Drawer(
+      child: Column(
+        children: [
+          UserAccountsDrawerHeader(
+            decoration: const BoxDecoration(
+              color: Colors.white,
+            ),
+            accountName: const Text(
+              'Oreoluwa Okunade',
+              style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+            ),
+            accountEmail: const Text(
+              '+2349020065170',
+              style: TextStyle(color: Colors.black54),
+            ),
+            currentAccountPicture: const CircleAvatar(
+              backgroundImage: AssetImage('assets/profile_picture.jpg'), // Replace with your image asset
+            ),
+          ),
+          ListTile(
+            leading: const Icon(Icons.directions_car, color: Colors.yellow),
+            title: const Text('Trips'),
+            onTap: () {
+              Navigator.pop(context);
+              // Navigate to Trips Screen
+            },
+          ),
+          ListTile(
+            leading: Stack(
+              children: [
+                const Icon(Icons.notifications_none, color: Colors.yellow),
+                Positioned(
+                  right: 0,
+                  child: Container(
+                    padding: const EdgeInsets.all(2),
+                    decoration: const BoxDecoration(
+                      color: Colors.red,
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Text(
+                      '2',
+                      style: TextStyle(color: Colors.white, fontSize: 10),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            title: const Text('Notifications'),
+            onTap: () {
+              Navigator.pop(context);
+              // Navigate to Notifications Screen
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.payment, color: Colors.yellow),
+            title: const Text('Payment'),
+            onTap: () {
+              Navigator.pop(context);
+              // Navigate to Payment Screen
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.help_outline, color: Colors.yellow),
+            title: const Text('Help'),
+            onTap: () {
+              Navigator.pop(context);
+              // Navigate to Help Screen
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.settings, color: Colors.yellow),
+            title: const Text('Settings'),
+            onTap: () {
+              Navigator.pop(context);
+              // Navigate to Settings Screen
+            },
+          ),
+          const Spacer(),
+          ListTile(
+            leading: const Icon(Icons.logout, color: Colors.red),
+            title: const Text(
+              'Log Out',
+              style: TextStyle(color: Colors.red),
+            ),
+            onTap: () {
+              // Perform logout action
+            },
+          ),
+        ],
+      ),
     );
   }
 
@@ -85,7 +184,7 @@ class _HomeScreenState extends State<HomeScreen> {
               shape: BoxShape.circle,
             ),
             child: const Center(
-              child: const Icon(Icons.account_balance_wallet, size: 40),
+              child: Icon(Icons.account_balance_wallet, size: 40),
             ),
           ),
           const SizedBox(height: 8),
@@ -253,8 +352,8 @@ class _RideOptionCard extends StatelessWidget {
               const SizedBox(height: 12),
               Text(
                 title,
-                style:
-                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                style: const TextStyle(
+                    fontWeight: FontWeight.bold, fontSize: 14),
                 textAlign: TextAlign.center,
               ),
               Text(
