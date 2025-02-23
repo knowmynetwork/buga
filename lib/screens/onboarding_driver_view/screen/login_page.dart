@@ -1,12 +1,14 @@
 import 'package:buga/route/navigation.dart';
 import 'package:buga/route/route.dart';
-import 'package:buga/screens/forget_password.dart'; // Import the forgot password screen
+// Import the forgot password screen
 import 'package:buga/screens/home_screen.dart';
 import 'package:buga/theme/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:buga/screens/onboarding_driver_view/widgets/custom_widget.dart';
+
+
 
 class LoginScreen extends StatefulWidget {
-  // Make LoginScreen stateful
   const LoginScreen({super.key});
 
   @override
@@ -15,6 +17,10 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool _rememberLogin = false; // State variable for checkbox
+
+  // Controllers for the email and password fields
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -38,32 +44,36 @@ class _LoginScreenState extends State<LoginScreen> {
               style: TextStyle(fontSize: 18.0),
             ),
             const SizedBox(height: 20.0),
-            TextField(
-              decoration: InputDecoration(
-                hintText: 'Email Address',
-                prefixIcon: const Icon(Icons.email),
-              ),
+            // Reusable CustomTextField for Email
+            CustomTextField(
+              hintText: 'Email Address',
+              prefixIcon: Icons.email,
+              controller: _emailController,
             ),
             const SizedBox(height: 20.0),
-            TextField(
+            // Reusable CustomTextField for Password
+            CustomTextField(
+              hintText: 'Password',
+              prefixIcon: Icons.lock,
               obscureText: true,
-              decoration: InputDecoration(
-                hintText: 'Password',
-                prefixIcon: const Icon(Icons.lock),
-              ),
+              controller: _passwordController,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Checkbox(
-                  value: _rememberLogin, // Use the state variable
-                  onChanged: (value) {
-                    setState(() {
-                      _rememberLogin = value!; // Update the state
-                    });
-                  },
+                Row(
+                  children: [
+                    Checkbox(
+                      value: _rememberLogin, // Use the state variable
+                      onChanged: (value) {
+                        setState(() {
+                          _rememberLogin = value!; // Update the state
+                        });
+                      },
+                    ),
+                    const Text('Remember Login'),
+                  ],
                 ),
-                const Text('Remember Login'),
                 TextButton(
                   onPressed: () {
                     Navigator.pushNamed(context,

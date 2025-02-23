@@ -1,11 +1,10 @@
-
 import 'package:flutter/material.dart';
+import 'package:buga/screens/onboarding_driver_view/widgets/custom_widget.dart';
 
 class RiderSignUpView extends StatefulWidget {
   const RiderSignUpView({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
   _RiderSignUpViewState createState() => _RiderSignUpViewState();
 }
 
@@ -52,7 +51,7 @@ class _RiderSignUpViewState extends State<RiderSignUpView> {
                 const SizedBox(height: 32.0),
 
                 // Name Input
-                _buildInputField(
+                CustomInputField(
                   controller: _nameController,
                   label: 'What would you like us to call you?',
                   hintText: 'Name',
@@ -67,7 +66,7 @@ class _RiderSignUpViewState extends State<RiderSignUpView> {
                 const SizedBox(height: 16.0),
 
                 // Email Input
-                _buildInputField(
+                CustomInputField(
                   controller: _emailController,
                   label: 'Your best Email?',
                   hintText: 'E.g yourname@gmail.com',
@@ -77,7 +76,6 @@ class _RiderSignUpViewState extends State<RiderSignUpView> {
                       return 'Email is required';
                     }
                     if (!value.contains('@')) {
-                      // Basic email validation
                       return 'Please enter a valid email';
                     }
                     return null;
@@ -86,7 +84,7 @@ class _RiderSignUpViewState extends State<RiderSignUpView> {
                 const SizedBox(height: 16.0),
 
                 // Phone Number Input
-                _buildInputField(
+                CustomInputField(
                   controller: _phoneNumberController,
                   label: "Your Phone Number (We'll send a verification code)",
                   hintText: '+2340000004200',
@@ -97,8 +95,7 @@ class _RiderSignUpViewState extends State<RiderSignUpView> {
                       return 'Phone number is required';
                     }
                     if (!RegExp(r'^\+?\d{10,15}$').hasMatch(value)) {
-                      // Nigerian phone number validation
-                      return 'Please enter a valid Nigerian phone number';
+                      return 'Please enter a valid phone number';
                     }
                     return null;
                   },
@@ -106,7 +103,7 @@ class _RiderSignUpViewState extends State<RiderSignUpView> {
                 const SizedBox(height: 16.0),
 
                 // Alternative Phone Number Input
-                _buildInputField(
+                CustomInputField(
                   controller: _alternativePhoneNumberController,
                   label: 'An alternative phone number',
                   hintText: '+2340000004200',
@@ -115,7 +112,7 @@ class _RiderSignUpViewState extends State<RiderSignUpView> {
                   validator: (value) {
                     if (value != null && value.isNotEmpty) {
                       if (!RegExp(r'^\+?\d{10,15}$').hasMatch(value)) {
-                        return 'Please enter a valid Nigerian phone number';
+                        return 'Please enter a valid phone number';
                       }
                     }
                     return null;
@@ -124,7 +121,7 @@ class _RiderSignUpViewState extends State<RiderSignUpView> {
                 const SizedBox(height: 16.0),
 
                 // Street Address Input
-                _buildInputField(
+                CustomInputField(
                   controller: _streetAddressController,
                   label: 'Street Address',
                   hintText: 'E.g. 2, harmony street, diamond estate.',
@@ -141,7 +138,7 @@ class _RiderSignUpViewState extends State<RiderSignUpView> {
                 Row(
                   children: [
                     Expanded(
-                      child: _buildInputField(
+                      child: CustomInputField(
                         controller: _cityController,
                         label: 'City',
                         hintText: 'E.g. Gbagada',
@@ -155,7 +152,7 @@ class _RiderSignUpViewState extends State<RiderSignUpView> {
                     ),
                     const SizedBox(width: 16.0),
                     Expanded(
-                      child: _buildInputField(
+                      child: CustomInputField(
                         controller: _stateController,
                         label: 'State',
                         hintText: 'E.g. Lagos',
@@ -171,7 +168,6 @@ class _RiderSignUpViewState extends State<RiderSignUpView> {
                 ),
                 const SizedBox(height: 16.0),
 
-                // Header before password fields
                 const Text(
                   'Secure your account',
                   style: TextStyle(
@@ -181,20 +177,21 @@ class _RiderSignUpViewState extends State<RiderSignUpView> {
                 ),
                 const SizedBox(height: 16.0),
 
-                // Password and Confirm Password
-                _buildPasswordInputField(
+                // Password Input
+                CustomPasswordField(
                   controller: _passwordController,
                   label: 'Create a password',
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Password is required';
                     }
-                    // You can add more password validation here (e.g., length, complexity)
                     return null;
                   },
                 ),
                 const SizedBox(height: 16.0),
-                _buildPasswordInputField(
+
+                // Confirm Password Input
+                CustomPasswordField(
                   controller: _confirmPasswordController,
                   label: 'Confirm password',
                   validator: (value) {
@@ -215,7 +212,6 @@ class _RiderSignUpViewState extends State<RiderSignUpView> {
                   child: ElevatedButton(
                     onPressed: () {
                       if (_formKey.currentState?.validate() ?? false) {
-                        // If the form is valid, proceed to the next screen
                         Navigator.pushNamed(context, '/otp_verification');
                       }
                     },
@@ -254,15 +250,29 @@ class _RiderSignUpViewState extends State<RiderSignUpView> {
       ),
     );
   }
+}
 
-  Widget _buildInputField({
-    required TextEditingController controller, // Added controller parameter
-    required String label,
-    required String hintText,
-    IconData? prefixIcon,
-    TextInputType keyboardType = TextInputType.text,
-    String? Function(String?)? validator,
-  }) {
+// Reusable CustomInputField Widget
+class CustomInputField extends StatelessWidget {
+  final TextEditingController controller;
+  final String label;
+  final String hintText;
+  final IconData? prefixIcon;
+  final TextInputType keyboardType;
+  final String? Function(String?)? validator;
+
+  const CustomInputField({
+    Key? key,
+    required this.controller,
+    required this.label,
+    required this.hintText,
+    this.prefixIcon,
+    this.keyboardType = TextInputType.text,
+    this.validator,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -288,7 +298,7 @@ class _RiderSignUpViewState extends State<RiderSignUpView> {
         ),
         const SizedBox(height: 8.0),
         TextFormField(
-          controller: controller, // Assign the controller
+          controller: controller,
           keyboardType: keyboardType,
           decoration: InputDecoration(
             hintText: hintText,
@@ -303,66 +313,5 @@ class _RiderSignUpViewState extends State<RiderSignUpView> {
       ],
     );
   }
-
-  Widget _buildPasswordInputField({
-    required TextEditingController controller, // Added controller parameter
-    required String label,
-    String? Function(String?)? validator,
-  }) {
-    bool obscureText = true;
-
-    return StatefulBuilder(
-      builder: (BuildContext context, StateSetter setState) {
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Text(
-                  label,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.grey,
-                  ),
-                ),
-                const Text(
-                  '*',
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.red,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 8.0),
-            TextFormField(
-              controller: controller, // Assign the controller
-              obscureText: obscureText,
-              decoration: InputDecoration(
-                hintText: label,
-                prefixIcon: const Icon(Icons.lock),
-                suffixIcon: IconButton(
-                  icon: Icon(
-                    obscureText ? Icons.visibility_off : Icons.visibility,
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      obscureText = !obscureText;
-                    });
-                  },
-                ),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                contentPadding: const EdgeInsets.symmetric(horizontal: 16.0),
-              ),
-              validator: validator,
-            ),
-          ],
-        );
-      },
-    );
-  }
 }
+
