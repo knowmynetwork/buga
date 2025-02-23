@@ -1,20 +1,17 @@
-import 'package:buga/constant/global_variable.dart';
-import 'package:buga/onboarding/emergency_cont.dart';
-import 'package:buga/onboarding/forget_password.dart';
-import 'package:buga/onboarding/loader_screen.dart';
-import 'package:buga/onboarding/login_page.dart';
-import 'package:buga/onboarding/otp_verification.dart';
-import 'package:buga/onboarding/sign_up_page.dart';
+import 'package:buga/route/route.dart';
+import 'package:buga/screens/emergency_cont.dart';
+import 'package:buga/screens/forget_password.dart';
 import 'package:buga/screens/home_screen.dart';
-import 'package:buga/screens/login_page.dart';
+import 'package:buga/screens/onboarding_driver_view/screen/login_page.dart';
+import 'package:buga/screens/onboarding_driver_view/screen/verification_screen.dart';
+import 'package:buga/screens/onboarding_driver_view/screen/sign_up_page.dart';
+import 'package:buga/screens/splash_view.dart';
 import 'package:buga/theme/app_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'screens/otp_validation_page.dart';
-import 'screens/sign_up_page.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
-
+import 'constant/global_variable.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,16 +35,16 @@ class RideSharingApp extends StatelessWidget {
             navigatorKey: navigationKey,
             title: 'Ride Sharing App',
             theme: AppThemeManager.activeTheme, // Global theme
-            initialRoute: '/login', // Set the initial route
+            initialRoute: splashRoute, // Set the initial route
             routes: {
-              '/login': (context) => LoginScreen(),
-              '/signup': (context) => DriverAccountForm(),
-              '/otp': (context) => OtpValidationPage(),
-              '/home': (context) => HomeScreen(),
-              '/otp_verification': (context) => VerificationCodeScreen(),
-               '/emergency': (context) => EmergencyContactForm(),
-                 '/loader': (context) => LoadingScreen(),
-                 '/forgot': (context) => ForgotPasswordScreen(),
+              loginRoute: (context) => LoginScreen(),
+              splashRoute: (context) => SplashScreen(),
+              signUpRoute: (context) => RiderSignUpView(),
+              // otpRoute: (context) => OtpValidationPage(),
+              home: (context) => HomeScreen(),
+              verificationOtp: (context) => VerificationCodeScreen(),
+              emergencyRoute: (context) => EmergencyContactForm(),
+              forgotPageRoute: (context) => ForgotPasswordScreen(),
             },
           ),
         );
