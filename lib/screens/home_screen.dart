@@ -85,7 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
               shape: BoxShape.circle,
             ),
             child: const Center(
-              child: Icon(Icons.currency_yen, size: 30, color: Colors.black),
+              child: const Icon(Icons.account_balance_wallet, size: 40),
             ),
           ),
           const SizedBox(height: 8),

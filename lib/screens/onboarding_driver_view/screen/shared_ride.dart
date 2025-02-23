@@ -197,13 +197,13 @@ class _RideFormField extends StatelessWidget {
       children: [
         Column(
           children: [
-            Icon(icon, size: 20, color: Colors.grey),
+            Icon(icon, size: 20, color: Colors.black),
             if (label == 'From')
               const Padding(
-                padding: EdgeInsets.symmetric(vertical: 4),
+                padding: EdgeInsets.symmetric(vertical: 2.0),
                 child: SizedBox(
-                  height: 20,
-                  child: VerticalDivider(color: Colors.grey, thickness: 1),
+                  height: 30,
+                  child: VerticalDivider(color: Colors.black, thickness: 2),
                 ),
               ),
           ],
