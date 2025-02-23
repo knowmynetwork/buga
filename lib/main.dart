@@ -3,6 +3,7 @@ import 'package:buga/screens/emergency_cont.dart';
 import 'package:buga/screens/forget_password.dart';
 import 'package:buga/screens/home_screen.dart';
 import 'package:buga/screens/onboarding_driver_view/screen/login_page.dart';
+import 'package:buga/screens/onboarding_driver_view/screen/shared_ride.dart';
 import 'package:buga/screens/onboarding_driver_view/screen/verification_screen.dart';
 import 'package:buga/screens/onboarding_driver_view/screen/sign_up_page.dart';
 import 'package:buga/screens/splash_view.dart';
@@ -23,7 +24,9 @@ void main() async {
 }
 
 class RideSharingApp extends StatelessWidget {
+  
   const RideSharingApp({super.key});
+  
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +44,7 @@ class RideSharingApp extends StatelessWidget {
               splashRoute: (context) => SplashScreen(),
               signUpRoute: (context) => RiderSignUpView(),
               // otpRoute: (context) => OtpValidationPage(),
-              home: (context) => HomeScreen(),
+              // home: (context) => HomeScreen(),
               verificationOtp: (context) => VerificationCodeScreen(),
               emergencyRoute: (context) => EmergencyContactForm(),
               forgotPageRoute: (context) => ForgotPasswordScreen(),

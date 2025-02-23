@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
   // Make LoginScreen stateful
-  const LoginScreen({Key? key}) : super(key: key);
+  const LoginScreen({super.key});
 
   @override
   _LoginScreenState createState() => _LoginScreenState();
@@ -79,7 +79,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 navigateTo(HomeScreen());
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.yellow,
+                backgroundColor: AppColors.yellow,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8.0),
                 ),
