@@ -1,6 +1,7 @@
 import 'package:buga/constant/images.dart';
 import 'package:buga/route/navigation.dart';
 import 'package:buga/screens/onboarding_driver_view/screen/login_page.dart';
+import 'package:buga/screens/rider_view/auth_views/login_view.dart';
 import 'package:buga/theme/app_colors.dart';
 import 'package:buga/theme/app_text_styles.dart';
 import 'package:flutter/material.dart';
@@ -137,6 +138,7 @@ class _OnboardingViewState extends State<OnboardingView> {
     setState(() {
       if (currentIndex == 4) {
         debugPrint('Last onboarding');
+        navigateTo(RiderLoginView());
       } else {
         isAnimating = true;
         Future.delayed(const Duration(milliseconds: 500), () {
@@ -224,7 +226,9 @@ class _OnboardingViewState extends State<OnboardingView> {
                           ),
                           SizedBox(height: 2.5.h),
                           GestureDetector(
-                            onTap: () {},
+                            onTap: () {
+                              navigateTo(RiderLoginView());
+                            },
                             child: Text(
                               'Already a User? Login',
                               style: TextStyle(
@@ -244,14 +248,19 @@ class _OnboardingViewState extends State<OnboardingView> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
-                            Text(
-                              'Skip',
-                              style: TextStyle(
-                                color: AppColors.lightYellow,
-                                decoration: TextDecoration.underline,
-                                decorationColor: AppColors.lightYellow,
-                                decorationStyle: TextDecorationStyle.solid,
-                                decorationThickness: 2.0,
+                            GestureDetector(
+                              onTap: () {
+                                navigateTo(RiderLoginView());
+                              },
+                              child: Text(
+                                'Skip',
+                                style: TextStyle(
+                                  color: AppColors.lightYellow,
+                                  decoration: TextDecoration.underline,
+                                  decorationColor: AppColors.lightYellow,
+                                  decorationStyle: TextDecorationStyle.solid,
+                                  decorationThickness: 2.0,
+                                ),
                               ),
                             ),
                             SizedBox(height: 2.h),
