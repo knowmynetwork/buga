@@ -31,7 +31,7 @@ class OnboardingView extends StatefulWidget {
       bottom: bottomHt,
       left: 5.w,
       right: 5.w,
-      child: Container(
+      child: SizedBox(
         // color: Colors.green,
         width: 100.w,
         child: Column(

@@ -3,7 +3,7 @@ import 'export.dart';
 
 // Loading Screen
 class LoadingScreen extends StatefulWidget { // Use StatefulWidget
-  const LoadingScreen({Key? key}) : super(key: key);
+  const LoadingScreen({super.key});
 
   @override
   State<LoadingScreen> createState() => _LoadingScreenState();
@@ -53,7 +53,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
 // Loading Indicator Widget (No longer needs ref)
 class LoadingIndicator extends StatelessWidget {
-  const LoadingIndicator({Key? key}) : super(key: key);
+  const LoadingIndicator({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -62,6 +62,7 @@ class LoadingIndicator extends StatelessWidget {
       children: [
         CircularProgressIndicator(
           valueColor: AlwaysStoppedAnimation<Color>(Colors.yellow),
+          // ignore: deprecated_member_use
           backgroundColor: Colors.yellow.withOpacity(0.2),
         ),
         const SizedBox(height: 24),

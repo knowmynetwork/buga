@@ -6,6 +6,7 @@ class VerificationCodeScreen extends StatefulWidget {
   const VerificationCodeScreen({Key? key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _VerificationCodeScreenState createState() => _VerificationCodeScreenState();
 }
 
@@ -163,7 +164,7 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
 
 // Next Page Placeholder
 class NextPage extends StatelessWidget {
-  const NextPage({Key? key}) : super(key: key);
+  const NextPage({super.key});
 
   @override
   Widget build(BuildContext context) {

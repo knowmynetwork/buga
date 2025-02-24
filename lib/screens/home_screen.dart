@@ -1,101 +1,507 @@
+import 'package:buga/route/navigation.dart';
+import 'package:buga/screens/onboarding_driver_view/screen/find_driver.dart';
+import 'package:buga/screens/onboarding_driver_view/screen/shared_ride.dart';
 import 'package:flutter/material.dart';
-import '../theme/app_text_styles.dart';
-import '../widgets/base_app_bar.dart';
-import '../widgets/base_bottom_nav_bar.dart';
-import '../widgets/ride_option_card.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
 
+  void _showRideDetailsBottomSheet(String rideTitle) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.white,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
+      ),
+      builder: (BuildContext context) {
+        return _RideDetailsBottomSheet(rideTitle: rideTitle);
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const BaseAppBar(title: 'Hi there, Ololade'),
+      backgroundColor: Colors.white,
+      appBar: _buildAppBar(),
+      drawer: _buildSidebar(),
       body: Column(
         children: [
-          WalletBalanceCard(),
-          const Expanded(child: RideOptions()),
+          _buildWalletBalanceCard(),
+          _buildTabs(),
+          _buildRideOptions(),
         ],
       ),
-      bottomNavigationBar: BaseBottomNavBar(
-        currentIndex: _currentIndex,
-        onTap: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
+      bottomNavigationBar: _buildBottomNavBar(),
+    );
+  }
+
+  AppBar _buildAppBar() {
+    return AppBar(
+      backgroundColor: const Color(0xFFFFD700),
+      elevation: 0,
+      leading: Builder(
+        builder: (context) => IconButton(
+          icon: const Icon(Icons.menu, color: Colors.black),
+          onPressed: () {
+            Scaffold.of(context).openDrawer();
+          },
+        ),
+      ),
+      title: const Text(
+        'Hi there, Oreoluwa',
+        style: TextStyle(color: Colors.black),
+      ),
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.notifications_none, color: Colors.black),
+          onPressed: () {},
+        ),
+      ],
+      centerTitle: true,
+    );
+  }
+
+  Drawer _buildSidebar() {
+    return Drawer(
+      child: Column(
+        children: [
+          UserAccountsDrawerHeader(
+            decoration: const BoxDecoration(
+              color: Colors.white,
+            ),
+            accountName: const Text(
+              'Oreoluwa Okunade',
+              style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+            ),
+            accountEmail: const Text(
+              '+2349020065170',
+              style: TextStyle(color: Colors.black54),
+            ),
+            currentAccountPicture: const CircleAvatar(
+              backgroundImage: AssetImage('assets/profile_picture.jpg'), // Replace with your image asset
+            ),
+          ),
+          ListTile(
+            leading: const Icon(Icons.directions_car, color: Colors.yellow),
+            title: const Text('Trips'),
+            onTap: () {
+              Navigator.pop(context);
+              // Navigate to Trips Screen
+            },
+          ),
+          ListTile(
+            leading: Stack(
+              children: [
+                const Icon(Icons.notifications_none, color: Colors.yellow),
+                Positioned(
+                  right: 0,
+                  child: Container(
+                    padding: const EdgeInsets.all(2),
+                    decoration: const BoxDecoration(
+                      color: Colors.red,
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Text(
+                      '2',
+                      style: TextStyle(color: Colors.white, fontSize: 10),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            title: const Text('Notifications'),
+            onTap: () {
+              Navigator.pop(context);
+              // Navigate to Notifications Screen
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.payment, color: Colors.yellow),
+            title: const Text('Payment'),
+            onTap: () {
+              Navigator.pop(context);
+              // Navigate to Payment Screen
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.help_outline, color: Colors.yellow),
+            title: const Text('Help'),
+            onTap: () {
+              Navigator.pop(context);
+              // Navigate to Help Screen
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.settings, color: Colors.yellow),
+            title: const Text('Settings'),
+            onTap: () {
+              Navigator.pop(context);
+              // Navigate to Settings Screen
+            },
+          ),
+          const Spacer(),
+          ListTile(
+            leading: const Icon(Icons.logout, color: Colors.red),
+            title: const Text(
+              'Log Out',
+              style: TextStyle(color: Colors.red),
+            ),
+            onTap: () {
+              // Perform logout action
+            },
+          ),
+        ],
       ),
     );
   }
-}
 
-class WalletBalanceCard extends StatelessWidget {
-  const WalletBalanceCard({super.key});
-
-  @override
-  Widget build(BuildContext context) {
+  Widget _buildWalletBalanceCard() {
     return Container(
       padding: const EdgeInsets.all(16),
-      color: Theme.of(context).primaryColor,
+      decoration: const BoxDecoration(
+        color: Color(0xFFFFD700),
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(30),
+          bottomRight: Radius.circular(30),
+        ),
+      ),
       child: Column(
         children: [
-          const Icon(Icons.account_balance_wallet, size: 40),
+          Container(
+            width: 60,
+            height: 60,
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              shape: BoxShape.circle,
+            ),
+            child: const Center(
+              child: Icon(Icons.account_balance_wallet, size: 40),
+            ),
+          ),
           const SizedBox(height: 8),
-          Text('₦15,235'),
-          Text('WALLET BALANCE'),
-          const SizedBox(height: 10),
+          const Text(
+            '₦15,235',
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          ),
+          const Text('WALLET BALANCE'),
+          const SizedBox(height: 12),
           ElevatedButton(
             onPressed: () {},
-            style: ElevatedButton.styleFrom(foregroundColor: Colors.black),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.white,
+              foregroundColor: Colors.black,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+            ),
             child: const Text('Top Up'),
           ),
         ],
       ),
     );
   }
+
+  Widget _buildTabs() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          TextButton(
+            onPressed: () {},
+            child: const Text(
+              'Order Now',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
+            ),
+          ),
+          TextButton(
+            onPressed: () {},
+            child: const Text(
+              'Schedule Trip',
+              style: TextStyle(fontSize: 16, color: Colors.grey),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildRideOptions() {
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Ready To Move?',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            const Text(
+              'Select your ride',
+              style: TextStyle(fontSize: 14, color: Colors.grey),
+            ),
+            const SizedBox(height: 12),
+            Expanded(
+              child: GridView.count(
+                crossAxisCount: 2,
+                crossAxisSpacing: 12,
+                mainAxisSpacing: 12,
+                children: [
+                  _RideOptionCard(
+                    title: 'Solo Ride',
+                    subtitle: 'Single Rider',
+                    icon: Icons.directions_car,
+                    onTap: () => _showRideDetailsBottomSheet('Solo Ride'),
+                  ),
+                  _RideOptionCard(
+                    title: 'Share A Ride',
+                    subtitle: 'Shared Ride',
+                    icon: Icons.car_rental,
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const SharedRideScreen(
+                          rideType: 'Share A Ride',
+                        ),
+                      ),
+                    ),
+                  ),
+                  _RideOptionCard(
+                    title: 'Airport Shuttle',
+                    subtitle: '20 Seater Bus',
+                    icon: Icons.airport_shuttle,
+                    onTap: () => ('Airport Shuttle'),
+                  ),
+                  _RideOptionCard(
+                    title: 'Intra-School',
+                    subtitle: 'Electric Tricycle',
+                    icon: Icons.electric_bike,
+                    onTap: () => ('Intra-School'),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildBottomNavBar() {
+    return BottomNavigationBar(
+      currentIndex: _currentIndex,
+      onTap: (index) {
+        setState(() {
+          _currentIndex = index;
+        });
+      },
+      selectedItemColor: const Color(0xFFFFD700),
+      unselectedItemColor: Colors.grey,
+      items: const [
+        BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+        BottomNavigationBarItem(icon: Icon(Icons.local_taxi), label: 'Trips'),
+        BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
+      ],
+    );
+  }
 }
 
-class RideOptions extends StatelessWidget {
-  const RideOptions({super.key});
+class _RideOptionCard extends StatelessWidget {
+  final String title;
+  final String subtitle;
+  final IconData icon;
+  final VoidCallback onTap;
+
+  const _RideOptionCard({
+    required this.title,
+    required this.subtitle,
+    required this.icon,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Card(
+        elevation: 2,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(icon, size: 50, color: Colors.black),
+              const SizedBox(height: 12),
+              Text(
+                title,
+                style: const TextStyle(
+                    fontWeight: FontWeight.bold, fontSize: 14),
+                textAlign: TextAlign.center,
+              ),
+              Text(
+                subtitle,
+                style: const TextStyle(fontSize: 12, color: Colors.grey),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _RideDetailsBottomSheet extends StatefulWidget {
+  final String rideTitle;
+
+  const _RideDetailsBottomSheet({required this.rideTitle});
+
+  @override
+  State<_RideDetailsBottomSheet> createState() =>
+      _RideDetailsBottomSheetState();
+}
+
+class _RideDetailsBottomSheetState extends State<_RideDetailsBottomSheet> {
+  int riders = 2;
+  int luggage = 0;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: GridView.count(
-        crossAxisCount: 2,
-        crossAxisSpacing: 10,
-        mainAxisSpacing: 10,
-        children: const [
-          RideOptionCard(
-            title: 'Solo Ride',
-            subtitle: 'Single Rider',
-            icon: Icons.directions_car,
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                widget.rideTitle,
+                style:
+                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              IconButton(
+                icon: const Icon(Icons.close),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ],
           ),
-          RideOptionCard(
-            title: 'Share A Ride',
-            subtitle: 'Shared Ride',
-            icon: Icons.people,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              _buildOptionCard('Saloon Car', '2 riders', isSelected: true),
+              _buildOptionCard('SUV/Minibus', '2+ riders'),
+            ],
           ),
-          RideOptionCard(
-            title: 'Airport Shuttle',
-            subtitle: '20 Seater Bus',
-            icon: Icons.airport_shuttle,
-          ),
-          RideOptionCard(
-            title: 'Intra-School',
-            subtitle: 'Electric Tricycle',
-            icon: Icons.electric_bike,
+          const SizedBox(height: 16),
+          _buildCounterRow('Total No of Riders', riders, max: 2,
+              onChanged: (value) {
+            setState(() {
+              riders = value;
+            });
+          }),
+          const SizedBox(height: 12),
+          _buildCounterRow('Total Luggage Number', luggage, max: 4,
+              onChanged: (value) {
+            setState(() {
+              luggage = value;
+            });
+          }),
+          const SizedBox(height: 16),
+          ElevatedButton(
+            onPressed: () {
+              navigateTo((RideDetailsScreen()));
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFFFFD700),
+              foregroundColor: Colors.black,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              padding: const EdgeInsets.symmetric(vertical: 16),
+            ),
+            child: const Center(child: Text('Proceed')),
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildOptionCard(String title, String subtitle,
+      {bool isSelected = false}) {
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: isSelected ? const Color(0xFFFFD700) : Colors.grey,
+        ),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        children: [
+          Text(
+            title,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: isSelected ? const Color(0xFFFFD700) : Colors.black,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            subtitle,
+            style: TextStyle(
+              fontSize: 12,
+              color: isSelected ? const Color(0xFFFFD700) : Colors.grey,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCounterRow(String label, int value,
+      {required int max, required ValueChanged<int> onChanged}) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(label, style: const TextStyle(fontWeight: FontWeight.bold)),
+        Row(
+          children: [
+            IconButton(
+              onPressed: value > 0 ? () => onChanged(value - 1) : null,
+              icon: const Icon(Icons.remove_circle_outline),
+              color: Colors.black,
+            ),
+            Text(value.toString(),
+                style: const TextStyle(fontWeight: FontWeight.bold)),
+            IconButton(
+              onPressed: value < max ? () => onChanged(value + 1) : null,
+              icon: const Icon(Icons.add_circle_outline),
+              color: Colors.black,
+            ),
+          ],
+        ),
+      ],
     );
   }
 }
