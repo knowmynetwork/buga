@@ -1,12 +1,13 @@
-
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
-import 'package:buga/screens/onboarding_driver_view/screen/login_page.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 // Reusable login textfield widget
 class CustomTextField extends StatelessWidget {
   final String hintText;
   final IconData prefixIcon;
   final bool obscureText;
+  final TextInputType? keyboardType;
   final TextEditingController? controller;
 
   const CustomTextField({
@@ -15,25 +16,28 @@ class CustomTextField extends StatelessWidget {
     required this.prefixIcon,
     this.obscureText = false,
     this.controller,
+<<<<<<< HEAD:lib/screens/onboarding_driver_view/widgets/custom_widget.dart
   });
+=======
+    this.keyboardType,
+  }) : super(key: key);
+>>>>>>> 7fe140b8d4269a0a353b3ee0071ce9fefb3cc524:lib/widgets/input_field.dart
 
   @override
   Widget build(BuildContext context) {
     return TextField(
-      controller: controller, // Use the controller passed from the parent
-      obscureText: obscureText,
-      decoration: InputDecoration(
-        hintText: hintText,
-        prefixIcon: Icon(prefixIcon),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8.0),
-        ),
-      ),
-    );
+        controller: controller,
+        obscureText: obscureText,
+        keyboardType: keyboardType,
+        decoration: InputDecoration(
+          hintText: hintText,
+          prefixIcon: Icon(prefixIcon),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8.0),
+          ),
+        ));
   }
 }
-
-// Signup input widgets
 
 // Reusable CustomPasswordField Widget
 class CustomPasswordField extends StatefulWidget {
@@ -109,38 +113,50 @@ class _CustomPasswordFieldState extends State<CustomPasswordField> {
   }
 }
 
+// Signup input widgets for passwords  without top label
+class PasswordInputField extends StatefulWidget {
+  final String label;
+  final TextEditingController? controller;
+  final String? Function(String?)? validator;
 
-// you can move this widget file to the global widget folder so when needed we call on one widget folder/file at a time 
+  const PasswordInputField({
+    Key? key,
+    required this.label,
+    this.controller,
+    this.validator,
+  }) : super(key: key);
 
- 
- // i dont uderstand this thats why i commented it out
+  @override
+  State<PasswordInputField> createState() => _PasswordInputFieldState();
+}
 
-  // @override
-  // Widget build(BuildContext context) {
-  //   return Column(
-  //     crossAxisAlignment: CrossAxisAlignment.start,
-  //     children: [
-  //       Text(
-  //         label,
-  //         style: const TextStyle(
-  //           fontSize: 16,
-  //           fontWeight: FontWeight.bold,
-  //         ),
-  //       ),
-  //       const SizedBox(height: 8),
-  //       TextFormField(
-  //         obscureText: obscureText,
-  //         decoration: InputDecoration(
-  //           prefixIcon: Icon(icon),
-  //           hintText: hintText,
-  //           border: const OutlineInputBorder(),
-  //         ),
-  //         onChanged: onChanged,
-  //         initialValue: value,
-  //       ),
-  //       const SizedBox(height: 16),
-  //     ],
-  //   );
-  // }
+class _PasswordInputFieldState extends State<PasswordInputField> {
+  bool obscureText = true; // Initialize obscureText
 
-
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      controller: widget.controller,
+      obscureText: obscureText,
+      decoration: InputDecoration(
+        hintText: widget.label,
+        prefixIcon: const Icon(Icons.lock),
+        suffixIcon: IconButton(
+          icon: Icon(
+            obscureText ? Icons.visibility_off : Icons.visibility,
+          ),
+          onPressed: () {
+            setState(() {
+              obscureText = !obscureText;
+            });
+          },
+        ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16.0),
+      ),
+      validator: widget.validator, // Use widget.validator
+    );
+  }
+}

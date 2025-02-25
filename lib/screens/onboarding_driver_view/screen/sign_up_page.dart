@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:buga/screens/onboarding_driver_view/widgets/custom_widget.dart';
+import 'package:buga/widgets/input_field.dart';
 
 class RiderSignUpView extends StatefulWidget {
   const RiderSignUpView({super.key});

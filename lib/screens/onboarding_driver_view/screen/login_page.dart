@@ -1,4 +1,8 @@
 import 'export.dart';
+<<<<<<< HEAD
+=======
+
+>>>>>>> 7fe140b8d4269a0a353b3ee0071ce9fefb3cc524
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -80,7 +84,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 navigateTo(HomeScreen());
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.yellow,
+                backgroundColor: AppColors.lightYellow,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8.0),
                 ),
