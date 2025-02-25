@@ -5,22 +5,10 @@ export 'package:buga/screens/onboarding_driver_view/screen/emergency_contact.dar
 export '../Provider/provider.dart';
 export 'package:buga/screens/onboarding_driver_view/screen/loader_screen.dart';
 export 'package:flutter/services.dart';
-<<<<<<< HEAD
 export 'package:buga/screens/onboarding_driver_view/screen/find_driver.dart';
 export 'package:buga/route/navigation.dart';
 export 'package:buga/route/route.dart';
-// Import the forgot password screen
-
-export 'package:buga/screens/onboarding_driver_view/screen/home_screen.dart';
-export 'package:buga/theme/app_colors.dart';
-export 'package:flutter/material.dart';
-export 'package:buga/screens/onboarding_driver_view/widgets/custom_widget.dart';
-=======
-
-export 'package:buga/route/navigation.dart';
-export 'package:buga/route/route.dart';
-// Import the forgot password screen
-export 'package:buga/screens/onboarding_driver_view/screen/home_screen.dart';
-export 'package:buga/theme/app_colors.dart';
 export 'package:buga/widgets/input_field.dart';
->>>>>>> 7fe140b8d4269a0a353b3ee0071ce9fefb3cc524
+import 'package:buga/screens/onboarding_driver_view/screen/home_screen.dart';
+// Import the forgot password screen
+

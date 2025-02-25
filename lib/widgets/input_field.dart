@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 // Reusable login textfield widget
+
+
 class CustomTextField extends StatelessWidget {
   final String hintText;
   final IconData prefixIcon;
@@ -11,33 +13,31 @@ class CustomTextField extends StatelessWidget {
   final TextEditingController? controller;
 
   const CustomTextField({
-    super.key,
+    Key? key,
     required this.hintText,
     required this.prefixIcon,
     this.obscureText = false,
-    this.controller,
-<<<<<<< HEAD:lib/screens/onboarding_driver_view/widgets/custom_widget.dart
-  });
-=======
     this.keyboardType,
+    this.controller,
   }) : super(key: key);
->>>>>>> 7fe140b8d4269a0a353b3ee0071ce9fefb3cc524:lib/widgets/input_field.dart
 
   @override
   Widget build(BuildContext context) {
     return TextField(
-        controller: controller,
-        obscureText: obscureText,
-        keyboardType: keyboardType,
-        decoration: InputDecoration(
-          hintText: hintText,
-          prefixIcon: Icon(prefixIcon),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8.0),
-          ),
-        ));
+      controller: controller,
+      obscureText: obscureText,
+      keyboardType: keyboardType,
+      decoration: InputDecoration(
+        hintText: hintText,
+        prefixIcon: Icon(prefixIcon),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+      ),
+    );
   }
 }
+
 
 // Reusable CustomPasswordField Widget
 class CustomPasswordField extends StatefulWidget {

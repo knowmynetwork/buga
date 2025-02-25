@@ -1,15 +1,10 @@
-import 'package:buga/route/route.dart';
-import 'package:buga/screens/emergency_cont.dart';
+import 'package:buga/screens/onboarding_driver_view/screen/export.dart';
 import 'package:buga/screens/onboarding_driver_view/screen/forget_password.dart';
 import 'package:buga/screens/onboarding_driver_view/screen/login_page.dart';
-import 'package:buga/screens/onboarding_driver_view/screen/verification_screen.dart';
 import 'package:buga/screens/onboarding_driver_view/screen/sign_up_page.dart';
 import 'package:buga/screens/rider_view/auth_views/splash_view.dart';
 import 'package:buga/theme/app_theme.dart';
-import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'constant/global_variable.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -43,7 +38,7 @@ class RideSharingApp extends StatelessWidget {
               // otpRoute: (context) => OtpValidationPage(),
               // home: (context) => HomeScreen(),
               verificationOtp: (context) => VerificationCodeScreen(),
-              emergencyRoute: (context) => EmergencyContactForm(),
+              emergencyRoute: (context) => EmergencyContactScreen(),
               forgotPageRoute: (context) => ForgotPasswordScreen(),
               
             },

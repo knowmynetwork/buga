@@ -1,3 +1,4 @@
+import 'package:buga/screens/onboarding_driver_view/screen/find_driver.dart';
 import 'package:flutter/material.dart';
 
 class SharedRideScreen extends StatefulWidget {
@@ -38,7 +39,7 @@ class _SharedRideScreenState extends State<SharedRideScreen> {
           _buildFormSection(),
           const Divider(),
           _buildSavedPlacesSection(),
-          _buildProceedButton(),
+          _buildProceedButton(context),
         ],
       ),
     );
@@ -159,7 +160,7 @@ class _SharedRideScreenState extends State<SharedRideScreen> {
             return ListTile(
               leading: const Icon(Icons.add, color: Colors.black),
               title: const Text(
-                'Add Another Route',
+                'Add Save Place',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               onTap: _showLocationBottomSheet,
@@ -170,32 +171,38 @@ class _SharedRideScreenState extends State<SharedRideScreen> {
     );
   }
 
-  Widget _buildProceedButton() {
-    return Padding(
-      padding: const EdgeInsets.all(16),
-      child: ElevatedButton(
-        onPressed: () {
-          if (fromLocation.isNotEmpty && toLocation.isNotEmpty) {
-            // Navigate to the next page with the saved locations
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => SummaryPage(savedPlaces: savedPlaces),
-              ),
-            );
-          }
-        },
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.black,
-          padding: const EdgeInsets.symmetric(vertical: 16),
-        ),
-        child: const Text(
-          'Proceed',
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-        ),
+  Widget _buildProceedButton(BuildContext context) {
+  return Padding(
+    padding: const EdgeInsets.all(16),
+    child: ElevatedButton(
+      onPressed: () {
+        // Navigate to the next page
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const RideDetailsScreen(), // Replace with your target screen
+          ),
+        );
+      },
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.yellow,
+        padding: const EdgeInsets.symmetric(vertical: 16),
       ),
-    );
-  }
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: const [
+          Text(
+            'Proceed',
+            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+          ),
+          SizedBox(width: 8), // Add space between text and icon
+          Icon(Icons.arrow_forward, color: Colors.black),
+        ],
+      ),
+    ),
+  );
+}
+
 
   void _showLocationBottomSheet() {
     final locations = [
