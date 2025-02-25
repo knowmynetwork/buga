@@ -262,14 +262,14 @@ class CustomInputField extends StatelessWidget {
   final String? Function(String?)? validator;
 
   const CustomInputField({
-    Key? key,
+    super.key,
     required this.controller,
     required this.label,
     required this.hintText,
     this.prefixIcon,
     this.keyboardType = TextInputType.text,
     this.validator,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

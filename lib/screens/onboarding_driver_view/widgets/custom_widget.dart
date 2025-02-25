@@ -10,12 +10,12 @@ class CustomTextField extends StatelessWidget {
   final TextEditingController? controller;
 
   const CustomTextField({
-    Key? key,
+    super.key,
     required this.hintText,
     required this.prefixIcon,
     this.obscureText = false,
     this.controller,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -42,11 +42,11 @@ class CustomPasswordField extends StatefulWidget {
   final String? Function(String?)? validator;
 
   const CustomPasswordField({
-    Key? key,
+    super.key,
     required this.controller,
     required this.label,
     this.validator,
-  }) : super(key: key);
+  });
 
   @override
   _CustomPasswordFieldState createState() => _CustomPasswordFieldState();

@@ -11,7 +11,6 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'constant/global_variable.dart';
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // to avoid screen rotation
@@ -46,6 +45,7 @@ class RideSharingApp extends StatelessWidget {
               verificationOtp: (context) => VerificationCodeScreen(),
               emergencyRoute: (context) => EmergencyContactForm(),
               forgotPageRoute: (context) => ForgotPasswordScreen(),
+              
             },
           ),
         );
