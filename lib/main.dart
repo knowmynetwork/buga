@@ -2,7 +2,7 @@ import 'package:buga/screens/onboarding_driver_view/screen/export.dart';
 import 'package:buga/screens/onboarding_driver_view/screen/forget_password.dart';
 import 'package:buga/screens/onboarding_driver_view/screen/login_page.dart';
 import 'package:buga/screens/onboarding_driver_view/screen/sign_up_page.dart';
-import 'package:buga/screens/rider_view/auth_views/splash_view.dart';
+import 'package:buga/screens/rider_view/splash_view.dart';
 import 'package:buga/theme/app_theme.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'constant/global_variable.dart';
