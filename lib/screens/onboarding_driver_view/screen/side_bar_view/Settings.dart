@@ -8,11 +8,12 @@ class SettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: AppColors.lightYellow,
+        backgroundColor: AppColors.white,
         elevation: 0,
         title: Text(
           'Settings',
-          style: TextStyle(color: AppColors.black, fontSize: 20, fontWeight: FontWeight.bold),
+          style: TextStyle(color
+          : AppColors.black, fontSize: 20, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
         leading: IconButton(
