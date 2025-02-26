@@ -9,7 +9,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'register_view.dart';
 
 class RiderLoginView extends StatefulWidget {
-  RiderLoginView({super.key});
+  const RiderLoginView({super.key});
 
   @override
   State<RiderLoginView> createState() => _RiderLoginViewState();

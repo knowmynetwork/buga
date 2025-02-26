@@ -13,13 +13,13 @@ class CustomTextField extends StatelessWidget {
   final TextEditingController? controller;
 
   const CustomTextField({
-    Key? key,
+    super.key,
     required this.hintText,
     required this.prefixIcon,
     this.obscureText = false,
     this.keyboardType,
     this.controller,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -120,11 +120,11 @@ class PasswordInputField extends StatefulWidget {
   final String? Function(String?)? validator;
 
   const PasswordInputField({
-    Key? key,
+    super.key,
     required this.label,
     this.controller,
     this.validator,
-  }) : super(key: key);
+  });
 
   @override
   State<PasswordInputField> createState() => _PasswordInputFieldState();
