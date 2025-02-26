@@ -7,4 +7,6 @@ class AppColors {
   static Color gray = const Color.fromARGB(255, 131, 131, 131);
   static Color lightGray = const Color.fromARGB(255, 179, 179, 179);
   static Color lightGray1 = const Color.fromARGB(255, 226, 226, 226);
+
+  static var blue;
 }

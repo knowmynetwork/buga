@@ -7,3 +7,4 @@ String verificationOtp = '/otp_verification';
 String emergencyRoute = '/emergency';
 // String loaderRoute = '/loader';
 String forgotPageRoute = '/forgot';
+String settingsRoute = '/setting';

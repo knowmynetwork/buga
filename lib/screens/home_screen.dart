@@ -1,7 +1,6 @@
-import 'package:buga/route/navigation.dart';
-import 'package:buga/screens/onboarding_driver_view/screen/find_driver.dart';
-import 'package:buga/screens/onboarding_driver_view/screen/shared_ride.dart';
-import 'package:flutter/material.dart';
+import 'package:buga/screens/onboarding_driver_view/screen/export.dart';
+import 'package:buga/theme/app_colors.dart';
+import 'package:buga/theme/app_text_styles.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -75,85 +74,186 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Column(
         children: [
           UserAccountsDrawerHeader(
-            decoration: const BoxDecoration(
-              color: Colors.white,
+            decoration: BoxDecoration(
+              color: AppColors.white,
             ),
-            accountName: const Text(
+            accountName: Text(
               'Oreoluwa Okunade',
-              style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                  color: AppColors.black, fontWeight: FontWeight.bold),
             ),
-            accountEmail: const Text(
+            accountEmail: Text(
               '+2349020065170',
-              style: TextStyle(color: Colors.black54),
+              style: TextStyle(color: AppColors.black),
             ),
-            currentAccountPicture: const CircleAvatar(
-              backgroundImage: AssetImage('assets/profile_picture.jpg'), // Replace with your image asset
+            currentAccountPicture: CircleAvatar(
+              child: Image.asset(
+                appLogo,
+              ), // Replace with your image asset
             ),
           ),
+         ListTile(
+  contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+  leading: Icon(
+    Icons.payment,
+    color: AppColors.black,
+    size: 30,
+  ),
+  title: Text(
+    'Trip',
+    style: TextStyle(
+      color: AppColors.black,
+      fontSize: 20,
+      fontWeight: FontWeight.bold,
+    ),
+  ),
+  trailing: const Icon(
+    Icons.arrow_forward_ios,
+    color: Colors.black,
+    size: 16,
+  ),
+  onTap: () {
+    Navigator.pop(context);
+    // Navigate to Payment Screen
+  },
+),
+
           ListTile(
-            leading: const Icon(Icons.directions_car, color: Colors.yellow),
-            title: const Text('Trips'),
-            onTap: () {
-              Navigator.pop(context);
-              // Navigate to Trips Screen
-            },
+  contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+  leading: Stack(
+    children: [
+      Icon(
+        Icons.notifications_none,
+        color:AppColors.black,
+        size: 30,
+      ),
+      Positioned(
+        right: 0,
+        top: 0,
+        child: Container(
+          padding: const EdgeInsets.all(4),
+          decoration: BoxDecoration(
+            color: AppColors.black,
+            shape: BoxShape.circle,
           ),
-          ListTile(
-            leading: Stack(
-              children: [
-                const Icon(Icons.notifications_none, color: Colors.yellow),
-                Positioned(
-                  right: 0,
-                  child: Container(
-                    padding: const EdgeInsets.all(2),
-                    decoration: const BoxDecoration(
-                      color: Colors.red,
-                      shape: BoxShape.circle,
-                    ),
-                    child: const Text(
-                      '2',
-                      style: TextStyle(color: Colors.white, fontSize: 10),
-                    ),
-                  ),
-                ),
-              ],
+          child: const Text(
+            '2',
+            style: TextStyle(
+              color: Colors.red,
+              fontSize: 12,
+              fontWeight: FontWeight.bold,
             ),
-            title: const Text('Notifications'),
-            onTap: () {
-              Navigator.pop(context);
-              // Navigate to Notifications Screen
-            },
           ),
+        ),
+      ),
+    ],
+  ),
+  title: Text(
+    'Notifications',
+    style: TextStyle(
+      color: AppColors.black,
+      fontSize: 20,
+      fontWeight: FontWeight.bold,
+    ),
+  ),
+  trailing: const Icon(
+    Icons.arrow_forward_ios,
+    color: Colors.black,
+    size: 16,
+  ),
+  onTap: () {
+    Navigator.pop(context);
+    // Navigate to Notifications Screen
+  },
+),
+
           ListTile(
-            leading: const Icon(Icons.payment, color: Colors.yellow),
-            title: const Text('Payment'),
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            leading: Icon(
+              Icons.payment,
+              color: AppColors.black,
+              size: 30,
+            ),
+            title: Text(
+              'Payment',
+              style: TextStyle(
+                color: AppColors.black,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            trailing: const Icon(
+              Icons.arrow_forward_ios,
+              color: Colors.black,
+              size: 16,
+            ),
             onTap: () {
               Navigator.pop(context);
               // Navigate to Payment Screen
             },
           ),
           ListTile(
-            leading: const Icon(Icons.help_outline, color: Colors.yellow),
-            title: const Text('Help'),
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            leading: Icon(
+              Icons.payment,
+              color: AppColors.black,
+              size: 30,
+            ),
+            title: Text(
+              'Help',
+              style: TextStyle(
+                color: AppColors.black,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            trailing: const Icon(
+              Icons.arrow_forward_ios,
+              color: Colors.black,
+              size: 16,
+            ),
             onTap: () {
               Navigator.pop(context);
-              // Navigate to Help Screen
+              // Navigate to Payment Screen
             },
           ),
           ListTile(
-            leading: const Icon(Icons.settings, color: Colors.yellow),
-            title: const Text('Settings'),
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            leading: Icon(
+              Icons.payment,
+              color: AppColors.black,
+              size: 30,
+            ),
+            title: Text(
+              'Settings',
+              style: TextStyle(
+                color: AppColors.black,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            trailing: const Icon(
+              Icons.arrow_forward_ios,
+              color: Colors.black,
+              size: 16,
+            ),
             onTap: () {
-              Navigator.pop(context);
-              // Navigate to Settings Screen
+              navigateTo(SettingsScreen());
+              // Navigate to Payment Screen
             },
           ),
           const Spacer(),
           ListTile(
-            leading: const Icon(Icons.logout, color: Colors.red),
+            leading: Icon(Icons.logout, color: AppColors.black),
             title: const Text(
               'Log Out',
-              style: TextStyle(color: Colors.red),
+              style: TextStyle(
+                  color: Colors.red,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold),
             ),
             onTap: () {
               // Perform logout action
@@ -167,8 +267,8 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildWalletBalanceCard() {
     return Container(
       padding: const EdgeInsets.all(16),
-      decoration: const BoxDecoration(
-        color: Color(0xFFFFD700),
+      decoration: BoxDecoration(
+        color: AppColors.lightYellow,
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(30),
           bottomRight: Radius.circular(30),
@@ -179,8 +279,8 @@ class _HomeScreenState extends State<HomeScreen> {
           Container(
             width: 60,
             height: 60,
-            decoration: const BoxDecoration(
-              color: Colors.white,
+            decoration: BoxDecoration(
+              color: AppColors.white,
               shape: BoxShape.circle,
             ),
             child: const Center(
@@ -197,8 +297,8 @@ class _HomeScreenState extends State<HomeScreen> {
           ElevatedButton(
             onPressed: () {},
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.white,
-              foregroundColor: Colors.black,
+              backgroundColor: AppColors.white,
+              foregroundColor: AppColors.black,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
@@ -219,20 +319,20 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           TextButton(
             onPressed: () {},
-            child: const Text(
+            child: Text(
               'Order Now',
               style: TextStyle(
-                fontSize: 16,
+                fontSize: 20,
                 fontWeight: FontWeight.bold,
-                color: Colors.black,
+                color: AppColors.black,
               ),
             ),
           ),
           TextButton(
             onPressed: () {},
-            child: const Text(
+            child: Text(
               'Schedule Trip',
-              style: TextStyle(fontSize: 16, color: Colors.grey),
+              style: TextStyle(fontSize: 20, color: AppColors.black),
             ),
           ),
         ],
@@ -247,13 +347,16 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
+            Text(
               'Ready To Move?',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.black),
             ),
-            const Text(
+            Text(
               'Select your ride',
-              style: TextStyle(fontSize: 14, color: Colors.grey),
+              style: TextStyle(fontSize: 16, color: AppColors.black),
             ),
             const SizedBox(height: 12),
             Expanded(
@@ -310,8 +413,8 @@ class _HomeScreenState extends State<HomeScreen> {
           _currentIndex = index;
         });
       },
-      selectedItemColor: const Color(0xFFFFD700),
-      unselectedItemColor: Colors.grey,
+      selectedItemColor: AppColors.black,
+      unselectedItemColor: AppColors.blue,
       items: const [
         BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
         BottomNavigationBarItem(icon: Icon(Icons.local_taxi), label: 'Trips'),
@@ -348,12 +451,12 @@ class _RideOptionCard extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(icon, size: 50, color: Colors.black),
+              Icon(icon, size: 50, color: AppColors.black),
               const SizedBox(height: 12),
               Text(
                 title,
-                style: const TextStyle(
-                    fontWeight: FontWeight.bold, fontSize: 14),
+                style:
+                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                 textAlign: TextAlign.center,
               ),
               Text(
@@ -433,8 +536,8 @@ class _RideDetailsBottomSheetState extends State<_RideDetailsBottomSheet> {
               navigateTo((RideDetailsScreen()));
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFFFFD700),
-              foregroundColor: Colors.black,
+              backgroundColor: AppColors.lightYellow,
+              foregroundColor: AppColors.black,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
               ),
@@ -452,7 +555,7 @@ class _RideDetailsBottomSheetState extends State<_RideDetailsBottomSheet> {
     return Container(
       decoration: BoxDecoration(
         border: Border.all(
-          color: isSelected ? const Color(0xFFFFD700) : Colors.grey,
+          color: isSelected ? const Color(0xFFFFD700) : AppColors.white,
         ),
         borderRadius: BorderRadius.circular(10),
       ),
@@ -471,7 +574,7 @@ class _RideDetailsBottomSheetState extends State<_RideDetailsBottomSheet> {
             subtitle,
             style: TextStyle(
               fontSize: 12,
-              color: isSelected ? const Color(0xFFFFD700) : Colors.grey,
+              color: isSelected ? AppColors.lightYellow : AppColors.white,
             ),
           ),
         ],
