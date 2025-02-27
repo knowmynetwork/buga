@@ -160,7 +160,7 @@ class _EmergencyContactScreenState extends State<EmergencyContactScreen> {
       // Navigate to the next page if the form is valid
       Navigator.push(
         context,
-        MaterialPageRoute(
+        MaterialPageRoute(  
           builder: (context) => VerificationCodeScreen(),
         ),
       );

@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import 'login_view.dart';
-import 'ride_category.dart';
+import '../school_categories/ride_category.dart';
 
 class RiderOtpView extends StatefulWidget {
   // ignore: use_super_parameters

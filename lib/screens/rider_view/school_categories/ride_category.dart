@@ -1,9 +1,7 @@
-import 'package:buga/theme/app_colors.dart';
-import 'package:buga/theme/app_text_styles.dart';
-import 'package:flutter/material.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
-
-import 'login_view.dart';
+import 'package:buga/screens/onboarding_driver_view/screen/export.dart';
+import 'all_search_views/employee_search.dart';
+import 'all_search_views/resident_search.dart';
+import 'categories_export.dart';
 
 class RiderCategory extends StatefulWidget {
   const RiderCategory({super.key});
@@ -29,7 +27,7 @@ class _RiderCategoryState extends State<RiderCategory> {
         padding: EdgeInsets.symmetric(horizontal: 5.w),
         child: ListView(
           children: [
-            SizedBox(height: 2.h),
+            SizedBox(height: 4.h),
             AuthWidgets.headerText('Select Your Category'),
             SizedBox(height: 1.h),
             Center(
@@ -86,7 +84,15 @@ class _RiderCategoryState extends State<RiderCategory> {
             MaterialButton(
               minWidth: double.infinity,
               padding: EdgeInsets.symmetric(vertical: 2.h),
-              onPressed: () {},
+              onPressed: () {
+                if (box1) {
+                  navigateTo(StudentSearchView());
+                } else if (box2) {
+                  navigateTo(ResidentSearchView());
+                } else if (box3) {
+                  navigateTo(EmployeeSearch());
+                }
+              },
               color: AppColors.lightYellow,
               child: Center(
                 child: Row(
