@@ -1,4 +1,3 @@
-import 'package:buga/screens/onboarding_driver_view/screen/export.dart';
 import 'all_search_views/employee_search.dart';
 import 'all_search_views/resident_search.dart';
 import 'categories_export.dart';

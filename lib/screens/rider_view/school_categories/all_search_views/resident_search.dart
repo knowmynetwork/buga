@@ -48,7 +48,7 @@ class ResidentSearchView extends StatelessWidget {
               controller: TextEditingController(),
             ),
             SizedBox(height: 1.h),
-            Container(
+            SizedBox(
               // color: Colors.red,
               width: double.infinity,
               height: 45.h,

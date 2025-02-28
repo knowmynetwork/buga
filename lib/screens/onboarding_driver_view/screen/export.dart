@@ -14,4 +14,3 @@ export 'package:buga/widgets/input_field.dart';
 export 'package:buga/constant/images.dart';
 export 'package:buga/screens/onboarding_driver_view/screen/shared_ride.dart';
 export 'package:buga/screens/onboarding_driver_view/screen/side_bar_view/Settings.dart';
-

@@ -8,3 +8,4 @@ String emergencyRoute = '/emergency';
 // String loaderRoute = '/loader';
 String forgotPageRoute = '/forgot';
 String settingsRoute = '/setting';
+String vehicleRoute = '/vehicle';
