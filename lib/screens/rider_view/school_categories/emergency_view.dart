@@ -1,4 +1,3 @@
-
 import 'categories_export.dart';
 
 class RiderEmergencyView extends StatelessWidget {
@@ -128,6 +127,7 @@ class RiderEmergencyView extends StatelessWidget {
                   ),
                 ),
               ),
+              SizedBox(height: 2.h),
             ],
           ),
         )));
