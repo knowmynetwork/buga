@@ -1,8 +1,10 @@
 
+
+import 'package:buga/screens/onboarding_driver_view/screen/side_bar_view/vehicle.dart';
 import 'package:buga/theme/app_colors.dart';
 import 'package:buga/screens/onboarding_driver_view/screen/export.dart';
 class SettingsScreen extends StatelessWidget {
-  const SettingsScreen({Key? key}) : super(key: key);
+  const SettingsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +41,9 @@ class SettingsScreen extends StatelessWidget {
               _buildSettingsOption(
                 icon: Icons.directions_car,
                 title: 'Vehicles',
-                onTap: () {},
+                onTap: () {
+                  navigateTo(VehiclesScreen());
+                },
               ),
               _buildSettingsOption(
                 icon: Icons.payment,

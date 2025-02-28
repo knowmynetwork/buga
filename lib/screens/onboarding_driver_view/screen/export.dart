@@ -17,4 +17,3 @@ export 'package:buga/screens/onboarding_driver_view/screen/find_driver.dart';
 export 'package:buga/screens/onboarding_driver_view/screen/shared_ride.dart';
 export 'package:buga/screens/onboarding_driver_view/screen/side_bar_view/Settings.dart';
 export 'package:flutter/material.dart';
-
