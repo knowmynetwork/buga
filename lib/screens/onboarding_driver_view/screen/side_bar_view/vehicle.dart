@@ -1,3 +1,4 @@
+import 'package:buga/screens/onboarding_driver_view/screen/export.dart';
 import 'package:flutter/material.dart';
 
 class VehiclesScreen extends StatelessWidget {
@@ -29,13 +30,13 @@ class VehiclesScreen extends StatelessWidget {
             VehicleCard(
               title: "Toyota Camry",
               details: "Black, 2010",
-              imagePath: "assets/images/applogo",
+              imagePath: dLogo,
               isSelected: true,
             ),
             VehicleCard(
               title: "Toyota Corolla",
               details: "Silver, 2010",
-              imagePath: "assets/images/toyota_corolla.png",
+              imagePath: colollaImg,
               isSelected: false,
             ),
             const AddVehicleButton(),
@@ -44,13 +45,13 @@ class VehiclesScreen extends StatelessWidget {
             VehicleCard(
               title: "Toyota Sienna",
               details: "Black, 2010",
-              imagePath: "assets/images/toyota_sienna.png",
+              imagePath: siennaImg ,
               isSelected: true,
             ),
             VehicleCard(
               title: "Toyota Corolla",
               details: "Silver, 2010",
-              imagePath: "assets/images/toyota_corolla.png",
+              imagePath: colollaImg ,
               isSelected: false,
             ),
             const AddVehicleButton(),
