@@ -1,34 +1,35 @@
+import 'package:buga/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class BoldYellowTheme {
   static ThemeData get theme {
     return ThemeData(
-      primaryColor: const Color(0xFF000000), // Rich black
-      scaffoldBackgroundColor: const Color(0xFFFFFFFF), // White
+      primaryColor: AppColors.black, // Rich black
+      scaffoldBackgroundColor: AppColors.white, // White
       appBarTheme: AppBarTheme(
-        backgroundColor: const Color(0xFF000000),
+        backgroundColor: AppColors.black,
         elevation: 0,
         titleTextStyle: GoogleFonts.poppins(
           fontSize: 20,
           fontWeight: FontWeight.bold,
-          color: Colors.white,
+          color: AppColors.white,
         ),
-        iconTheme: const IconThemeData(color: Colors.white),
+        iconTheme: IconThemeData(color: AppColors.white),
       ),
       textTheme: GoogleFonts.poppinsTextTheme(),
       buttonTheme: ButtonThemeData(
-        buttonColor: const Color(0xFFFFEB3B), // Yellow buttons
+        buttonColor: AppColors.lightYellow, // Yellow buttons
         textTheme: ButtonTextTheme.primary,
       ),
-      bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-        selectedItemColor: Color(0xFFFFEB3B), // Bold yellow
-        unselectedItemColor: Colors.white70,
+      bottomNavigationBarTheme: BottomNavigationBarThemeData(
+        selectedItemColor: AppColors.lightYellow, // Bold yellow
+        unselectedItemColor: AppColors.white,
       ),
-          textButtonTheme: TextButtonThemeData(
+      textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
-          backgroundColor: const Color(0xFFFFC107), // Yellow background
-          foregroundColor: Colors.black, // Black text color
+          backgroundColor: AppColors.lightYellow, // Yellow background
+          foregroundColor: AppColors.black, // Black text color
           minimumSize: const Size(double.infinity, 48), // Full width
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8), // Rounded corners
@@ -42,8 +43,8 @@ class BoldYellowTheme {
       // Define custom ElevatedButton style
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          backgroundColor: const Color(0xFFFFC107), // Yellow background
-          foregroundColor: Colors.black, // Black text color
+          backgroundColor: AppColors.lightYellow, // Yellow background
+          foregroundColor: AppColors.black, // Black text color
           minimumSize: const Size(double.infinity, 48), // Full width
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8), // Rounded corners
@@ -54,8 +55,6 @@ class BoldYellowTheme {
           ),
         ),
       ),
-    
-    
     );
   }
 }

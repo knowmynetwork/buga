@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../theme/app_text_styles.dart';
 
 class RideOptionCard extends StatelessWidget {
   final String title;
@@ -7,11 +6,11 @@ class RideOptionCard extends StatelessWidget {
   final IconData icon;
 
   const RideOptionCard({
-    Key? key,
+    super.key,
     required this.title,
     required this.subtitle,
     required this.icon,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -32,9 +31,9 @@ class RideOptionCard extends StatelessWidget {
         children: [
           Icon(icon, size: 40, color: Theme.of(context).primaryColor),
           const SizedBox(height: 10),
-          Text(title, style: AppTextStyles.subHeading),
+          Text(title,),
           const SizedBox(height: 5),
-          Text(subtitle, style: AppTextStyles.small),
+          Text(subtitle,),
         ],
       ),
     );
