@@ -154,7 +154,7 @@ class AuthWidgets {
         textAlign: TextAlign.center,
         style: AppTextStyle.bold(
           FontWeight.w700,
-          fontSize: FontSize.font30,
+          fontSize: FontSize.font24,
         ),
       ),
     );

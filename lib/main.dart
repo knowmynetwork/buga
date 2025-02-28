@@ -6,6 +6,7 @@ import 'package:buga/screens/rider_view/splash_view.dart';
 import 'package:buga/theme/app_theme.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'constant/global_variable.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // to avoid screen rotation
@@ -16,9 +17,7 @@ void main() async {
 }
 
 class RideSharingApp extends StatelessWidget {
-  
   const RideSharingApp({super.key});
-  
 
   @override
   Widget build(BuildContext context) {
@@ -40,8 +39,11 @@ class RideSharingApp extends StatelessWidget {
               verificationOtp: (context) => VerificationCodeScreen(),
               emergencyRoute: (context) => EmergencyContactScreen(),
               forgotPageRoute: (context) => ForgotPasswordScreen(),
+<<<<<<< HEAD
               
               
+=======
+>>>>>>> 8d18e9388dc37307c98e15aac4c082bfd2c07525
             },
           ),
         );
