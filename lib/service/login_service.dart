@@ -58,6 +58,8 @@ class LoginService {
       } else {
         provider.read(loadingAnimationSpinkit.notifier).state = false;
         debugPrint('Error $responseData');
+        EndpointUpdateUI.updateUi(
+            'Error');
       }
     } on TimeoutException catch (_) {
       EndpointUpdateUI.updateUi(
