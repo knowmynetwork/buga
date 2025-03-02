@@ -1,11 +1,3 @@
-import 'package:buga/constant/global_variable.dart';
-import 'package:buga/constant/internet_check.dart';
-import 'package:buga/screens/home_screen.dart';
-import 'package:buga/screens/onboarding_driver_view/screen/sign_up_page.dart';
-import 'package:buga/service/login_service.dart';
-import 'package:buga/theme/app_text_styles.dart';
-import 'package:buga/viewmodels/drivermodel/auth_model.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
 
 import 'export.dart';
 import 'package:buga/theme/app_colors.dart';
@@ -115,30 +107,36 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(height: 5.h),
               MaterialButton(
                 minWidth: double.infinity,
-                padding: EdgeInsets.symmetric(vertical: 2.h),
+                height: 7.h,
                 onPressed: () {
-                  InternetChecks.dLoginInternetCheck();
-
-                  if (ref.read(InternetChecks.isloginDataOn)) {
-                    setState(() {
-                      final kk = LoginModel(
-                          email: _emailController.text,
-                          password: _passwordController.text);
-                      LoginService.userLogin(kk);
+                  if (_emailController.text.isEmpty ||
+                      _passwordController.text.isEmpty) {
+                    SnackBarView.showSnackBar('All input are required');
+                  } else {
+                    InternetChecks.loginInternetCheck();
+                    Future.delayed(const Duration(seconds: 1), () {
+                      if (ref.read(InternetChecks.isLoginDataOn)) {
+                        setState(() {
+                          final data = LoginModel(
+                              email: _emailController.text,
+                              password: _passwordController.text);
+                          LoginService.userLogin(data);
+                        });
+                      }
                     });
                   }
-
-                  // navigateTo(HomeScreen());
                 },
                 color: AppColors.lightYellow,
                 child: Center(
-                  child: Text(
-                    'Login',
-                    style: AppTextStyle.medium(
-                      FontWeight.w700,
-                      fontSize: FontSize.font18,
-                    ),
-                  ),
+                  child: ref.watch(loadingAnimationSpinkit)
+                      ? loadingAnimation()
+                      : Text(
+                          'Login',
+                          style: AppTextStyle.medium(
+                            FontWeight.w700,
+                            fontSize: FontSize.font18,
+                          ),
+                        ),
                 ),
               ),
               SizedBox(height: 3.h),

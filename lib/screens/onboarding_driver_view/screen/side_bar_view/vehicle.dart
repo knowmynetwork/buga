@@ -1,5 +1,5 @@
+
 import 'package:buga/screens/onboarding_driver_view/screen/export.dart';
-import 'package:flutter/material.dart';
 
 class VehiclesScreen extends StatelessWidget {
   const VehiclesScreen({super.key});

@@ -7,16 +7,17 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 // Check user internet connection across app
 class InternetChecks {
   static String message = 'Internet connection is needed';
-  static final isloginDataOn = StateProvider((ref) => false);
+  static final isLoginDataOn = StateProvider((ref) => false);
 
   // all driver internet checks
-  static Future<void> dLoginInternetCheck() async {
+  static Future<void> loginInternetCheck() async {
     bool result = await InternetConnectionChecker().hasConnection;
     if (result) {
-      provider.read(isloginDataOn.notifier).state = true;
+      provider.read(loadingAnimationSpinkit.notifier).state = true;
+      provider.read(isLoginDataOn.notifier).state = true;
       debugPrint('user hes connected');
     } else {
-      provider.read(isloginDataOn.notifier).state = false;
+      provider.read(isLoginDataOn.notifier).state = false;
       SnackBarView.showSnackBar(message);
     }
   }
