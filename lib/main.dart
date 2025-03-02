@@ -39,11 +39,7 @@ class RideSharingApp extends StatelessWidget {
               verificationOtp: (context) => VerificationCodeScreen(),
               emergencyRoute: (context) => EmergencyContactScreen(),
               forgotPageRoute: (context) => ForgotPasswordScreen(),
-<<<<<<< HEAD
-              
-              
-=======
->>>>>>> 8d18e9388dc37307c98e15aac4c082bfd2c07525
+
             },
           ),
         );
