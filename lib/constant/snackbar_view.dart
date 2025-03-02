@@ -7,7 +7,7 @@ class SnackBarView {
   static void showSnackBar(String text, {int sec = 2}) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        backgroundColor: AppColors.white,
+        backgroundColor: AppColors.lightYellow,
         content: Text(
           text,
           overflow: TextOverflow.ellipsis,

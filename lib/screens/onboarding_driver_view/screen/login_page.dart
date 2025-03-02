@@ -1,6 +1,10 @@
+import 'package:buga/constant/global_variable.dart';
+import 'package:buga/constant/internet_check.dart';
 import 'package:buga/screens/home_screen.dart';
 import 'package:buga/screens/onboarding_driver_view/screen/sign_up_page.dart';
+import 'package:buga/service/login_service.dart';
 import 'package:buga/theme/app_text_styles.dart';
+import 'package:buga/viewmodels/drivermodel/auth_model.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import 'export.dart';
@@ -22,129 +26,143 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.lightYellow,
-      body: SafeArea(
-          child: Container(
-        color: AppColors.white,
-        width: double.infinity,
-        height: double.infinity,
-        padding: EdgeInsets.symmetric(horizontal: 5.w),
-        child: ListView(
-          children: [
-            SizedBox(height: 1.h),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                IconButton(
-                    onPressed: () {
-                      navigateTo(LoginScreen());
-                    },
-                    icon: Icon(Icons.arrow_back))
-              ],
-            ),
-            SizedBox(height: 3.h),
-            AuthWidgets.headerText('Welcome back!'),
-            SizedBox(height: 0.1.h),
-            Center(
-              child: Text(
-                'Login to your Driver account',
-                style: AppTextStyle.bold(
-                  FontWeight.w700,
-                  fontSize: FontSize.font18,
-                ),
-              ),
-            ),
-            SizedBox(height: 8.h),
-            CustomTextField(
-              hintText: 'Email Address',
-              prefixIcon: Icons.email,
-              controller: _emailController,
-            ),
-            SizedBox(height: 2.h),
-            CustomTextField(
-              hintText: 'Password',
-              prefixIcon: Icons.lock,
-              obscureText: true,
-              controller: _passwordController,
-            ),
-            SizedBox(height: 2.h),
-            SizedBox(
-              width: double.infinity,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Consumer(builder: (context, ref, _) {
+      provider = ref;
+      return Scaffold(
+        backgroundColor: AppColors.lightYellow,
+        body: SafeArea(
+            child: Container(
+          color: AppColors.white,
+          width: double.infinity,
+          height: double.infinity,
+          padding: EdgeInsets.symmetric(horizontal: 5.w),
+          child: ListView(
+            children: [
+              SizedBox(height: 1.h),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    children: [
-                      Checkbox(
-                        value: _rememberLogin,
-                        onChanged: (value) {
-                          setState(() {
-                            _rememberLogin = value!;
-                          });
-                        },
-                      ),
-                      Text(
-                        'Remember Login',
-                        style: AppTextStyle.medium(
-                          FontWeight.w500,
-                          fontSize: FontSize.font12,
-                        ),
-                      ),
-                    ],
-                  ),
-                  TextButton(
-                    onPressed: () {},
-                    child: Text(
-                      'Forgot your password?',
-                      style: AppTextStyle.medium(
-                        FontWeight.w500,
-                        fontSize: FontSize.font12,
-                      ),
-                    ),
-                  ),
+                  IconButton(
+                      onPressed: () {
+                        navigateTo(LoginScreen());
+                      },
+                      icon: Icon(Icons.arrow_back))
                 ],
               ),
-            ),
-            SizedBox(height: 5.h),
-            MaterialButton(
-              minWidth: double.infinity,
-              padding: EdgeInsets.symmetric(vertical: 2.h),
-              onPressed: () {
-                navigateTo(HomeScreen());
-              },
-              color: AppColors.lightYellow,
-              child: Center(
+              SizedBox(height: 3.h),
+              AuthWidgets.headerText('Welcome back!'),
+              SizedBox(height: 0.1.h),
+              Center(
                 child: Text(
-                  'Login',
-                  style: AppTextStyle.medium(
+                  'Login to your Driver account',
+                  style: AppTextStyle.bold(
                     FontWeight.w700,
                     fontSize: FontSize.font18,
                   ),
                 ),
               ),
-            ),
-            SizedBox(height: 3.h),
-            Center(
-              child: GestureDetector(
-                onTap: () {
-                  navigateTo(RiderSignUpView());
+              SizedBox(height: 8.h),
+              CustomTextField(
+                hintText: 'Email Address',
+                prefixIcon: Icons.email,
+                controller: _emailController,
+              ),
+              SizedBox(height: 2.h),
+              CustomTextField(
+                hintText: 'Password',
+                prefixIcon: Icons.lock,
+                obscureText: true,
+                controller: _passwordController,
+              ),
+              SizedBox(height: 2.h),
+              SizedBox(
+                width: double.infinity,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Checkbox(
+                          value: _rememberLogin,
+                          onChanged: (value) {
+                            setState(() {
+                              _rememberLogin = value!;
+                            });
+                          },
+                        ),
+                        Text(
+                          'Remember Login',
+                          style: AppTextStyle.medium(
+                            FontWeight.w500,
+                            fontSize: FontSize.font12,
+                          ),
+                        ),
+                      ],
+                    ),
+                    TextButton(
+                      onPressed: () {},
+                      child: Text(
+                        'Forgot your password?',
+                        style: AppTextStyle.medium(
+                          FontWeight.w500,
+                          fontSize: FontSize.font12,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 5.h),
+              MaterialButton(
+                minWidth: double.infinity,
+                padding: EdgeInsets.symmetric(vertical: 2.h),
+                onPressed: () {
+                  InternetChecks.dLoginInternetCheck();
+
+                  if (ref.read(InternetChecks.isloginDataOn)) {
+                    setState(() {
+                      final kk = LoginModel(
+                          email: _emailController.text,
+                          password: _passwordController.text);
+                      LoginService.userLogin(kk);
+                    });
+                  }
+
+                  // navigateTo(HomeScreen());
                 },
-                child: Text(
-                  'New to Buga? Sign up!',
-                  style: TextStyle(
-                    fontSize: FontSize.font13,
-                    decoration: TextDecoration.underline,
-                    decorationStyle: TextDecorationStyle.solid,
-                    decorationThickness: 2.0,
+                color: AppColors.lightYellow,
+                child: Center(
+                  child: Text(
+                    'Login',
+                    style: AppTextStyle.medium(
+                      FontWeight.w700,
+                      fontSize: FontSize.font18,
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
-        ),
-      )),
-    );
+              SizedBox(height: 3.h),
+              Center(
+                child: GestureDetector(
+                  onTap: () {
+                    navigateTo(RiderSignUpView());
+                  },
+                  child: Text(
+                    'New to Buga? Sign up!',
+                    style: TextStyle(
+                      fontSize: FontSize.font13,
+                      decoration: TextDecoration.underline,
+                      decorationStyle: TextDecorationStyle.solid,
+                      decorationThickness: 2.0,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        )),
+      );
+    });
   }
 }
 
