@@ -1,3 +1,4 @@
+import 'package:buga/screens/rider_view/onboarding_rider_view/onboarding.dart';
 
 import 'export.dart';
 import 'package:buga/theme/app_colors.dart';
@@ -36,7 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: [
                   IconButton(
                       onPressed: () {
-                        navigateTo(LoginScreen());
+                        navigateTo(OnboardingView());
                       },
                       icon: Icon(Icons.arrow_back))
                 ],
@@ -113,9 +114,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       _passwordController.text.isEmpty) {
                     SnackBarView.showSnackBar('All input are required');
                   } else {
-                    InternetChecks.loginInternetCheck();
+                    InternetChecks.internetCheck();
                     Future.delayed(const Duration(seconds: 1), () {
-                      if (ref.read(InternetChecks.isLoginDataOn)) {
+                      if (ref.read(InternetChecks.isUserConnected)) {
                         setState(() {
                           final data = LoginModel(
                               email: _emailController.text,

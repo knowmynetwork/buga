@@ -158,12 +158,12 @@ class _EmergencyContactScreenState extends State<EmergencyContactScreen> {
   void _submitForm() {
     if (_formKey.currentState!.validate()) {
       // Navigate to the next page if the form is valid
-      Navigator.push(
-        context,
-        MaterialPageRoute(  
-          builder: (context) => VerificationCodeScreen(),
-        ),
-      );
+      // Navigator.push(
+      //   context,
+      //   MaterialPageRoute(  
+      //     builder: (context) => VerificationCodeScreen(),
+      //   ),
+      // );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Please fix the errors in the form')),

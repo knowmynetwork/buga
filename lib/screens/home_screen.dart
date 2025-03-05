@@ -91,81 +91,81 @@ class _HomeScreenState extends State<HomeScreen> {
               ), // Replace with your image asset
             ),
           ),
-         ListTile(
-  contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-  leading: Icon(
-    Icons.payment,
-    color: AppColors.black,
-    size: 30,
-  ),
-  title: Text(
-    'Trip',
-    style: TextStyle(
-      color: AppColors.black,
-      fontSize: 20,
-      fontWeight: FontWeight.bold,
-    ),
-  ),
-  trailing: const Icon(
-    Icons.arrow_forward_ios,
-    color: Colors.black,
-    size: 16,
-  ),
-  onTap: () {
-    Navigator.pop(context);
-    // Navigate to Payment Screen
-  },
-),
-
           ListTile(
-  contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-  leading: Stack(
-    children: [
-      Icon(
-        Icons.notifications_none,
-        color:AppColors.black,
-        size: 30,
-      ),
-      Positioned(
-        right: 0,
-        top: 0,
-        child: Container(
-          padding: const EdgeInsets.all(4),
-          decoration: BoxDecoration(
-            color: AppColors.black,
-            shape: BoxShape.circle,
-          ),
-          child: const Text(
-            '2',
-            style: TextStyle(
-              color: Colors.red,
-              fontSize: 12,
-              fontWeight: FontWeight.bold,
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            leading: Icon(
+              Icons.payment,
+              color: AppColors.black,
+              size: 30,
             ),
+            title: Text(
+              'Trip',
+              style: TextStyle(
+                color: AppColors.black,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            trailing: const Icon(
+              Icons.arrow_forward_ios,
+              color: Colors.black,
+              size: 16,
+            ),
+            onTap: () {
+              Navigator.pop(context);
+              // Navigate to Payment Screen
+            },
           ),
-        ),
-      ),
-    ],
-  ),
-  title: Text(
-    'Notifications',
-    style: TextStyle(
-      color: AppColors.black,
-      fontSize: 20,
-      fontWeight: FontWeight.bold,
-    ),
-  ),
-  trailing: const Icon(
-    Icons.arrow_forward_ios,
-    color: Colors.black,
-    size: 16,
-  ),
-  onTap: () {
-    Navigator.pop(context);
-    // Navigate to Notifications Screen
-  },
-),
-
+          ListTile(
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            leading: Stack(
+              children: [
+                Icon(
+                  Icons.notifications_none,
+                  color: AppColors.black,
+                  size: 30,
+                ),
+                Positioned(
+                  right: 0,
+                  top: 0,
+                  child: Container(
+                    padding: const EdgeInsets.all(4),
+                    decoration: BoxDecoration(
+                      color: AppColors.black,
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Text(
+                      '2',
+                      style: TextStyle(
+                        color: Colors.red,
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            title: Text(
+              'Notifications',
+              style: TextStyle(
+                color: AppColors.black,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            trailing: const Icon(
+              Icons.arrow_forward_ios,
+              color: Colors.black,
+              size: 16,
+            ),
+            onTap: () {
+              Navigator.pop(context);
+              // Navigate to Notifications Screen
+            },
+          ),
           ListTile(
             contentPadding:
                 const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -250,9 +250,7 @@ class _HomeScreenState extends State<HomeScreen> {
             title: const Text(
               'Log Out',
               style: TextStyle(
-                  color: Colors.red,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold),
+                  color: Colors.red, fontSize: 20, fontWeight: FontWeight.bold),
             ),
             onTap: () {
               // Perform logout action

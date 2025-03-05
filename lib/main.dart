@@ -38,7 +38,6 @@ class RideSharingApp extends StatelessWidget {
                 signUpRoute: (context) => RiderSignUpView(),
                 // otpRoute: (context) => OtpValidationPage(),
                 // home: (context) => HomeScreen(),
-                verificationOtp: (context) => VerificationCodeScreen(),
                 emergencyRoute: (context) => EmergencyContactScreen(),
                 forgotPageRoute: (context) => ForgotPasswordScreen(),
               },

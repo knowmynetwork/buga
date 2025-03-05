@@ -1,9 +1,12 @@
+import 'package:buga/service/get_otp_service.dart';
+import 'package:buga/viewmodels/email_otp_model.dart';
 import 'export.dart';
 
-
 class VerificationCodeScreen extends StatefulWidget {
+  final GetEmailModel userEmail;
   // ignore: use_super_parameters
-  const VerificationCodeScreen({Key? key}) : super(key: key);
+  const VerificationCodeScreen({Key? key, required this.userEmail})
+      : super(key: key);
 
   @override
   // ignore: library_private_types_in_public_api
@@ -19,7 +22,8 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
   void _validateOtp() {
     // Enable the button only if all fields are filled with exactly 1 character
     setState(() {
-      isButtonEnabled = _controllers.every((controller) => controller.text.isNotEmpty);
+      isButtonEnabled =
+          _controllers.every((controller) => controller.text.isNotEmpty);
     });
   }
 
@@ -70,12 +74,19 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
           children: [
             const Text(
               'We sent you a verification code!',
+              textAlign: TextAlign.center,
               style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
-            const Text(
-              'Enter the six-digit code sent to +2349020065170',
-              style: TextStyle(fontSize: 16, color: Colors.grey),
+            SizedBox(
+              width: double.infinity,
+              child: Center(
+                child: Text(
+                  'Enter the otp code sent to ${widget.userEmail.eMail}',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 16, color: Colors.grey),
+                ),
+              ),
             ),
             const SizedBox(height: 32),
 
@@ -91,7 +102,8 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
                     keyboardType: TextInputType.number,
                     textAlign: TextAlign.center,
                     inputFormatters: [LengthLimitingTextInputFormatter(1)],
-                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.bold),
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
@@ -111,9 +123,10 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
                 TextButton(
                   onPressed: () {
                     // Add your resend logic here
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Resend code clicked!')),
-                    );
+                    final emailData =
+                        GetEmailModel(eMail: widget.userEmail.eMail);
+                    GetOtpService.getOtp(emailData);
+                    SnackBarView.showSnackBar('Resend code clicked!');
                   },
                   child: const Text(
                     'Resend Code',
@@ -130,7 +143,8 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
                 onPressed: isButtonEnabled
                     ? () {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Verification successful!')),
+                          const SnackBar(
+                              content: Text('Verification successful!')),
                         );
                         Navigator.push(
                           context,
@@ -141,9 +155,11 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
                       }
                     : null,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: isButtonEnabled ? Colors.yellow : Colors.grey,
+                  backgroundColor:
+                      isButtonEnabled ? Colors.yellow : Colors.grey,
                   foregroundColor: Colors.black,
-                  padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
@@ -162,23 +178,25 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
   }
 }
 
-// Next Page Placeholder
-class NextPage extends StatelessWidget {
-  const NextPage({super.key});
+class MyApp extends StatefulWidget {
+  final GetEmailModel userEmail;
+
+  const MyApp({super.key, required this.userEmail});
 
   @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Next Page'),
-      ),
-      body: const Center(
-        child: Text(
-          'Welcome to the Next Page!',
-          style: TextStyle(fontSize: 20),
+    return MaterialApp(
+      title: 'Material App',
+      home: Scaffold(
+        body: Center(
+          child: Text('Your Email: ${widget.userEmail.eMail}'),
         ),
       ),
     );
   }
 }
-

@@ -1,12 +1,13 @@
-
 import 'package:buga/screens/rider_view/school_categories/ride_category.dart';
+import 'package:buga/service/get_otp_service.dart';
+import 'package:buga/viewmodels/email_otp_model.dart';
 
 import 'auth_export.dart';
 
-
 class RiderOtpView extends StatefulWidget {
+  final GetEmailModel userEmail;
   // ignore: use_super_parameters
-  const RiderOtpView({Key? key}) : super(key: key);
+  const RiderOtpView({Key? key, required this.userEmail}) : super(key: key);
 
   @override
   // ignore: library_private_types_in_public_api
@@ -84,27 +85,13 @@ class _RiderOtpViewState extends State<RiderOtpView> {
               SizedBox(height: 1.h),
               SizedBox(
                 width: double.infinity,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Enter the six digit code sent to',
-                      style: AppTextStyle.medium(
-                        FontWeight.w500,
-                        color: AppColors.gray,
-                        fontSize: FontSize.font14,
-                      ),
-                    ),
-                    SizedBox(height: 2.h),
-                    Text(
-                      ' +2349020065170 ',
-                      style: AppTextStyle.bold(
-                        FontWeight.w500,
-                        fontSize: FontSize.font14,
-                      ),
-                    )
-                  ],
+                child: Text(
+                  'Enter the otp code sent to ${widget.userEmail.eMail}',
+                  style: AppTextStyle.medium(
+                    FontWeight.w500,
+                    color: AppColors.gray,
+                    fontSize: FontSize.font14,
+                  ),
                 ),
               ),
               SizedBox(height: 4.h),
@@ -132,20 +119,30 @@ class _RiderOtpViewState extends State<RiderOtpView> {
                 }),
               ),
               SizedBox(height: 2.h),
-              Row(
-                children: [
-                  Icon(Icons.replay_outlined),
-                  Text(
-                    'Resend Code',
-                    style: AppTextStyle.medium(
-                      FontWeight.w500,
-                      fontSize: FontSize.font16,
-                    ),
-                  )
-                ],
+              GestureDetector(
+                onTap: () {
+                  final emailData =
+                      GetEmailModel(eMail: widget.userEmail.eMail);
+                  GetOtpService.getOtp(emailData);
+                  SnackBarView.showSnackBar('Resend code clicked!');
+                },
+                child: Row(
+                  children: [
+                    Icon(Icons.replay_outlined),
+                    Text(
+                      'Resend Code',
+                      style: AppTextStyle.medium(
+                        FontWeight.w500,
+                        fontSize: FontSize.font16,
+                      ),
+                    )
+                  ],
+                ),
               ),
               SizedBox(height: 5.h),
-              Center(
+              SizedBox(
+                width: double.infinity,
+                height: 7.h,
                 child: ElevatedButton(
                   onPressed: isButtonEnabled
                       ? () {
