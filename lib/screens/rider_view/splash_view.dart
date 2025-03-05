@@ -25,10 +25,6 @@ class _SplashScreenState extends State<SplashScreen> {
     });
   }
 
-  // updateFirstView() async {
-  //   final SharedPreferences pref = await SharedPreferences.getInstance();
-  //   await pref.setBool(isUserFirstTime, true);
-  // }
 
   @override
   Widget build(BuildContext context) {

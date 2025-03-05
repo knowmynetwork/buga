@@ -1,8 +1,11 @@
-
-
+import 'package:buga/screens/onboarding_driver_view/screen/export.dart';
 import 'package:buga/screens/onboarding_driver_view/screen/side_bar_view/vehicle.dart';
 import 'package:buga/theme/app_colors.dart';
-import 'package:buga/screens/onboarding_driver_view/screen/export.dart';
+
+
+
+
+
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
 

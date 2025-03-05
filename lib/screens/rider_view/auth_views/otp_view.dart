@@ -1,12 +1,8 @@
-import 'package:buga/route/navigation.dart';
-import 'package:buga/theme/app_colors.dart';
-import 'package:buga/theme/app_text_styles.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
 
-import 'login_view.dart';
-import '../school_categories/ride_category.dart';
+import 'package:buga/screens/rider_view/school_categories/ride_category.dart';
+
+import 'auth_export.dart';
+
 
 class RiderOtpView extends StatefulWidget {
   // ignore: use_super_parameters

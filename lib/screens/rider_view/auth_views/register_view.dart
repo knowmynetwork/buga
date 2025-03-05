@@ -1,12 +1,7 @@
-import 'package:buga/route/navigation.dart';
-import 'package:buga/screens/rider_view/onboarding_rider_view/onboarding.dart';
-import 'package:buga/theme/app_colors.dart';
-import 'package:buga/theme/app_text_styles.dart';
-import 'package:buga/widgets/input_field.dart';
-import 'package:flutter/material.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
-import 'login_view.dart';
+
 import 'otp_view.dart';
+import 'auth_export.dart';
+
 
 class RiderRegisterView extends StatelessWidget {
   const RiderRegisterView({super.key});

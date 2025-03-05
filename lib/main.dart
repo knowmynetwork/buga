@@ -1,11 +1,9 @@
+import 'package:buga/local_storage/pref.dart';
 import 'package:buga/screens/onboarding_driver_view/screen/export.dart';
 import 'package:buga/screens/onboarding_driver_view/screen/forget_password.dart';
 import 'package:buga/screens/onboarding_driver_view/screen/login_page.dart';
-import 'package:buga/screens/onboarding_driver_view/screen/sign_up_page.dart';
 import 'package:buga/screens/rider_view/splash_view.dart';
 import 'package:buga/theme/app_theme.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
-import 'constant/global_variable.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,6 +11,8 @@ void main() async {
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]);
+  // initializing Local storage
+  await Pref.init();
   runApp(const RideSharingApp());
 }
 
@@ -21,6 +21,8 @@ class RideSharingApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //   String yourToken = "Your JWT";
+    // bool hasExpired = JwtDecoder.isExpired(yourToken);
     return ResponsiveSizer(
       builder: (context, orientation, screenType) {
         return ProviderScope(
