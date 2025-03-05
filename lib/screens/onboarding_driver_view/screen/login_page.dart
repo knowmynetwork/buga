@@ -1,10 +1,7 @@
 import 'package:buga/constant/global_variable.dart';
-import 'package:buga/constant/internet_check.dart';
 import 'package:buga/screens/home_screen.dart';
 import 'package:buga/screens/onboarding_driver_view/screen/sign_up_page.dart';
-import 'package:buga/service/login_service.dart';
 import 'package:buga/theme/app_text_styles.dart';
-import 'package:buga/viewmodels/drivermodel/auth_model.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import 'export.dart';
@@ -117,18 +114,20 @@ class _LoginScreenState extends State<LoginScreen> {
                 minWidth: double.infinity,
                 padding: EdgeInsets.symmetric(vertical: 2.h),
                 onPressed: () {
-                  InternetChecks.dLoginInternetCheck();
+// Login check is commented out for now for easy Navigation
 
-                  if (ref.read(InternetChecks.isloginDataOn)) {
-                    setState(() {
-                      final kk = LoginModel(
-                          email: _emailController.text,
-                          password: _passwordController.text);
-                      LoginService.userLogin(kk);
-                    });
-                  }
+                  // InternetChecks.dLoginInternetCheck();
 
-                  // navigateTo(HomeScreen());
+                  // if (ref.read(InternetChecks.isloginDataOn)) {
+                  //   setState(() {
+                  //     final kk = LoginModel(
+                  //         email: _emailController.text,
+                  //         password: _passwordController.text);
+                  //     LoginService.userLogin(kk);
+                  //   });
+                  // }
+
+                  navigateTo(HomeScreen());
                 },
                 color: AppColors.lightYellow,
                 child: Center(
