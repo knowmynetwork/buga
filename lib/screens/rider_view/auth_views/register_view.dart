@@ -136,14 +136,19 @@ class _RiderRegisterViewState extends State<RiderRegisterView> {
                                 .state = true;
 
                             // add other user details
-                            final userRegisterData = RegisterModel(
-                              emailController.text,
-                              userNameController.text,
-                              userNumberController.text,
-                              altNumberController.text,
-                              passwordController.text,
-                              confirmPasswordController.text,
-                            );
+                            ref.read(RegisterProviders.email.notifier).state =
+                                emailController.text;
+                            ref.read(RegisterProviders.name.notifier).state =
+                                userNameController.text;
+                            ref
+                                .read(RegisterProviders.phoneNumber.notifier)
+                                .state = userNumberController.text;
+                            ref
+                                .read(RegisterProviders.altNumber.notifier)
+                                .state = altNumberController.text;
+                            ref
+                                .read(RegisterProviders.password.notifier)
+                                .state = passwordController.text;
 
                             GetOtpService.getOtp(emailData);
                           });

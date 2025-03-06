@@ -14,7 +14,8 @@ class VerifiedEmailOtpModel {
   final String eMail;
   final String tokenOtp;
 
-  VerifiedEmailOtpModel(this.tokenOtp, {required this.eMail});
+  VerifiedEmailOtpModel({required this.eMail, required this.tokenOtp});
+
 
   Map<String, dynamic> toJson() {
     return {

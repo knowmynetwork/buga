@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:buga/screens/onboarding_driver_view/screen/verification_screen.dart';
 import 'package:buga/screens/rider_view/auth_views/otp_view.dart';
+import 'package:buga/screens/rider_view/categories/ride_category.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 import 'service_export.dart';
@@ -54,7 +55,7 @@ class GetOtpService {
 
 // verify the otp
 class VerifyOtpService {
-  static Future<Map<String, dynamic>?> getOtp(
+  static Future<Map<String, dynamic>?> verifyOtp(
       VerifiedEmailOtpModel verifyOtpEmail) async {
     debugPrint(
         'email its : ${verifyOtpEmail.eMail}   : Token OTP its :${verifyOtpEmail.tokenOtp}');
@@ -74,7 +75,7 @@ class VerifyOtpService {
         debugPrint(
             ' Response its $responseData , status code ${response.statusCode}');
         provider.read(loadingAnimationSpinkit.notifier).state = false;
-        // pushReplacementScreen();
+        pushReplacementScreen(RiderCategory());
       } else {
         debugPrint('Error ${response.body}');
         EndpointUpdateUI.updateUi('An error occurred please try again');

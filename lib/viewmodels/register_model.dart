@@ -1,3 +1,5 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 class RegisterModel {
   final String email;
   final String name;
@@ -17,40 +19,21 @@ class RegisterModel {
   final String? eAltNumber;
 
   RegisterModel(
-    this.email,
-    this.name,
-    this.number,
-    this.altNumber,
-    this.password,
-    this.comPassword,
-    [this.otp,
-    this.address,
-    this.city,
-    this.state,
-    this.category,
-    this.eName,
-    this.eRelationShip,
-    this.eNumber,
-    this.eAltNumber,]
-);
-
-  // RegisterModel(
-  //   this.email,
-  //   this.name,
-  //   this.number,
-  //   this.altNumber,
-  //   this.password,
-  //   this.comPassword,
-  //   this.otp,
-  //   this.address,
-  //   this.city,
-  //   this.state,
-  //   this.category,
-  //   this.eName,
-  //   this.eRelationShip,
-  //   this.eNumber,
-  //   this.eAltNumber,
-  // );
+      {required this.email,
+      required this.name,
+      required this.number,
+      required this.altNumber,
+      required this.password,
+      required this.comPassword,
+      required this.otp,
+      required this.address,
+      required this.city,
+      required this.state,
+      required this.category,
+      required this.eName,
+      required this.eRelationShip,
+      required this.eNumber,
+      required this.eAltNumber});
 
   Map<String, dynamic> toJson() {
     return {
@@ -76,4 +59,19 @@ class RegisterModel {
   }
 }
 
-
+class RegisterProviders {
+  static final name = StateProvider((ref) => '');
+  static final email = StateProvider((ref) => '');
+  static final phoneNumber = StateProvider((ref) => '');
+  static final altNumber = StateProvider((ref) => '');
+  static final password = StateProvider((ref) => '');
+  static final otp = StateProvider((ref) => '');
+  static final address = StateProvider((ref) => '');
+  static final city = StateProvider((ref) => '');
+  static final state = StateProvider((ref) => '');
+  static final category = StateProvider((ref) => '');
+  static final eName = StateProvider((ref) => '');
+  static final eRelationShip = StateProvider((ref) => '');
+  static final ePhoneNumber = StateProvider((ref) => '');
+  static final eAltNumber = StateProvider((ref) => '');
+}

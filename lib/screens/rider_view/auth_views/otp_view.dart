@@ -1,8 +1,9 @@
-import 'package:buga/screens/rider_view/school_categories/ride_category.dart';
+import 'package:buga/screens/rider_view/categories/ride_category.dart';
 import 'package:buga/service/get_otp_service.dart';
 import 'package:buga/viewmodels/email_otp_model.dart';
 
 import 'auth_export.dart';
+
 
 class RiderOtpView extends StatefulWidget {
   final GetEmailModel userEmail;
@@ -16,9 +17,17 @@ class RiderOtpView extends StatefulWidget {
 
 class _RiderOtpViewState extends State<RiderOtpView> {
   final List<TextEditingController> _controllers =
-      List.generate(6, (_) => TextEditingController());
-  final List<FocusNode> _focusNodes = List.generate(6, (_) => FocusNode());
+      List.generate(4, (_) => TextEditingController());
+  final List<FocusNode> _focusNodes = List.generate(4, (_) => FocusNode());
   bool isButtonEnabled = false;
+
+  String controllersToString(List<TextEditingController> controllers) {
+  String result = '';
+  for (var controller in controllers) {
+    result += controller.text;
+  }
+  return result;
+}
 
   void _validateOtp() {
     // Enable the button only if all fields are filled with exactly 1 character
@@ -97,7 +106,7 @@ class _RiderOtpViewState extends State<RiderOtpView> {
               SizedBox(height: 4.h),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: List.generate(6, (index) {
+                children: List.generate(4, (index) {
                   return SizedBox(
                     width: 40,
                     child: TextFormField(
@@ -146,7 +155,10 @@ class _RiderOtpViewState extends State<RiderOtpView> {
                 child: ElevatedButton(
                   onPressed: isButtonEnabled
                       ? () {
-                          navigateTo(RiderCategory());
+                          // final emailData =
+                          //     VerifiedEmailOtpModel(eMail: '${widget.userEmail}', );
+                          // GetOtpService.getOtp(emailData);
+                          // navigateTo(RiderCategory());
                         }
                       : null,
                   style: ElevatedButton.styleFrom(

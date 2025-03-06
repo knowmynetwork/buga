@@ -1,4 +1,5 @@
 import 'package:buga/service/get_otp_service.dart';
+import 'package:buga/theme/app_colors.dart';
 import 'package:buga/viewmodels/email_otp_model.dart';
 import 'export.dart';
 
@@ -15,8 +16,8 @@ class VerificationCodeScreen extends StatefulWidget {
 
 class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
   final List<TextEditingController> _controllers =
-      List.generate(6, (_) => TextEditingController());
-  final List<FocusNode> _focusNodes = List.generate(6, (_) => FocusNode());
+      List.generate(4, (_) => TextEditingController());
+  final List<FocusNode> _focusNodes = List.generate(4, (_) => FocusNode());
   bool isButtonEnabled = false;
 
   void _validateOtp() {
@@ -93,7 +94,7 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
             // OTP Input Fields
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: List.generate(6, (index) {
+              children: List.generate(4, (index) {
                 return SizedBox(
                   width: 40,
                   child: TextFormField(
@@ -138,38 +139,35 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
             const Spacer(),
 
             // Proceed Button
-            Center(
-              child: ElevatedButton(
-                onPressed: isButtonEnabled
-                    ? () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                              content: Text('Verification successful!')),
-                        );
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const LoadingScreen(),
-                          ),
-                        );
-                      }
-                    : null,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor:
-                      isButtonEnabled ? Colors.yellow : Colors.grey,
-                  foregroundColor: Colors.black,
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
+           SizedBox(
+                width: double.infinity,
+                height: 7.h,
+                child: ElevatedButton(
+                  onPressed: isButtonEnabled
+                      ? () {
+                      
+                        }
+                      : null,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: isButtonEnabled
+                        ? AppColors.lightYellow
+                        : AppColors.lightGray,
+                    foregroundColor: Colors.black,
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 12, horizontal: 24),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  child: Text(
+                    'Proceed',
+                    style: AppTextStyle.medium(
+                      FontWeight.w700,
+                      fontSize: FontSize.font18,
+                    ),
                   ),
                 ),
-                child: const Text(
-                  'Proceed',
-                  style: TextStyle(fontSize: 16),
-                ),
               ),
-            ),
             const SizedBox(height: 16),
           ],
         ),
