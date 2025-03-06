@@ -1,13 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'package:buga/constant/global_variable.dart';
-import 'package:buga/constant/snackbar_view.dart';
 import 'package:buga/local_storage/pref.dart';
 import 'package:buga/screens/home_screen.dart';
 import 'package:buga/screens/onboarding_driver_view/screen/export.dart';
 import 'package:buga/service/all_endpoints.dart';
-import 'package:buga/viewmodels/login_model.dart';
 import 'package:http/http.dart' as http;
 
 class LoginService {
