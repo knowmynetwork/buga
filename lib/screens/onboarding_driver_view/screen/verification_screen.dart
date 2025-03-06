@@ -5,46 +5,38 @@ import 'export.dart';
 
 class VerificationCodeScreen extends StatefulWidget {
   final GetEmailModel userEmail;
-  // ignore: use_super_parameters
+
   const VerificationCodeScreen({Key? key, required this.userEmail})
       : super(key: key);
 
   @override
-  // ignore: library_private_types_in_public_api
   _VerificationCodeScreenState createState() => _VerificationCodeScreenState();
 }
 
 class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
-  final List<TextEditingController> _controllers =
-      List.generate(4, (_) => TextEditingController());
   final List<FocusNode> _focusNodes = List.generate(4, (_) => FocusNode());
+  final TextEditingController _otpController = TextEditingController();
   bool isButtonEnabled = false;
-
-  void _validateOtp() {
-    // Enable the button only if all fields are filled with exactly 1 character
-    setState(() {
-      isButtonEnabled =
-          _controllers.every((controller) => controller.text.isNotEmpty);
-    });
-  }
 
   @override
   void initState() {
     super.initState();
-    for (var controller in _controllers) {
-      controller.addListener(_validateOtp);
-    }
+    _otpController.addListener(_validateOtp);
   }
 
   @override
   void dispose() {
-    for (var controller in _controllers) {
-      controller.dispose();
-    }
+    _otpController.dispose();
     for (var focusNode in _focusNodes) {
       focusNode.dispose();
     }
     super.dispose();
+  }
+
+  void _validateOtp() {
+    setState(() {
+      isButtonEnabled = _otpController.text.length == 4;
+    });
   }
 
   void _onOtpFieldChanged(String value, int index) {
@@ -98,19 +90,29 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
                 return SizedBox(
                   width: 40,
                   child: TextFormField(
-                    controller: _controllers[index],
-                    focusNode: _focusNodes[index],
                     keyboardType: TextInputType.number,
                     textAlign: TextAlign.center,
                     inputFormatters: [LengthLimitingTextInputFormatter(1)],
                     style: const TextStyle(
-                        fontSize: 18, fontWeight: FontWeight.bold),
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    focusNode: _focusNodes[index],
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
                     ),
-                    onChanged: (value) => _onOtpFieldChanged(value, index),
+                    onChanged: (value) {
+                      if (value.isNotEmpty) {
+                        _otpController.text += value; // Append value to OTP
+                      } else if (_otpController.text.isNotEmpty) {
+                        // Remove last character if empty
+                        _otpController.text =
+                            _otpController.text.substring(0, _otpController.text.length - 1);
+                      }
+                      _onOtpFieldChanged(value, index);
+                    },
                   ),
                 );
               }),
@@ -123,9 +125,7 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
                 const Icon(Icons.refresh, color: Colors.grey),
                 TextButton(
                   onPressed: () {
-                    // Add your resend logic here
-                    final emailData =
-                        GetEmailModel(eMail: widget.userEmail.eMail);
+                    final emailData = GetEmailModel(eMail: widget.userEmail.eMail);
                     GetOtpService.getOtp(emailData);
                     SnackBarView.showSnackBar('Resend code clicked!');
                   },
@@ -139,60 +139,38 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
             const Spacer(),
 
             // Proceed Button
-           SizedBox(
-                width: double.infinity,
-                height: 7.h,
-                child: ElevatedButton(
-                  onPressed: isButtonEnabled
-                      ? () {
-                      
-                        }
-                      : null,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: isButtonEnabled
-                        ? AppColors.lightYellow
-                        : AppColors.lightGray,
-                    foregroundColor: Colors.black,
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 12, horizontal: 24),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
+            SizedBox(
+              width: double.infinity,
+              height: 7.h,
+              child: ElevatedButton(
+                onPressed: isButtonEnabled
+                    ? () {
+                        // Access OTP with _otpController.text
+                        print("Entered OTP: ${_otpController.text}");
+                      }
+                    : null,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: isButtonEnabled
+                      ? AppColors.lightYellow
+                      : AppColors.lightGray,
+                  foregroundColor: Colors.black,
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
                   ),
-                  child: Text(
-                    'Proceed',
-                    style: AppTextStyle.medium(
-                      FontWeight.w700,
-                      fontSize: FontSize.font18,
-                    ),
+                ),
+                child: Text(
+                  'Proceed',
+                  style: AppTextStyle.medium(
+                    FontWeight.w700,
+                    fontSize: FontSize.font18,
                   ),
                 ),
               ),
+            ),
             const SizedBox(height: 16),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class MyApp extends StatefulWidget {
-  final GetEmailModel userEmail;
-
-  const MyApp({super.key, required this.userEmail});
-
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Material App',
-      home: Scaffold(
-        body: Center(
-          child: Text('Your Email: ${widget.userEmail.eMail}'),
         ),
       ),
     );
