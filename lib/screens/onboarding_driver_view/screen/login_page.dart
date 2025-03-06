@@ -1,4 +1,3 @@
-import 'package:buga/screens/home_screen.dart';
 
 import 'export.dart';
 import 'package:buga/theme/app_colors.dart';
@@ -37,7 +36,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: [
                   IconButton(
                       onPressed: () {
-                        navigateTo(LoginScreen());
+                        navigateTo(OnboardingView());
                       },
                       icon: Icon(Icons.arrow_back))
                 ],
@@ -110,18 +109,22 @@ class _LoginScreenState extends State<LoginScreen> {
                 minWidth: double.infinity,
                 height: 7.h,
                 onPressed: () {
-                  // InternetChecks.dLoginInternetCheck();
-
-                  // if (ref.read(InternetChecks.isloginDataOn)) {
-                  //   setState(() {
-                  //     final kk = LoginModel(
-                  //         email: _emailController.text,
-                  //         password: _passwordController.text);
-                  //     LoginService.userLogin(kk);
-                  //   });
-                  // }
-
-                  navigateTo(HomeScreen());
+                  if (_emailController.text.isEmpty ||
+                      _passwordController.text.isEmpty) {
+                    SnackBarView.showSnackBar('All input are required');
+                  } else {
+                    InternetChecks.loginInternetCheck();
+                    Future.delayed(const Duration(seconds: 1), () {
+                      if (ref.read(InternetChecks.isLoginDataOn)) {
+                        setState(() {
+                          final data = LoginModel(
+                              email: _emailController.text,
+                              password: _passwordController.text);
+                          LoginService.userLogin(data);
+                        });
+                      }
+                    });
+                  }
                 },
                 color: AppColors.lightYellow,
                 child: Center(

@@ -27,6 +27,7 @@ class RideSharingApp extends StatelessWidget {
       builder: (context, orientation, screenType) {
         return ProviderScope(
           child: MaterialApp(
+<<<<<<< HEAD
             debugShowCheckedModeBanner: false,
             navigatorKey: navigationKey,
             title: 'Ride Sharing App',
@@ -44,6 +45,27 @@ class RideSharingApp extends StatelessWidget {
 
             },
           ),
+=======
+              debugShowCheckedModeBanner: false,
+              navigatorKey: navigationKey,
+              title: 'Ride Sharing App',
+              theme: AppThemeManager.activeTheme, // Global theme
+              initialRoute: splashRoute, // Set the initial route
+              routes: {
+                loginRoute: (context) => LoginScreen(),
+                splashRoute: (context) => SplashScreen(),
+                signUpRoute: (context) => RiderSignUpView(),
+                // otpRoute: (context) => OtpValidationPage(),
+                // home: (context) => HomeScreen(),
+                forgotPageRoute: (context) => ForgotPasswordScreen(),
+              },
+              home: Consumer(
+                builder: (context, ref, _) {
+                  provider = ref;
+                  return SplashScreen();
+                },
+              )),
+>>>>>>> 3f5fdeafd09eea02e96faae10406749d393f69c7
         );
       },
     );

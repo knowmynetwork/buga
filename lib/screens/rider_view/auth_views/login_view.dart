@@ -1,5 +1,3 @@
-
-
 import 'auth_export.dart';
 
 class RiderLoginView extends StatefulWidget {
@@ -111,11 +109,11 @@ class _RiderLoginViewState extends State<RiderLoginView> {
                       _passwordController.text.isEmpty) {
                     SnackBarView.showSnackBar('All input are required');
                   } else {
-                    InternetChecks.loginInternetCheck();
+                    InternetChecks.internetCheck();
                     Future.delayed(const Duration(seconds: 1), () {
-                      if (ref.read(InternetChecks.isLoginDataOn)) {
+                      if (ref.read(InternetChecks.isUserConnected)) {
                         debugPrint(
-                            ' internet status ${ref.read(InternetChecks.isLoginDataOn)}');
+                            ' internet status ${ref.read(InternetChecks.isUserConnected)}');
                         setState(() {
                           final data = LoginModel(
                               email: _emailController.text,
