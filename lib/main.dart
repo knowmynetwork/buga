@@ -1,18 +1,9 @@
-import 'package:buga/route/route.dart';
-import 'package:buga/screens/emergency_cont.dart';
-import 'package:buga/screens/forget_password.dart';
-import 'package:buga/screens/home_screen.dart';
+import 'package:buga/local_storage/pref.dart';
+import 'package:buga/screens/onboarding_driver_view/screen/export.dart';
+import 'package:buga/screens/onboarding_driver_view/screen/forget_password.dart';
 import 'package:buga/screens/onboarding_driver_view/screen/login_page.dart';
-import 'package:buga/screens/onboarding_driver_view/screen/shared_ride.dart';
-import 'package:buga/screens/onboarding_driver_view/screen/verification_screen.dart';
-import 'package:buga/screens/onboarding_driver_view/screen/sign_up_page.dart';
-import 'package:buga/screens/splash_view.dart';
+import 'package:buga/screens/rider_view/splash_view.dart';
 import 'package:buga/theme/app_theme.dart';
-import 'package:flutter/material.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'constant/global_variable.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,20 +11,23 @@ void main() async {
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]);
+  // initializing Local storage
+  await Pref.init();
   runApp(const RideSharingApp());
 }
 
 class RideSharingApp extends StatelessWidget {
-  
   const RideSharingApp({super.key});
-  
 
   @override
   Widget build(BuildContext context) {
+    //   String yourToken = "Your JWT";
+    // bool hasExpired = JwtDecoder.isExpired(yourToken);
     return ResponsiveSizer(
       builder: (context, orientation, screenType) {
         return ProviderScope(
           child: MaterialApp(
+<<<<<<< HEAD
             debugShowCheckedModeBanner: false,
             navigatorKey: navigationKey,
             title: 'Ride Sharing App',
@@ -46,10 +40,32 @@ class RideSharingApp extends StatelessWidget {
               // otpRoute: (context) => OtpValidationPage(),
               // home: (context) => HomeScreen(),
               verificationOtp: (context) => VerificationCodeScreen(),
-              emergencyRoute: (context) => EmergencyContactForm(),
+              emergencyRoute: (context) => EmergencyContactScreen(),
               forgotPageRoute: (context) => ForgotPasswordScreen(),
+
             },
           ),
+=======
+              debugShowCheckedModeBanner: false,
+              navigatorKey: navigationKey,
+              title: 'Ride Sharing App',
+              theme: AppThemeManager.activeTheme, // Global theme
+              initialRoute: splashRoute, // Set the initial route
+              routes: {
+                loginRoute: (context) => LoginScreen(),
+                splashRoute: (context) => SplashScreen(),
+                signUpRoute: (context) => RiderSignUpView(),
+                // otpRoute: (context) => OtpValidationPage(),
+                // home: (context) => HomeScreen(),
+                forgotPageRoute: (context) => ForgotPasswordScreen(),
+              },
+              home: Consumer(
+                builder: (context, ref, _) {
+                  provider = ref;
+                  return SplashScreen();
+                },
+              )),
+>>>>>>> 3f5fdeafd09eea02e96faae10406749d393f69c7
         );
       },
     );

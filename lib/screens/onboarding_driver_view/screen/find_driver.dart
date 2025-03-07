@@ -1,3 +1,4 @@
+import 'package:buga/theme/app_text_styles.dart';
 import 'package:flutter/material.dart';
 
 class RideDetailsScreen extends StatelessWidget {
@@ -176,13 +177,17 @@ class RideDetailsScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(12),
                         ),
                       ),
-                      child: const Text(
+                      child: Text(
                         'Find Driver',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
+                        style: AppTextStyle.bold(
+                          FontWeight.w500,
+                          fontSize: FontSize.font16,
                         ),
+                        //  TextStyle(
+                        //   color: Colors.black,
+                        //   fontSize: 16,
+                        //   fontWeight: FontWeight.bold,
+                        // ),
                       ),
                     ),
                   ),
@@ -194,10 +199,4 @@ class RideDetailsScreen extends StatelessWidget {
       ),
     );
   }
-}
-
-void main() {
-  runApp(const MaterialApp(
-    home: RideDetailsScreen(),
-  ));
 }

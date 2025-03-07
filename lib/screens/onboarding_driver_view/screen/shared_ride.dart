@@ -1,3 +1,4 @@
+import 'package:buga/screens/onboarding_driver_view/screen/find_driver.dart';
 import 'package:flutter/material.dart';
 
 class SharedRideScreen extends StatefulWidget {
@@ -9,6 +10,9 @@ class SharedRideScreen extends StatefulWidget {
 
 class _SharedRideScreenState extends State<SharedRideScreen> {
   bool isBookRealtimeSelected = true;
+  final List<Map<String, String>> savedPlaces = []; // To store "From" and "To" locations
+  String fromLocation = '';
+  String toLocation = '';
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +39,7 @@ class _SharedRideScreenState extends State<SharedRideScreen> {
           _buildFormSection(),
           const Divider(),
           _buildSavedPlacesSection(),
+          _buildProceedButton(context),
         ],
       ),
     );
@@ -78,14 +83,25 @@ class _SharedRideScreenState extends State<SharedRideScreen> {
           _RideFormField(
             label: 'From',
             icon: Icons.circle_outlined,
-            placeholder: 'Covenant University',
+            placeholder: fromLocation.isEmpty ? 'Enter Starting Point' : fromLocation,
+            isEditable: true,
+            onChanged: (value) {
+              setState(() {
+                fromLocation = value;
+              });
+            },
           ),
           const SizedBox(height: 8),
           _RideFormField(
             label: 'To',
             icon: Icons.location_on,
-            placeholder: '46, Osapa London, Lekki, Lagos',
-            hasPlusIcon: true,
+            placeholder: toLocation.isEmpty ? 'Enter Destination' : toLocation,
+            isEditable: true,
+            onChanged: (value) {
+              setState(() {
+                toLocation = value;
+              });
+            },
           ),
           const SizedBox(height: 16),
           Row(
@@ -108,39 +124,127 @@ class _SharedRideScreenState extends State<SharedRideScreen> {
 
   Widget _buildSavedPlacesSection() {
     return Expanded(
-      child: ListView(
+      child: ListView.builder(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        children: [
-          _SavedPlaceItem(
-            icon: Icons.home,
-            title: 'Home',
-            subtitle: 'Lekki, Lagos',
+        itemCount: savedPlaces.length + 1,
+        itemBuilder: (context, index) {
+          if (index < savedPlaces.length) {
+            final location = savedPlaces[index];
+            return Column(
+              children: [
+                ListTile(
+                  leading: const Icon(Icons.location_pin, color: Colors.black),
+                  title: Text(
+                    '${location['from']} → ${location['to']}',
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  trailing: IconButton(
+                    icon: const Icon(Icons.delete, color: Colors.red),
+                    onPressed: () {
+                      setState(() {
+                        savedPlaces.removeAt(index);
+                      });
+                    },
+                  ),
+                  onTap: () {
+                    setState(() {
+                      fromLocation = location['from']!;
+                      toLocation = location['to']!;
+                    });
+                  },
+                ),
+                const Divider(),
+              ],
+            );
+          } else {
+            return ListTile(
+              leading: const Icon(Icons.add, color: Colors.black),
+              title: const Text(
+                'Add Save Place',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              onTap: _showLocationBottomSheet,
+            );
+          }
+        },
+      ),
+    );
+  }
+
+  Widget _buildProceedButton(BuildContext context) {
+  return Padding(
+    padding: const EdgeInsets.all(16),
+    child: ElevatedButton(
+      onPressed: () {
+        // Navigate to the next page
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const RideDetailsScreen(), // Replace with your target screen
           ),
-          const Divider(),
-          _SavedPlaceItem(
-            icon: Icons.school,
-            title: 'School',
-            subtitle: 'Covenant University',
+        );
+      },
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.yellow,
+        padding: const EdgeInsets.symmetric(vertical: 16),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: const [
+          Text(
+            'Proceed',
+            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
           ),
-          const Divider(),
-          _SavedPlaceItem(
-            icon: Icons.work,
-            title: 'Work',
-            subtitle: 'KPMG, Victoria Island, Lagos',
-          ),
-          const Divider(),
-          ListTile(
-            leading: const Icon(Icons.add, color: Colors.black),
-            title: const Text(
-              'Add Saved Place',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            onTap: () {
-              // Add functionality to save a new place
-            },
-          ),
+          SizedBox(width: 8), // Add space between text and icon
+          Icon(Icons.arrow_forward, color: Colors.black),
         ],
       ),
+    ),
+  );
+}
+
+
+  void _showLocationBottomSheet() {
+    final locations = [
+      'Covenant University',
+      'Lekki, Lagos',
+      'Victoria Island',
+      'Yaba, Lagos',
+      'Ikoyi, Lagos',
+    ];
+
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return Container(
+          padding: const EdgeInsets.all(16),
+          height: 300,
+          child: ListView.builder(
+            itemCount: locations.length,
+            itemBuilder: (context, index) {
+              return ListTile(
+                title: Text(locations[index]),
+                onTap: () {
+                  setState(() {
+                    if (fromLocation.isEmpty) {
+                      fromLocation = locations[index];
+                    } else if (toLocation.isEmpty) {
+                      toLocation = locations[index];
+                    }
+
+                    if (fromLocation.isNotEmpty && toLocation.isNotEmpty) {
+                      savedPlaces.add({'from': fromLocation, 'to': toLocation});
+                      fromLocation = '';
+                      toLocation = '';
+                    }
+                  });
+                  Navigator.pop(context);
+                },
+              );
+            },
+          ),
+        );
+      },
     );
   }
 }
@@ -182,45 +286,29 @@ class _RideFormField extends StatelessWidget {
   final String label;
   final IconData icon;
   final String placeholder;
-  final bool hasPlusIcon;
+  final bool isEditable;
+  final Function(String)? onChanged;
 
   const _RideFormField({
     required this.label,
     required this.icon,
     required this.placeholder,
-    this.hasPlusIcon = false,
+    this.isEditable = false,
+    this.onChanged,
   });
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Column(
-          children: [
-            Icon(icon, size: 20, color: Colors.black),
-            if (label == 'From')
-              const Padding(
-                padding: EdgeInsets.symmetric(vertical: 2.0),
-                child: SizedBox(
-                  height: 30,
-                  child: VerticalDivider(color: Colors.black, thickness: 2),
-                ),
-              ),
-          ],
-        ),
+        Icon(icon, size: 20, color: Colors.black),
         const SizedBox(width: 8),
         Expanded(
           child: TextField(
+            readOnly: !isEditable,
+            onChanged: isEditable ? onChanged : null,
             decoration: InputDecoration(
               hintText: placeholder,
-              suffixIcon: hasPlusIcon
-                  ? IconButton(
-                      icon: const Icon(Icons.add, color: Colors.black),
-                      onPressed: () {
-                        // Add functionality for the "+" button
-                      },
-                    )
-                  : null,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
                 borderSide: const BorderSide(color: Colors.grey),
@@ -236,26 +324,26 @@ class _RideFormField extends StatelessWidget {
   }
 }
 
-class _SavedPlaceItem extends StatelessWidget {
-  final IconData icon;
-  final String title;
-  final String subtitle;
+class SummaryPage extends StatelessWidget {
+  final List<Map<String, String>> savedPlaces;
 
-  const _SavedPlaceItem({
-    required this.icon,
-    required this.title,
-    required this.subtitle,
-  });
+  const SummaryPage({super.key, required this.savedPlaces});
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: Icon(icon, color: Colors.black),
-      title: Text(
-        title,
-        style: const TextStyle(fontWeight: FontWeight.bold),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Summary'),
       ),
-      subtitle: Text(subtitle),
+      body: ListView.builder(
+        itemCount: savedPlaces.length,
+        itemBuilder: (context, index) {
+          final location = savedPlaces[index];
+          return ListTile(
+            title: Text('${location['from']} → ${location['to']}'),
+          );
+        },
+      ),
     );
   }
 }

@@ -1,12 +1,11 @@
 import 'package:buga/constant/global_variable.dart';
 import 'package:buga/constant/images.dart';
 import 'package:buga/route/navigation.dart';
+import 'package:buga/screens/rider_view/onboarding_rider_view/onboarding.dart';
 import 'package:buga/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import 'rider_view/onboarding_rider_view/onboarding.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -26,10 +25,6 @@ class _SplashScreenState extends State<SplashScreen> {
     });
   }
 
-  // updateFirstView() async {
-  //   final SharedPreferences pref = await SharedPreferences.getInstance();
-  //   await pref.setBool(isUserFirstTime, true);
-  // }
 
   @override
   Widget build(BuildContext context) {

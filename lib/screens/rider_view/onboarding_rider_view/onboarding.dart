@@ -1,9 +1,11 @@
 import 'package:buga/constant/images.dart';
 import 'package:buga/route/navigation.dart';
 import 'package:buga/screens/onboarding_driver_view/screen/login_page.dart';
+import 'package:buga/screens/rider_view/auth_views/login_view.dart';
 import 'package:buga/theme/app_colors.dart';
 import 'package:buga/theme/app_text_styles.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class OnboardingView extends StatefulWidget {
@@ -30,7 +32,7 @@ class OnboardingView extends StatefulWidget {
       bottom: bottomHt,
       left: 5.w,
       right: 5.w,
-      child: Container(
+      child: SizedBox(
         // color: Colors.green,
         width: 100.w,
         child: Column(
@@ -137,6 +139,7 @@ class _OnboardingViewState extends State<OnboardingView> {
     setState(() {
       if (currentIndex == 4) {
         debugPrint('Last onboarding');
+        navigateTo(RiderLoginView());
       } else {
         isAnimating = true;
         Future.delayed(const Duration(milliseconds: 500), () {
@@ -158,121 +161,134 @@ class _OnboardingViewState extends State<OnboardingView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          PageView.builder(
-            controller: _pageController,
-            onPageChanged: (index) {
-              setState(() {
-                currentIndex = index;
-              });
-            },
-            itemCount: screenView.length,
-            itemBuilder: (context, index) {
-              return screenView[index];
-            },
-          ),
-          Container(
-            width: 100.w,
-            padding: EdgeInsetsDirectional.symmetric(horizontal: 5.w),
-            height: double.infinity,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                SizedBox(height: 9.h),
-                Container(
-                  width: 100.w,
-                  height: 7.h,
-                  decoration: BoxDecoration(
-                      color: AppColors.white,
-                      borderRadius: BorderRadius.circular(5)),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      tabView("Rider", AppColors.black, AppColors.white),
-                      SizedBox(width: 3.w),
-                      GestureDetector(
-                          onTap: () {
-                            navigateTo(LoginScreen());
-                          },
-                          child: tabView(
-                              "Driver", AppColors.white, AppColors.black))
-                    ],
-                  ),
-                ),
-                SizedBox(height: 63.h),
-                currentIndex == 3 || currentIndex == 4
-                    ? Column(
-                        children: [
-                          MaterialButton(
-                            minWidth: double.infinity,
-                            padding: EdgeInsets.symmetric(vertical: 2.h),
-                            onPressed: () {
-                              onBoardingSilds();
+      body: PopScope(
+        canPop: true,
+        onPopInvoked: (didPop) {
+          SystemNavigator.pop();
+        },
+        child: Stack(
+          children: [
+            PageView.builder(
+              controller: _pageController,
+              onPageChanged: (index) {
+                setState(() {
+                  currentIndex = index;
+                });
+              },
+              itemCount: screenView.length,
+              itemBuilder: (context, index) {
+                return screenView[index];
+              },
+            ),
+            Container(
+              width: 100.w,
+              padding: EdgeInsetsDirectional.symmetric(horizontal: 5.w),
+              height: double.infinity,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  SizedBox(height: 9.h),
+                  Container(
+                    width: 100.w,
+                    height: 7.h,
+                    decoration: BoxDecoration(
+                        color: AppColors.white,
+                        borderRadius: BorderRadius.circular(5)),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        tabView("Rider", AppColors.black, AppColors.white),
+                        SizedBox(width: 3.w),
+                        GestureDetector(
+                            onTap: () {
+                              navigateTo(LoginScreen());
                             },
-                            color: AppColors.lightYellow,
-                            child: Center(
-                              child: Text(
-                                'Register',
-                                style: AppTextStyle.medium(
-                                  FontWeight.w700,
-                                  fontSize: FontSize.font18,
+                            child: tabView(
+                                "Driver", AppColors.white, AppColors.black))
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 63.h),
+                  currentIndex == 3 || currentIndex == 4
+                      ? Column(
+                          children: [
+                            MaterialButton(
+                              minWidth: double.infinity,
+                              padding: EdgeInsets.symmetric(vertical: 2.h),
+                              onPressed: () {
+                                onBoardingSilds();
+                              },
+                              color: AppColors.lightYellow,
+                              child: Center(
+                                child: Text(
+                                  'Register',
+                                  style: AppTextStyle.medium(
+                                    FontWeight.w700,
+                                    fontSize: FontSize.font18,
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                          SizedBox(height: 2.5.h),
-                          GestureDetector(
-                            onTap: () {},
-                            child: Text(
-                              'Already a User? Login',
-                              style: TextStyle(
-                                  color: AppColors.white,
-                                  decoration: TextDecoration.underline,
-                                  decorationColor: AppColors.white,
-                                  decorationStyle: TextDecorationStyle.solid,
-                                  decorationThickness: 2.0,
-                                  fontSize: FontSize.font18,
-                                  fontWeight: FontWeight.w700),
-                            ),
-                          ),
-                        ],
-                      )
-                    : SizedBox(
-                        width: 100.w,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Text(
-                              'Skip',
-                              style: TextStyle(
-                                color: AppColors.lightYellow,
-                                decoration: TextDecoration.underline,
-                                decorationColor: AppColors.lightYellow,
-                                decorationStyle: TextDecorationStyle.solid,
-                                decorationThickness: 2.0,
+                            SizedBox(height: 2.5.h),
+                            GestureDetector(
+                              onTap: () {
+                                navigateTo(RiderLoginView());
+                              },
+                              child: Text(
+                                'Already a User? Login',
+                                style: TextStyle(
+                                    color: AppColors.white,
+                                    decoration: TextDecoration.underline,
+                                    decorationColor: AppColors.white,
+                                    decorationStyle: TextDecorationStyle.solid,
+                                    decorationThickness: 2.0,
+                                    fontSize: FontSize.font18,
+                                    fontWeight: FontWeight.w700),
                               ),
                             ),
-                            SizedBox(height: 2.h),
-                            SizedBox(
-                              width: 19.w,
-                              height: 8.h,
-                              child: MaterialButton(
-                                onPressed: () {
-                                  onBoardingSilds();
-                                },
-                                color: AppColors.lightYellow,
-                                child: Icon(Icons.arrow_forward),
-                              ),
-                            )
                           ],
+                        )
+                      : SizedBox(
+                          width: 100.w,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  navigateTo(RiderLoginView());
+                                },
+                                child: Text(
+                                  'Skip',
+                                  style: TextStyle(
+                                    color: AppColors.lightYellow,
+                                    decoration: TextDecoration.underline,
+                                    decorationColor: AppColors.lightYellow,
+                                    decorationStyle: TextDecorationStyle.solid,
+                                    decorationThickness: 2.0,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 2.h),
+                              SizedBox(
+                                width: 19.w,
+                                height: 8.h,
+                                child: MaterialButton(
+                                  onPressed: () {
+                                    onBoardingSilds();
+                                  },
+                                  color: AppColors.lightYellow,
+                                  child: Icon(Icons.arrow_forward),
+                                ),
+                              )
+                            ],
+                          ),
                         ),
-                      ),
-              ],
-            ),
-          )
-        ],
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

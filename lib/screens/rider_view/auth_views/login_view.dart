@@ -1,20 +1,16 @@
+import 'auth_export.dart';
 
-import 'export.dart';
-import 'package:buga/theme/app_colors.dart';
-
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class RiderLoginView extends StatefulWidget {
+  const RiderLoginView({super.key});
 
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  State<RiderLoginView> createState() => _RiderLoginViewState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
-  bool _rememberLogin = false; // State variable for checkbox
-
-  // Controllers for the email and password fields
+class _RiderLoginViewState extends State<RiderLoginView> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  bool _rememberLogin = false;
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +42,7 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(height: 0.1.h),
               Center(
                 child: Text(
-                  'Login to your Driver account',
+                  'Login to your rider account',
                   style: AppTextStyle.bold(
                     FontWeight.w700,
                     fontSize: FontSize.font18,
@@ -113,9 +109,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       _passwordController.text.isEmpty) {
                     SnackBarView.showSnackBar('All input are required');
                   } else {
-                    InternetChecks.loginInternetCheck();
+                    InternetChecks.internetCheck();
                     Future.delayed(const Duration(seconds: 1), () {
-                      if (ref.read(InternetChecks.isLoginDataOn)) {
+                      if (ref.read(InternetChecks.isUserConnected)) {
+                        debugPrint(
+                            ' internet status ${ref.read(InternetChecks.isUserConnected)}');
                         setState(() {
                           final data = LoginModel(
                               email: _emailController.text,
@@ -143,7 +141,7 @@ class _LoginScreenState extends State<LoginScreen> {
               Center(
                 child: GestureDetector(
                   onTap: () {
-                    navigateTo(RiderSignUpView());
+                    navigateTo(RiderRegisterView());
                   },
                   child: Text(
                     'New to Buga? Sign up!',
@@ -172,7 +170,7 @@ class AuthWidgets {
         textAlign: TextAlign.center,
         style: AppTextStyle.bold(
           FontWeight.w700,
-          fontSize: FontSize.font30,
+          fontSize: FontSize.font24,
         ),
       ),
     );
