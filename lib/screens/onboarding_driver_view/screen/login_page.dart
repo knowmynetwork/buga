@@ -1,3 +1,5 @@
+import 'package:buga/screens/home_screen.dart';
+import 'package:buga/screens/rider_view/onboarding_rider_view/onboarding.dart';
 
 import 'export.dart';
 import 'package:buga/theme/app_colors.dart';
@@ -109,22 +111,26 @@ class _LoginScreenState extends State<LoginScreen> {
                 minWidth: double.infinity,
                 height: 7.h,
                 onPressed: () {
-                  if (_emailController.text.isEmpty ||
-                      _passwordController.text.isEmpty) {
-                    SnackBarView.showSnackBar('All input are required');
-                  } else {
-                    InternetChecks.loginInternetCheck();
-                    Future.delayed(const Duration(seconds: 1), () {
-                      if (ref.read(InternetChecks.isLoginDataOn)) {
-                        setState(() {
-                          final data = LoginModel(
-                              email: _emailController.text,
-                              password: _passwordController.text);
-                          LoginService.userLogin(data);
-                        });
-                      }
-                    });
-                  }
+                  navigateTo(HomeScreen());
+
+                  // i commented this part out so you can proceed to home screen and work
+
+                  // if (_emailController.text.isEmpty ||
+                  //     _passwordController.text.isEmpty) {
+                  //   SnackBarView.showSnackBar('All input are required');
+                  // } else {
+                  //   InternetChecks.internetCheck();
+                  //   Future.delayed(const Duration(seconds: 1), () {
+                  //     if (ref.read(InternetChecks.isUserConnected)) {
+                  //       setState(() {
+                  //         final data = LoginModel(
+                  //             email: _emailController.text,
+                  //             password: _passwordController.text);
+                  //         LoginService.userLogin(data);
+                  //       });
+                  //     }
+                  //   });
+                  // }
                 },
                 color: AppColors.lightYellow,
                 child: Center(

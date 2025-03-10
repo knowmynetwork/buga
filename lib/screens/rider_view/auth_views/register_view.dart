@@ -2,7 +2,6 @@ import 'package:buga/service/get_otp_service.dart';
 import 'package:buga/viewmodels/email_otp_model.dart';
 import 'package:buga/viewmodels/register_model.dart';
 
-import 'otp_view.dart';
 import 'auth_export.dart';
 
 class RiderRegisterView extends StatefulWidget {
@@ -119,6 +118,7 @@ class _RiderRegisterViewState extends State<RiderRegisterView> {
                       altNumberController.text.isEmpty ||
                       passwordController.text.isEmpty ||
                       confirmPasswordController.text.isEmpty) {
+                    debugPrint(' no internet');
                     SnackBarView.showSnackBar('All input are required');
                   } else {
                     if (passwordController.text ==

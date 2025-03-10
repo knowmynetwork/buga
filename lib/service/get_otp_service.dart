@@ -16,7 +16,6 @@ class GetOtpService {
         Uri.parse(Endpoints.getEmailOtp),
         headers: {
           'Content-Type': 'application/json',
-          'x-api-key': '',
         },
         body: jsonEncode(otpEmail.toJson()),
       );
@@ -64,7 +63,6 @@ class VerifyOtpService {
         Uri.parse(Endpoints.confirmEmailOtp),
         headers: {
           'Content-Type': 'application/json',
-          'x-api-key': '',
         },
         body: jsonEncode(verifyOtpEmail.toJson()),
       );

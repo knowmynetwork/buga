@@ -1,13 +1,4 @@
 import 'dart:async';
-<<<<<<< HEAD
-import 'dart:convert';
-import 'dart:io';
-import 'package:buga/local_storage/pref.dart';
-import 'package:buga/screens/home_screen.dart';
-import 'package:buga/screens/onboarding_driver_view/screen/export.dart';
-import 'package:buga/service/all_endpoints.dart';
-=======
->>>>>>> 3f5fdeafd09eea02e96faae10406749d393f69c7
 import 'package:http/http.dart' as http;
 import 'service_export.dart';
 

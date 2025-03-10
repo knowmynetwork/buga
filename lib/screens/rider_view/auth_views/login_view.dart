@@ -1,3 +1,5 @@
+import 'package:buga/screens/emergency_cont.dart';
+
 import 'auth_export.dart';
 
 class RiderLoginView extends StatefulWidget {
@@ -141,7 +143,8 @@ class _RiderLoginViewState extends State<RiderLoginView> {
               Center(
                 child: GestureDetector(
                   onTap: () {
-                    navigateTo(RiderRegisterView());
+                    // navigateTo(RiderRegisterView());
+                    navigateTo(EmergencyContactForm());
                   },
                   child: Text(
                     'New to Buga? Sign up!',

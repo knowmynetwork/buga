@@ -1,4 +1,5 @@
 import 'package:buga/constant/global_variable.dart';
+import 'package:buga/route/navigation.dart';
 import 'package:buga/viewmodels/register_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -116,27 +117,20 @@ class _EmergencyContactFormState extends State<EmergencyContactForm> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.arrow_back),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                      const SizedBox(height: 15.0),
-                      Expanded(
-                        child: Text(
-                          'Who would you like us to reach in case of an emergency?',
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                            fontSize: isSmallScreen ? 18 : 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ],
+                  SizedBox(height: 2.h),
+                  GestureDetector(
+                      onTap: () {
+                        popScreen();
+                      },
+                      child: Icon(Icons.arrow_back)),
+                  SizedBox(height: 2.h),
+                  Text(
+                    'Who would you like us to reach in case of an emergency?',
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      fontSize: isSmallScreen ? 18 : 20,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   const SizedBox(height: 24.0),
                   Text(
@@ -267,7 +261,41 @@ class _EmergencyContactFormState extends State<EmergencyContactForm> {
                       onPressed: isButtonEnabled
                           ? () {
                               if (_formKey.currentState?.validate() ?? false) {
-                               
+                                ref
+                                    .read(RegisterProviders.eName.notifier)
+                                    .state = _emergencyContacts
+                                        .isNotEmpty
+                                    ? _emergencyContacts[0]['nameController']
+                                        .text
+                                    : '';
+                                ref
+                                        .read(RegisterProviders
+                                            .eRelationShip.notifier)
+                                        .state =
+                                    _emergencyContacts.isNotEmpty
+                                        ? _emergencyContacts[0]
+                                                ['relationshipController']
+                                            .text
+                                        : '';
+                                ref
+                                    .read(
+                                        RegisterProviders.ePhoneNumber.notifier)
+                                    .state = _emergencyContacts
+                                        .isNotEmpty
+                                    ? _emergencyContacts[0]['phoneController']
+                                        .text
+                                    : '';
+                                ref
+                                    .read(RegisterProviders.eAltNumber.notifier)
+                                    .state = _emergencyContacts
+                                        .isNotEmpty
+                                    ? _emergencyContacts[0]
+                                            ['altPhoneController']
+                                        .text
+                                    : '';
+
+                                debugPrint(
+                                    'heyyy ${_emergencyContacts[0]['relationshipController'].text}');
                               }
                             }
                           : null,
