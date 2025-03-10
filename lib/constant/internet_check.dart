@@ -9,8 +9,6 @@ class InternetChecks {
   static String message = 'Internet connection is needed';
   static final isUserConnected = StateProvider((ref) => false);
 
-  static ProviderListenable<bool> isLoginDataOn = StateProvider((ref) => false);
-
   // all driver internet checks
   static Future<void> internetCheck() async {
     bool result = await InternetConnectionChecker().hasConnection;
@@ -23,6 +21,4 @@ class InternetChecks {
       SnackBarView.showSnackBar(message);
     }
   }
-
-  static void loginInternetCheck() {}
 }

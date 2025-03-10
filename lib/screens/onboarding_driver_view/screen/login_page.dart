@@ -240,9 +240,9 @@ class _LoginScreenState extends State<LoginScreen> {
         if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
           SnackBarView.showSnackBar('All input are required');
         } else {
-          InternetChecks.loginInternetCheck();
+          InternetChecks.internetCheck();
           Future.delayed(const Duration(seconds: 1), () {
-            if (ref.read(InternetChecks.isLoginDataOn)) {
+            if (ref.read(InternetChecks.isUserConnected)) {
               setState(() {
                 final data = LoginModel(
                     email: _emailController.text,
