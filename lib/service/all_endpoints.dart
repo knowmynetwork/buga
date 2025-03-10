@@ -9,4 +9,9 @@ class Endpoints {
       '$baseUrl/api/v1/Authentication/GenerateEmailConfirmationToken';
   static String confirmEmailOtp =
       '$baseUrl/api/v1/Authentication/ConfirmEmailToken';
+  static String organizationEndpoint =
+      '$baseUrl/api/v1/Component/GetOrganizations';
+  static String estateEndpoint = '$baseUrl/api/v1/Component/GetEstates';
+  static String universitiesEndpoint =
+      '$baseUrl/api/v1/Component/GetUniversities';
 }
