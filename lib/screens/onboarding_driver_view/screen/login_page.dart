@@ -1,4 +1,4 @@
-
+import 'package:buga/screens/rider_view/onboarding_rider_view/onboarding.dart';
 import 'export.dart';
 import 'package:buga/theme/app_colors.dart';
 
@@ -23,144 +23,173 @@ class _LoginScreenState extends State<LoginScreen> {
       return Scaffold(
         backgroundColor: AppColors.lightYellow,
         body: SafeArea(
-            child: Container(
-          color: AppColors.white,
-          width: double.infinity,
-          height: double.infinity,
-          padding: EdgeInsets.symmetric(horizontal: 5.w),
-          child: ListView(
+          child: Container(
+            color: AppColors.white,
+            width: double.infinity,
+            height: double.infinity,
+            padding: EdgeInsets.symmetric(horizontal: 5.w),
+            child: ListView(
+              children: [
+                SizedBox(height: 1.h),
+                _buildBackButton(),
+                SizedBox(height: 3.h),
+                AuthWidgets.headerText('Welcome back!'),
+                SizedBox(height: 0.1.h),
+                _buildSubHeaderText(),
+                SizedBox(height: 8.h),
+                _buildEmailTextField(),
+                SizedBox(height: 2.h),
+                _buildPasswordTextField(),
+                SizedBox(height: 2.h),
+                _buildRememberLoginAndForgotPassword(),
+                SizedBox(height: 5.h),
+                _buildLoginButton(ref),
+                SizedBox(height: 3.h),
+                _buildSignUpText(),
+              ],
+            ),
+          ),
+        ),
+      );
+    });
+  }
+
+  Widget _buildBackButton() {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        IconButton(
+          onPressed: () {
+            navigateTo(OnboardingView());
+          },
+          icon: Icon(Icons.arrow_back),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSubHeaderText() {
+    return Center(
+      child: Text(
+        'Login to your Driver account',
+        style: AppTextStyle.bold(
+          FontWeight.w700,
+          fontSize: FontSize.font18,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildEmailTextField() {
+    return CustomTextField(
+      hintText: 'Email Address',
+      prefixIcon: Icons.email,
+      controller: _emailController,
+    );
+  }
+
+  Widget _buildPasswordTextField() {
+    return CustomTextField(
+      hintText: 'Password',
+      prefixIcon: Icons.lock,
+      obscureText: true,
+      controller: _passwordController,
+    );
+  }
+
+  Widget _buildRememberLoginAndForgotPassword() {
+    return SizedBox(
+      width: double.infinity,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
             children: [
-              SizedBox(height: 1.h),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  IconButton(
-                      onPressed: () {
-                        navigateTo(OnboardingView());
-                      },
-                      icon: Icon(Icons.arrow_back))
-                ],
-              ),
-              SizedBox(height: 3.h),
-              AuthWidgets.headerText('Welcome back!'),
-              SizedBox(height: 0.1.h),
-              Center(
-                child: Text(
-                  'Login to your Driver account',
-                  style: AppTextStyle.bold(
-                    FontWeight.w700,
-                    fontSize: FontSize.font18,
-                  ),
-                ),
-              ),
-              SizedBox(height: 8.h),
-              CustomTextField(
-                hintText: 'Email Address',
-                prefixIcon: Icons.email,
-                controller: _emailController,
-              ),
-              SizedBox(height: 2.h),
-              CustomTextField(
-                hintText: 'Password',
-                prefixIcon: Icons.lock,
-                obscureText: true,
-                controller: _passwordController,
-              ),
-              SizedBox(height: 2.h),
-              SizedBox(
-                width: double.infinity,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        Checkbox(
-                          value: _rememberLogin,
-                          onChanged: (value) {
-                            setState(() {
-                              _rememberLogin = value!;
-                            });
-                          },
-                        ),
-                        Text(
-                          'Remember Login',
-                          style: AppTextStyle.medium(
-                            FontWeight.w500,
-                            fontSize: FontSize.font12,
-                          ),
-                        ),
-                      ],
-                    ),
-                    TextButton(
-                      onPressed: () {},
-                      child: Text(
-                        'Forgot your password?',
-                        style: AppTextStyle.medium(
-                          FontWeight.w500,
-                          fontSize: FontSize.font12,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 5.h),
-              MaterialButton(
-                minWidth: double.infinity,
-                height: 7.h,
-                onPressed: () {
-                  if (_emailController.text.isEmpty ||
-                      _passwordController.text.isEmpty) {
-                    SnackBarView.showSnackBar('All input are required');
-                  } else {
-                    InternetChecks.loginInternetCheck();
-                    Future.delayed(const Duration(seconds: 1), () {
-                      if (ref.read(InternetChecks.isLoginDataOn)) {
-                        setState(() {
-                          final data = LoginModel(
-                              email: _emailController.text,
-                              password: _passwordController.text);
-                          LoginService.userLogin(data);
-                        });
-                      }
-                    });
-                  }
+              Checkbox(
+                value: _rememberLogin,
+                onChanged: (value) {
+                  setState(() {
+                    _rememberLogin = value!;
+                  });
                 },
-                color: AppColors.lightYellow,
-                child: Center(
-                  child: ref.watch(loadingAnimationSpinkit)
-                      ? loadingAnimation()
-                      : Text(
-                          'Login',
-                          style: AppTextStyle.medium(
-                            FontWeight.w700,
-                            fontSize: FontSize.font18,
-                          ),
-                        ),
-                ),
               ),
-              SizedBox(height: 3.h),
-              Center(
-                child: GestureDetector(
-                  onTap: () {
-                    navigateTo(RiderSignUpView());
-                  },
-                  child: Text(
-                    'New to Buga? Sign up!',
-                    style: TextStyle(
-                      fontSize: FontSize.font13,
-                      decoration: TextDecoration.underline,
-                      decorationStyle: TextDecorationStyle.solid,
-                      decorationThickness: 2.0,
-                    ),
-                  ),
+              Text(
+                'Remember Login',
+                style: AppTextStyle.medium(
+                  FontWeight.w500,
+                  fontSize: FontSize.font12,
                 ),
               ),
             ],
           ),
-        )),
-      );
-    });
+          TextButton(
+            onPressed: () {},
+            child: Text(
+              'Forgot your password?',
+              style: AppTextStyle.medium(
+                FontWeight.w500,
+                fontSize: FontSize.font12,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildLoginButton(WidgetRef ref) {
+    return MaterialButton(
+      minWidth: double.infinity,
+      height: 7.h,
+      onPressed: () {
+        if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
+          SnackBarView.showSnackBar('All input are required');
+        } else {
+          InternetChecks.loginInternetCheck();
+          Future.delayed(const Duration(seconds: 1), () {
+            if (ref.read(InternetChecks.isLoginDataOn)) {
+              setState(() {
+                final data = LoginModel(
+                    email: _emailController.text,
+                    password: _passwordController.text);
+                LoginService.userLogin(data);
+              });
+            }
+          });
+        }
+      },
+      color: AppColors.lightYellow,
+      child: Center(
+        child: ref.watch(loadingAnimationSpinkit)
+            ? loadingAnimation()
+            : Text(
+                'Login',
+                style: AppTextStyle.medium(
+                  FontWeight.w700,
+                  fontSize: FontSize.font18,
+                ),
+              ),
+      ),
+    );
+  }
+
+  Widget _buildSignUpText() {
+    return Center(
+      child: GestureDetector(
+        onTap: () {
+          navigateTo(RiderSignUpView());
+        },
+        child: Text(
+          'New to Buga? Sign up!',
+          style: TextStyle(
+            fontSize: FontSize.font13,
+            decoration: TextDecoration.underline,
+            decorationStyle: TextDecorationStyle.solid,
+            decorationThickness: 2.0,
+          ),
+        ),
+      ),
+    );
   }
 }
 
