@@ -1,5 +1,4 @@
 import 'package:buga/constant/global_variable.dart';
-import 'package:buga/viewmodels/register_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -266,9 +265,7 @@ class _EmergencyContactFormState extends State<EmergencyContactForm> {
                     child: ElevatedButton(
                       onPressed: isButtonEnabled
                           ? () {
-                              if (_formKey.currentState?.validate() ?? false) {
-                               
-                              }
+                              if (_formKey.currentState?.validate() ?? false) {}
                             }
                           : null,
                       style: ElevatedButton.styleFrom(

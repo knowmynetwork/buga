@@ -2,7 +2,6 @@ import 'package:buga/constant/global_variable.dart';
 import 'package:buga/constant/internet_check.dart';
 import 'package:buga/constant/snackbar_view.dart';
 import 'package:buga/service/get_otp_service.dart';
-import 'package:buga/viewmodels/register_model.dart';
 import 'package:buga/viewmodels/email_otp_model.dart';
 import 'package:flutter/material.dart';
 import 'package:buga/widgets/input_field.dart';

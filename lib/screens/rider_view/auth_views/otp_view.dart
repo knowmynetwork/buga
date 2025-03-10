@@ -1,9 +1,7 @@
-import 'package:buga/screens/rider_view/categories/ride_category.dart';
 import 'package:buga/service/get_otp_service.dart';
 import 'package:buga/viewmodels/email_otp_model.dart';
 
 import 'auth_export.dart';
-
 
 class RiderOtpView extends StatefulWidget {
   final GetEmailModel userEmail;
@@ -22,12 +20,12 @@ class _RiderOtpViewState extends State<RiderOtpView> {
   bool isButtonEnabled = false;
 
   String controllersToString(List<TextEditingController> controllers) {
-  String result = '';
-  for (var controller in controllers) {
-    result += controller.text;
+    String result = '';
+    for (var controller in controllers) {
+      result += controller.text;
+    }
+    return result;
   }
-  return result;
-}
 
   void _validateOtp() {
     // Enable the button only if all fields are filled with exactly 1 character

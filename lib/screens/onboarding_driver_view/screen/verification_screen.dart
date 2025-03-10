@@ -6,8 +6,7 @@ import 'export.dart';
 class VerificationCodeScreen extends StatefulWidget {
   final GetEmailModel userEmail;
 
-  const VerificationCodeScreen({Key? key, required this.userEmail})
-      : super(key: key);
+  const VerificationCodeScreen({super.key, required this.userEmail});
 
   @override
   _VerificationCodeScreenState createState() => _VerificationCodeScreenState();
@@ -108,8 +107,8 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
                         _otpController.text += value; // Append value to OTP
                       } else if (_otpController.text.isNotEmpty) {
                         // Remove last character if empty
-                        _otpController.text =
-                            _otpController.text.substring(0, _otpController.text.length - 1);
+                        _otpController.text = _otpController.text
+                            .substring(0, _otpController.text.length - 1);
                       }
                       _onOtpFieldChanged(value, index);
                     },
@@ -125,7 +124,8 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
                 const Icon(Icons.refresh, color: Colors.grey),
                 TextButton(
                   onPressed: () {
-                    final emailData = GetEmailModel(eMail: widget.userEmail.eMail);
+                    final emailData =
+                        GetEmailModel(eMail: widget.userEmail.eMail);
                     GetOtpService.getOtp(emailData);
                     SnackBarView.showSnackBar('Resend code clicked!');
                   },

@@ -1,6 +1,3 @@
-import 'package:buga/screens/onboarding_driver_view/screen/loader_screen.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Loading State Provider (No longer needed!)
 // final isLoadingProvider = StateProvider<bool>((ref) => true);
