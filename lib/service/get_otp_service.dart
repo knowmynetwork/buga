@@ -1,6 +1,6 @@
 import 'dart:async';
-import 'package:buga/screens/onboarding_driver_view/screen/verification_screen.dart';
-import 'package:buga/screens/rider_view/auth_views/otp_view.dart';
+import 'package:buga/screens/emergency_cont.dart';
+import 'package:buga/screens/otp_view.dart';
 import 'package:buga/screens/rider_view/categories/ride_category.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
@@ -11,6 +11,8 @@ class GetOtpService {
 
   static Future<Map<String, dynamic>?> getOtp(GetEmailModel otpEmail) async {
     debugPrint('getting otp on ${otpEmail.eMail}');
+    // call all category endpoints at this stage to generate all category search from user
+
     try {
       final response = await http.post(
         Uri.parse(Endpoints.getEmailOtp),
@@ -27,13 +29,9 @@ class GetOtpService {
             ' Response its $responseData , status code ${response.statusCode}');
         provider.read(loadingAnimationSpinkit.notifier).state = false;
 
-        provider.read(isRiderAccountClick)
-            ? navigateTo(RiderOtpView(
-                userEmail: otpEmail,
-              ))
-            : navigateTo(VerificationCodeScreen(
-                userEmail: otpEmail,
-              ));
+        navigateTo(RiderOtpView(
+          userEmail: otpEmail,
+        ));
       } else {
         debugPrint('Error ${response.body}');
         EndpointUpdateUI.updateUi('An error occurred please try again');
@@ -73,7 +71,11 @@ class VerifyOtpService {
         debugPrint(
             ' Response its $responseData , status code ${response.statusCode}');
         provider.read(loadingAnimationSpinkit.notifier).state = false;
-        pushReplacementScreen(RiderCategory());
+        // pushReplacementScreen(RiderCategory());
+
+        provider.read(GetOtpService.isRiderAccountClick)
+            ? pushReplacementScreen(RiderCategory())
+            : pushReplacementScreen(EmergencyContactForm());
       } else {
         debugPrint('Error ${response.body}');
         EndpointUpdateUI.updateUi('An error occurred please try again');

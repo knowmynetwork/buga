@@ -1,4 +1,5 @@
 import 'package:buga/constant/global_variable.dart';
+import 'package:buga/service/category_search_service.dart';
 import 'package:buga/viewmodels/register_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -93,15 +94,18 @@ class _RiderCategoryState extends State<RiderCategory> {
                   if (box1) {
                     ref.read(RegisterProviders.category.notifier).state =
                         'Student';
-                    navigateTo(StudentSearchView());
+                    CategoriesSearch.getStudentUniversities();
+                    // navigateTo(StudentSearchView());
                   } else if (box2) {
                     ref.read(RegisterProviders.category.notifier).state =
                         'Resident';
-                    navigateTo(ResidentSearchView());
+                    CategoriesSearch.getResidentSearch();
+                    // navigateTo(ResidentSearchView());
                   } else if (box3) {
                     ref.read(RegisterProviders.category.notifier).state =
                         'Employee';
-                    navigateTo(EmployeeSearch());
+                    CategoriesSearch.getOrganizationSearch();
+                    // navigateTo(EmployeeSearch());
                   }
                 },
                 color: AppColors.lightYellow,

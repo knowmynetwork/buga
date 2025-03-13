@@ -2,6 +2,7 @@ import 'package:buga/constant/global_variable.dart';
 import 'package:buga/constant/internet_check.dart';
 import 'package:buga/constant/snackbar_view.dart';
 import 'package:buga/service/get_otp_service.dart';
+import 'package:buga/theme/app_colors.dart';
 import 'package:buga/viewmodels/register_model.dart';
 import 'package:buga/viewmodels/email_otp_model.dart';
 import 'package:flutter/material.dart';
@@ -224,25 +225,67 @@ class _RiderSignUpViewState extends State<RiderSignUpView> {
                       onPressed: () {
                         if (_formKey.currentState?.validate() ?? false) {
                           // Navigator.pushNamed(context, '/otp_verification');
-                          InternetChecks.internetCheck();
-                          Future.delayed(const Duration(seconds: 1), () {
-                            if (ref.read(InternetChecks.isUserConnected)) {
-                              setState(() {
-                                final emailData =
-                                    GetEmailModel(eMail: _emailController.text);
-                                debugPrint('calling endpoint now');
-                                ref
-                                    .read(GetOtpService
-                                        .isRiderAccountClick.notifier)
-                                    .state = false;
-                                GetOtpService.getOtp(emailData);
-                              });
-                            }
-                          });
+                          if (_passwordController.text ==
+                              _confirmPasswordController.text) {
+                            InternetChecks.internetCheck();
+                            Future.delayed(const Duration(seconds: 1), () {
+                              if (ref.read(InternetChecks.isUserConnected)) {
+                                setState(() {
+                                  final emailData = GetEmailModel(
+                                      eMail: _emailController.text);
+                                  debugPrint('calling endpoint now');
+
+                                  ///
+                                  ref
+                                      .read(GetOtpService
+                                          .isRiderAccountClick.notifier)
+                                      .state = false;
+
+                                  // user data
+                                  ref
+                                      .read(RegisterProviders.email.notifier)
+                                      .state = _emailController.text;
+                                  ref
+                                      .read(RegisterProviders.name.notifier)
+                                      .state = _nameController.text;
+                                  ref
+                                      .read(RegisterProviders
+                                          .phoneNumber.notifier)
+                                      .state = _phoneNumberController.text;
+                                  ref
+                                          .read(RegisterProviders
+                                              .altNumber.notifier)
+                                          .state =
+                                      _alternativePhoneNumberController.text;
+                                  ref
+                                      .read(RegisterProviders.password.notifier)
+                                      .state = _passwordController.text;
+                                  ref
+                                      .read(RegisterProviders.address.notifier)
+                                      .state = _streetAddressController.text;
+                                  ref
+                                      .read(RegisterProviders.city.notifier)
+                                      .state = _cityController.text;
+                                  ref
+                                      .read(RegisterProviders.state.notifier)
+                                      .state = _stateController.text;
+                                  //
+                                  ref
+                                      .read(GetOtpService
+                                          .isRiderAccountClick.notifier)
+                                      .state = false;
+                                  GetOtpService.getOtp(emailData);
+                                });
+                              }
+                            });
+                          } else {
+                            SnackBarView.showSnackBar(
+                                'Password must match confirm-password');
+                          }
                         }
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.yellow,
+                        backgroundColor: AppColors.lightYellow,
                         // padding: const EdgeInsets.symmetric(
                         //     vertical: 16.0, horizontal: 16.0),
                         shape: RoundedRectangleBorder(

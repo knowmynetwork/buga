@@ -1,5 +1,7 @@
 import 'package:buga/screens/emergency_cont.dart';
 
+import '../../onboarding_driver_view/screen/verification_screen.dart';
+import '../categories/all_search_views/employee_search.dart';
 import 'auth_export.dart';
 
 class RiderLoginView extends StatefulWidget {
@@ -143,8 +145,11 @@ class _RiderLoginViewState extends State<RiderLoginView> {
               Center(
                 child: GestureDetector(
                   onTap: () {
-                    // navigateTo(RiderRegisterView());
-                    navigateTo(EmergencyContactForm());
+                    // the actual screen to be shown
+                    navigateTo(RiderRegisterView());
+
+                    // navigateTo(VerificationCodeScreen(userEmail: GetEmailModel(eMail: "test@example.com")));
+
                   },
                   child: Text(
                     'New to Buga? Sign up!',
