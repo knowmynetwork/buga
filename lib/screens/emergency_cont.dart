@@ -1,5 +1,8 @@
 import 'package:buga/constant/global_variable.dart';
 import 'package:buga/route/navigation.dart';
+import 'package:buga/service/get_otp_service.dart';
+import 'package:buga/service/sign_up.dart';
+import 'package:buga/viewmodels/email_otp_model.dart';
 import 'package:buga/viewmodels/register_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -261,41 +264,46 @@ class _EmergencyContactFormState extends State<EmergencyContactForm> {
                       onPressed: isButtonEnabled
                           ? () {
                               if (_formKey.currentState?.validate() ?? false) {
-                                ref
-                                    .read(RegisterProviders.eName.notifier)
-                                    .state = _emergencyContacts
-                                        .isNotEmpty
-                                    ? _emergencyContacts[0]['nameController']
-                                        .text
-                                    : '';
-                                ref
-                                        .read(RegisterProviders
-                                            .eRelationShip.notifier)
-                                        .state =
-                                    _emergencyContacts.isNotEmpty
-                                        ? _emergencyContacts[0]
-                                                ['relationshipController']
-                                            .text
-                                        : '';
-                                ref
-                                    .read(
-                                        RegisterProviders.ePhoneNumber.notifier)
-                                    .state = _emergencyContacts
-                                        .isNotEmpty
-                                    ? _emergencyContacts[0]['phoneController']
-                                        .text
-                                    : '';
-                                ref
-                                    .read(RegisterProviders.eAltNumber.notifier)
-                                    .state = _emergencyContacts
-                                        .isNotEmpty
-                                    ? _emergencyContacts[0]
-                                            ['altPhoneController']
-                                        .text
-                                    : '';
+                                setState(() {
+                                  ref
+                                      .read(RegisterProviders.eName.notifier)
+                                      .state = _emergencyContacts
+                                          .isNotEmpty
+                                      ? _emergencyContacts[0]['nameController']
+                                          .text
+                                      : '';
+                                  ref
+                                          .read(RegisterProviders
+                                              .eRelationShip.notifier)
+                                          .state =
+                                      _emergencyContacts.isNotEmpty
+                                          ? _emergencyContacts[0]
+                                                  ['relationshipController']
+                                              .text
+                                          : '';
+                                  ref
+                                      .read(RegisterProviders
+                                          .ePhoneNumber.notifier)
+                                      .state = _emergencyContacts
+                                          .isNotEmpty
+                                      ? _emergencyContacts[0]['phoneController']
+                                          .text
+                                      : '';
+                                  ref
+                                      .read(
+                                          RegisterProviders.eAltNumber.notifier)
+                                      .state = _emergencyContacts
+                                          .isNotEmpty
+                                      ? _emergencyContacts[0]
+                                              ['altPhoneController']
+                                          .text
+                                      : '';
 
-                                debugPrint(
-                                    'heyyy ${_emergencyContacts[0]['relationshipController'].text}');
+                                  debugPrint(
+                                      'heyyy ${_emergencyContacts[0]['relationshipController'].text}');
+
+                                  updateMode();
+                                });
                               }
                             }
                           : null,
@@ -340,6 +348,48 @@ class _EmergencyContactFormState extends State<EmergencyContactForm> {
       );
     });
   }
+
+  updateMode() async {
+    if (provider.read(GetOtpService.isRiderAccountClick)) {
+      var userData = RegisterRiderModel(
+          email: provider.read(RegisterProviders.email),
+          name: provider.read(RegisterProviders.name),
+          number: provider.read(RegisterProviders.phoneNumber),
+          altNumber: provider.read(RegisterProviders.altNumber),
+          password: provider.read(RegisterProviders.password),
+          eName: provider.read(RegisterProviders.eName),
+          eRelationShip: provider.read(RegisterProviders.eRelationShip),
+          eNumber: provider.read(RegisterProviders.ePhoneNumber),
+          eAltNumber: provider.read(RegisterProviders.altNumber),
+          otp: provider.read(RegisterProviders.otp),
+          category: provider.read(RegisterProviders.category),
+          id: provider.read(RegisterProviders.id));
+
+      await SignUpService.riderSignUp(userData);
+    } else {
+      var userDate = RegisterDriverModel(
+        email: provider.read(RegisterProviders.email),
+        name: provider.read(RegisterProviders.name),
+        number: provider.read(RegisterProviders.phoneNumber),
+        altNumber: provider.read(RegisterProviders.altNumber),
+        password: provider.read(RegisterProviders.password),
+        eName: provider.read(RegisterProviders.eName),
+        eRelationShip: provider.read(RegisterProviders.eRelationShip),
+        eNumber: provider.read(RegisterProviders.ePhoneNumber),
+        eAltNumber: provider.read(RegisterProviders.altNumber),
+        otp: provider.read(RegisterProviders.otp),
+        address: provider.read(RegisterProviders.address),
+        city: provider.read(RegisterProviders.city),
+        state: provider.read(RegisterProviders.state),
+        category: provider.read(RegisterProviders.category),
+        // id: provider.read(RegisterProviders.id)
+      );
+      await SignUpService.driverSignUp(userDate);
+    }
+  }
+  // provider.read(GetOtpService.isRiderAccountClick)
+  //     ? pushReplacementScreen(RiderCategory())
+  //     : pushReplacementScreen(EmergencyContactForm());
 
   Widget _buildInputField({
     required String label,

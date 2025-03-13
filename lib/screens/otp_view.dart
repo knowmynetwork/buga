@@ -159,7 +159,7 @@ class _RiderOtpViewState extends State<RiderOtpView> {
                                   eMail: widget.userEmail.eMail,
                                   tokenOtp: _otpController.text);
 
-                              // call on endpoint to very otp
+                              // call on endpoint to verify otp
                               GetOtpService.getOtp(
                                   GetEmailModel(eMail: _otpController.text));
                             });

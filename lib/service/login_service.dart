@@ -51,8 +51,6 @@ class LoginService {
         EndpointUpdateUI.updateUi('Unexpected error occur try again');
 
         debugPrint('Error $responseData');
-        EndpointUpdateUI.updateUi(
-            'Error');
       }
     } on TimeoutException catch (_) {
       EndpointUpdateUI.updateUi(
