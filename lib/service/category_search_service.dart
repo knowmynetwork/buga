@@ -1,16 +1,11 @@
-import 'dart:convert';
+import 'service_export.dart';
 
-import 'package:buga/Provider/provider.dart';
-import 'package:buga/constant/global_variable.dart';
-import 'package:buga/route/navigation.dart';
-import 'package:buga/screens/emergency_cont.dart';
-import 'package:flutter/widgets.dart';
-
-import 'all_endpoints.dart';
 import 'package:http/http.dart' as http;
 
 class CategoriesSearch {
   static Future<Map<String, dynamic>?> _fetchData(String endpoint) async {
+    provider.read(loadingAnimationSpinkit.notifier).state = true;
+
     try {
       final response = await http.get(
         Uri.parse(endpoint),
@@ -49,20 +44,42 @@ class CategoriesSearch {
               .read(CategorySearch.getCategoryListProvider.notifier)
               .updateCategoryList(categoryList);
           debugPrint('Response from $endpoint: $dataList');
-          navigateTo(EmergencyContactForm());
+          provider.read(loadingAnimationSpinkit.notifier).state = false;
+          switch (provider.watch(RegisterProviders.category)) {
+            case 'Student':
+              navigateTo(StudentSearchView());
+              break;
+            case 'Resident':
+              navigateTo(ResidentSearchView());
+              break;
+            case 'Employee':
+              navigateTo(EmployeeSearch());
+              break;
+            default:
+              debugPrint(' NO MATCH');
+              break;
+          }
+
+          // navigateTo(EmergencyContactForm());
         }
         debugPrint('Response from $endpoint: $decodedData');
         provider.read(CategorySearch.searchUpdate.notifier).state = 'No match';
+        provider.read(loadingAnimationSpinkit.notifier).state = false;
+
         return decodedData;
       } else {
         debugPrint(
             'Error fetching data from $endpoint. Status code: ${response.statusCode}');
         provider.read(CategorySearch.searchUpdate.notifier).state = message;
+        provider.read(loadingAnimationSpinkit.notifier).state = false;
+
         return null;
       }
     } catch (e) {
       debugPrint('Exception fetching data from $endpoint: $e');
       provider.read(CategorySearch.searchUpdate.notifier).state = 'No match';
+      provider.read(loadingAnimationSpinkit.notifier).state = false;
+
       return null;
     }
   }

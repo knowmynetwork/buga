@@ -1,4 +1,5 @@
 import 'package:buga/constant/global_variable.dart';
+import 'package:buga/constant/snackbar_view.dart';
 import 'package:buga/service/category_search_service.dart';
 import 'package:buga/viewmodels/register_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -89,42 +90,48 @@ class _RiderCategoryState extends State<RiderCategory> {
               SizedBox(height: 10.h),
               MaterialButton(
                 minWidth: double.infinity,
+                height: 7.h,
                 padding: EdgeInsets.symmetric(vertical: 2.h),
                 onPressed: () {
                   if (box1) {
                     ref.read(RegisterProviders.category.notifier).state =
                         'Student';
+                    debugPrint('User clicks on Student');
                     CategoriesSearch.getStudentUniversities();
                     // navigateTo(StudentSearchView());
                   } else if (box2) {
                     ref.read(RegisterProviders.category.notifier).state =
                         'Resident';
+                    debugPrint('User clicks on Resident');
                     CategoriesSearch.getResidentSearch();
                     // navigateTo(ResidentSearchView());
                   } else if (box3) {
                     ref.read(RegisterProviders.category.notifier).state =
                         'Employee';
+                    debugPrint('User clicks on Employee');
                     CategoriesSearch.getOrganizationSearch();
                     // navigateTo(EmployeeSearch());
                   }
                 },
                 color: AppColors.lightYellow,
                 child: Center(
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Proceed',
-                        style: AppTextStyle.medium(
-                          FontWeight.w700,
-                          fontSize: FontSize.font18,
+                  child: ref.watch(loadingAnimationSpinkit)
+                      ? loadingAnimation()
+                      : Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Proceed',
+                              style: AppTextStyle.medium(
+                                FontWeight.w700,
+                                fontSize: FontSize.font18,
+                              ),
+                            ),
+                            SizedBox(width: 1.w),
+                            Icon(Icons.arrow_circle_right_sharp)
+                          ],
                         ),
-                      ),
-                      SizedBox(width: 1.w),
-                      Icon(Icons.arrow_circle_right_sharp)
-                    ],
-                  ),
                 ),
               ),
             ],

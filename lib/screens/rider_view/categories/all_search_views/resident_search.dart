@@ -1,3 +1,5 @@
+import 'package:buga/screens/global_screens/emergency_cont.dart';
+
 import 'search_export.dart';
 
 class ResidentSearchView extends StatelessWidget {
@@ -60,7 +62,7 @@ class ResidentSearchView extends StatelessWidget {
                 minWidth: double.infinity,
                 padding: EdgeInsets.symmetric(vertical: 2.h),
                 onPressed: () {
-                  navigateTo(RiderEmergencyView());
+                  navigateTo(EmergencyContactForm());
                 },
                 color: AppColors.lightYellow,
                 child: Center(

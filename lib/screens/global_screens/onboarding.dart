@@ -1,12 +1,6 @@
-import 'package:buga/constant/images.dart';
-import 'package:buga/route/navigation.dart';
-import 'package:buga/screens/onboarding_driver_view/screen/login_page.dart';
 import 'package:buga/screens/rider_view/auth_views/login_view.dart';
-import 'package:buga/theme/app_colors.dart';
-import 'package:buga/theme/app_text_styles.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
+
+import 'screen_export.dart';
 
 class OnboardingView extends StatefulWidget {
   const OnboardingView({super.key});

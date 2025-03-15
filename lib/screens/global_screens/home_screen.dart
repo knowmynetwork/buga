@@ -1,5 +1,6 @@
 import 'package:buga/screens/onboarding_driver_view/screen/export.dart';
-import 'package:buga/theme/app_colors.dart';
+import 'screen_export.dart';
+
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

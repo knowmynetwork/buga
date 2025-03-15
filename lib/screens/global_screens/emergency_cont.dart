@@ -1,12 +1,4 @@
-import 'package:buga/constant/global_variable.dart';
-import 'package:buga/route/navigation.dart';
-import 'package:buga/service/get_otp_service.dart';
-import 'package:buga/service/sign_up.dart';
-import 'package:buga/viewmodels/email_otp_model.dart';
-import 'package:buga/viewmodels/register_model.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
+import 'screen_export.dart';
 
 class EmergencyContactForm extends StatefulWidget {
   const EmergencyContactForm({super.key});
@@ -108,42 +100,43 @@ class _EmergencyContactFormState extends State<EmergencyContactForm> {
     return Consumer(builder: (context, ref, _) {
       provider = ref;
       return Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.lightYellow,
         body: SafeArea(
-          child: SingleChildScrollView(
-            padding: EdgeInsets.symmetric(
-              horizontal: isSmallScreen ? 16.0 : 32.0,
-              vertical: 16.0,
-            ),
+          child: Container(
+            color: AppColors.white,
+            width: double.infinity,
+            height: double.infinity,
+            padding: EdgeInsets.symmetric(horizontal: 5.w),
             child: Form(
               key: _formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              child: ListView(
                 children: [
                   SizedBox(height: 2.h),
-                  GestureDetector(
-                      onTap: () {
-                        popScreen();
-                      },
-                      child: Icon(Icons.arrow_back)),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      IconButton(
+                          onPressed: () {
+                            popScreen();
+                          },
+                          icon: Icon(Icons.arrow_back))
+                    ],
+                  ),
                   SizedBox(height: 2.h),
-                  Text(
-                    'Who would you like us to reach in case of an emergency?',
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      fontSize: isSmallScreen ? 18 : 20,
-                      fontWeight: FontWeight.bold,
+                  AuthWidgets.headerText(
+                      'Who would you like us to reach in case of an emergency?'),
+                  SizedBox(height: 1.h),
+                  Center(
+                    child: Text(
+                      'Your emergency contact',
+                      style: AppTextStyle.medium(
+                        FontWeight.w500,
+                        color: AppColors.gray,
+                        fontSize: FontSize.font14,
+                      ),
                     ),
                   ),
-                  const SizedBox(height: 24.0),
-                  Text(
-                    'Your emergency contact',
-                    style: TextStyle(
-                      fontSize: isSmallScreen ? 14 : 16,
-                      color: Colors.black,
-                    ),
-                  ),
-                  const SizedBox(height: 16.0),
+                  SizedBox(height: 3.h),
                   ListView.builder(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
@@ -300,46 +293,54 @@ class _EmergencyContactFormState extends State<EmergencyContactForm> {
                                       : '';
 
                                   debugPrint(
-                                      'heyyy ${_emergencyContacts[0]['relationshipController'].text}');
+                                      'hey ${_emergencyContacts[0]['relationshipController'].text}');
+                                  ref
+                                      .read(loadingAnimationSpinkit.notifier)
+                                      .state = true;
 
-                                  updateMode();
+                                  updateModel();
                                 });
                               }
                             }
                           : null,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: isButtonEnabled
-                            ? Colors.yellow[700]
+                            ? AppColors.lightYellow
                             : Colors.grey[400],
                         padding: const EdgeInsets.symmetric(vertical: 16.0),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8.0),
                         ),
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "Let's go!",
-                            style: TextStyle(
-                              fontSize: isSmallScreen ? 14 : 16,
-                              fontWeight: FontWeight.bold,
-                              color: isButtonEnabled
-                                  ? Colors.black
-                                  : Colors.grey[700],
+                      child: ref.watch(loadingAnimationSpinkit)
+                          ? loadingAnimation()
+                          : Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Let's go!",
+                                  style: TextStyle(
+                                    fontSize: isSmallScreen ? 14 : 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: isButtonEnabled
+                                        ? Colors.black
+                                        : Colors.grey[700],
+                                  ),
+                                ),
+                                const SizedBox(width: 8.0),
+                                Icon(
+                                  Icons.arrow_forward,
+                                  color: isButtonEnabled
+                                      ? Colors.black
+                                      : Colors.grey[700],
+                                ),
+                              ],
                             ),
-                          ),
-                          const SizedBox(width: 8.0),
-                          Icon(
-                            Icons.arrow_forward,
-                            color: isButtonEnabled
-                                ? Colors.black
-                                : Colors.grey[700],
-                          ),
-                        ],
-                      ),
                     ),
                   ),
+                  SizedBox(
+                    height: 3.h,
+                  )
                 ],
               ),
             ),
@@ -349,8 +350,9 @@ class _EmergencyContactFormState extends State<EmergencyContactForm> {
     });
   }
 
-  updateMode() async {
+  updateModel() async {
     if (provider.read(GetOtpService.isRiderAccountClick)) {
+      debugPrint('Updating Rider model');
       var userData = RegisterRiderModel(
           email: provider.read(RegisterProviders.email),
           name: provider.read(RegisterProviders.name),
@@ -367,6 +369,7 @@ class _EmergencyContactFormState extends State<EmergencyContactForm> {
 
       await SignUpService.riderSignUp(userData);
     } else {
+      debugPrint('Updating Driver model');
       var userDate = RegisterDriverModel(
         email: provider.read(RegisterProviders.email),
         name: provider.read(RegisterProviders.name),
@@ -382,7 +385,6 @@ class _EmergencyContactFormState extends State<EmergencyContactForm> {
         city: provider.read(RegisterProviders.city),
         state: provider.read(RegisterProviders.state),
         category: provider.read(RegisterProviders.category),
-        // id: provider.read(RegisterProviders.id)
       );
       await SignUpService.driverSignUp(userDate);
     }

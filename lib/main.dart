@@ -2,7 +2,7 @@ import 'package:buga/local_storage/pref.dart';
 import 'package:buga/screens/onboarding_driver_view/screen/export.dart';
 import 'package:buga/screens/onboarding_driver_view/screen/forget_password.dart';
 import 'package:buga/screens/onboarding_driver_view/screen/login_page.dart';
-import 'package:buga/screens/rider_view/splash_view.dart';
+import 'package:buga/screens/global_screens/splash_view.dart';
 import 'package:buga/theme/app_theme.dart';
 
 void main() async {

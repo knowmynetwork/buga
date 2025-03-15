@@ -1,5 +1,6 @@
 import 'package:buga/Provider/provider.dart';
 import 'package:buga/constant/snackbar_view.dart';
+import 'package:buga/screens/global_screens/emergency_cont.dart';
 import 'search_export.dart';
 
 class EmployeeSearch extends StatelessWidget {
@@ -52,17 +53,13 @@ class EmployeeSearch extends StatelessWidget {
                   // color: Colors.red,
                   width: double.infinity,
                   height: 45.h,
-                  child: CategoryLayout.categorySearchDisplay()
-                  // ListView(
-                  //   children: [],
-                  // ),
-                  ),
+                  child: CategoryLayout.categorySearchDisplay()),
               SizedBox(height: 4.h),
               MaterialButton(
                 minWidth: double.infinity,
                 padding: EdgeInsets.symmetric(vertical: 2.h),
                 onPressed: () {
-                  navigateTo(RiderEmergencyView());
+                  navigateTo(EmergencyContactForm());
                 },
                 color: AppColors.lightYellow,
                 child: Center(
@@ -120,6 +117,8 @@ class CategoryLayout {
   }
 
   static Widget categorySearchDisplay() {
+    final ValueNotifier<int?> selectedIndexNotifier = ValueNotifier<int?>(null);
+
     return Consumer(builder: (context, ref, _) {
       provider = ref;
       final categoryList = ref.watch(CategorySearch.getCategoryListProvider);
@@ -149,22 +148,34 @@ class CategoryLayout {
             return city.contains(input) || state.contains(input);
           }).toList();
 
-          return ListView.builder(
-            itemCount: filteredList.length,
-            itemBuilder: (context, index) {
-              final item = filteredList[index];
-              return GestureDetector(
-                onTap: () {
-                  debugPrint('ID its ::::: ${item['id']}');
-                },
-                child: ListTile(
-                  title: Text(item['city'] ?? 'City not available',
-                      style: textStyle),
-                  subtitle: Text('State: ${item['state']}', style: textStyle),
-                ),
-              );
-            },
-          );
+          return ValueListenableBuilder<int?>(
+              valueListenable: selectedIndexNotifier,
+              builder: (context, selectedIndex, _) {
+                return ListView.builder(
+                  itemCount: filteredList.length,
+                  itemBuilder: (context, index) {
+                    final item = filteredList[index];
+                    return GestureDetector(
+                      onTap: () {
+                        debugPrint('ID its ::::: ${item['id']}');
+                        // Update selected index and rebuild
+                        selectedIndexNotifier.value = index;
+                      },
+                      child: Container(
+                        color: selectedIndex == index
+                            ? Colors.blue.withOpacity(0.2)
+                            : Colors.transparent,
+                        child: ListTile(
+                          title: Text(item['city'] ?? 'City not available',
+                              style: textStyle),
+                          subtitle:
+                              Text('State: ${item['state']}', style: textStyle),
+                        ),
+                      ),
+                    );
+                  },
+                );
+              });
         },
       );
     });
