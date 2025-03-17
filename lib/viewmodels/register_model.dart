@@ -6,52 +6,37 @@ class RegisterDriverModel {
   final String number;
   final String altNumber;
   final String password;
-  final String? otp;
-  final String? address;
-  final String? city;
-  final String? state;
-  final String? category;
-  // /////// emergency contact
-  final String? eName;
-  final String? eRelationShip;
-  final String? eNumber;
-  final String? eAltNumber;
+  final String otp;
+  final String address;
+  final String city;
+  final String state;
+  final String category;
 
-  RegisterDriverModel(
-      {required this.email,
-      required this.name,
-      required this.number,
-      required this.altNumber,
-      required this.password,
-      required this.otp,
-      required this.address,
-      required this.city,
-      required this.state,
-      required this.category,
-      required this.eName,
-      required this.eRelationShip,
-      required this.eNumber,
-      required this.eAltNumber});
+  RegisterDriverModel({
+    required this.email,
+    required this.name,
+    required this.number,
+    required this.altNumber,
+    required this.password,
+    required this.otp,
+    required this.address,
+    required this.city,
+    required this.state,
+    required this.category,
+  });
 
   Map<String, dynamic> toJson() {
     return {
-      'email': email,
-      'name': name,
-      'phoneNumber': number,
-      'alternativePhoneNumber': altNumber,
-      'password': password,
-      'emergencyContact': {
-        // Added emergencyContact object
-        'name': eName,
-        'relationship': eRelationShip,
-        'phoneNumber': eNumber,
-        'alternativePhoneNumber': eAltNumber,
-      },
-      'otp': otp,
-      'streetAddress': address,
-      'city': city,
-      'state': state,
-      'driverCategory': category,
+      "email": email,
+      "name": name,
+      "phoneNumber": number,
+      "alternativePhoneNumber": altNumber,
+      "password": password,
+      "otp": otp,
+      "streetAddress": address,
+      "city": city,
+      "state": state,
+      "driverCategory": category,
     };
   }
 }
@@ -68,10 +53,6 @@ class RegisterProviders {
   static final city = StateProvider((ref) => '');
   static final state = StateProvider((ref) => '');
   static final category = StateProvider((ref) => '');
-  static final eName = StateProvider((ref) => '');
-  static final eRelationShip = StateProvider((ref) => '');
-  static final ePhoneNumber = StateProvider((ref) => '');
-  static final eAltNumber = StateProvider((ref) => '');
 }
 
 class RegisterRiderModel {
@@ -82,11 +63,6 @@ class RegisterRiderModel {
   final String password;
   final String? otp;
   final String? category;
-  // /////// emergency contact
-  final String? eName;
-  final String? eRelationShip;
-  final String? eNumber;
-  final String? eAltNumber;
   final String? id;
 
   RegisterRiderModel({
@@ -97,30 +73,19 @@ class RegisterRiderModel {
     required this.password,
     required this.otp,
     required this.category,
-    required this.eName,
-    required this.eRelationShip,
-    required this.eNumber,
-    required this.eAltNumber,
     required this.id,
   });
 
   Map<String, dynamic> toJson() {
     return {
-      'email': email,
-      'name': name,
-      'phoneNumber': number,
-      'alternativePhoneNumber': altNumber,
-      'password': password,
-      'emergencyContact': {
-        // Added emergencyContact object
-        'name': eName,
-        'relationship': eRelationShip,
-        'phoneNumber': eNumber,
-        'alternativePhoneNumber': eAltNumber,
-      },
-      'otp': otp,
-      'passengerType': category,
-      'organizationId': id,
+      "email": email,
+      "name": name,
+      "phoneNumber": number,
+      "alternativePhoneNumber": altNumber,
+      "password": password,
+      "otp": otp,
+      "passengerType": category,
+      "organizationId": id,
     };
   }
 }

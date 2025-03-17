@@ -1,4 +1,3 @@
-import 'package:buga/screens/global_screens/emergency_cont.dart';
 
 import 'search_export.dart';
 
@@ -52,37 +51,9 @@ class ResidentSearchView extends StatelessWidget {
                   // color: Colors.red,
                   width: double.infinity,
                   height: 45.h,
-                  child: CategoryLayout.categorySearchDisplay()
-                  // ListView(
-                  //   children: [],
-                  // ),
-                  ),
+                  child: CategoryLayout.categorySearchDisplay()),
               SizedBox(height: 4.h),
-              MaterialButton(
-                minWidth: double.infinity,
-                padding: EdgeInsets.symmetric(vertical: 2.h),
-                onPressed: () {
-                  navigateTo(EmergencyContactForm());
-                },
-                color: AppColors.lightYellow,
-                child: Center(
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Proceed',
-                        style: AppTextStyle.medium(
-                          FontWeight.w700,
-                          fontSize: FontSize.font18,
-                        ),
-                      ),
-                      SizedBox(width: 1.w),
-                      Icon(Icons.arrow_circle_right_sharp)
-                    ],
-                  ),
-                ),
-              ),
+              CategoryLayout.proceedButton(),
             ],
           ),
         )),

@@ -14,8 +14,13 @@ class CategoriesSearch {
         },
       );
 
+      
+
       final decodedData = json.decode(response.body);
+      JsonEncoder encoder = const JsonEncoder.withIndent('  ');
+      String prettyprint = encoder.convert(decodedData);
       final message = decodedData['message'];
+      debugPrint('Response Data:\n$prettyprint');
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         // here and print then here
@@ -27,6 +32,7 @@ class CategoriesSearch {
 
           for (var item in dataList) {
             categoryList.add({
+              'name': item['name'],
               'city': item['address']?['city'] ?? "City not available",
               'id': item['id'],
               'state': item['address']?['state'] ?? "State not available",
@@ -39,7 +45,6 @@ class CategoriesSearch {
           }
 
           // Pass the data to the provider
-          // You'll need a ref to update the provider
           provider
               .read(CategorySearch.getCategoryListProvider.notifier)
               .updateCategoryList(categoryList);

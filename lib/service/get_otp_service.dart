@@ -1,7 +1,7 @@
 import 'dart:async';
+import 'package:buga/screens/onboarding_driver_view/driver_category.dart';
 import 'package:http/http.dart' as http;
 import 'service_export.dart';
-
 
 class GetOtpService {
   static final isRiderAccountClick = StateProvider((ref) => false);
@@ -48,7 +48,7 @@ class GetOtpService {
 }
 
 // verify the otp
-class VerifyOtpService{
+class VerifyOtpService {
   static Future<Map<String, dynamic>?> verifyOtp(
       VerifiedEmailOtpModel verifyOtpEmail) async {
     debugPrint(
@@ -68,11 +68,11 @@ class VerifyOtpService{
         debugPrint(
             ' Response its $responseData , status code ${response.statusCode}');
         provider.read(loadingAnimationSpinkit.notifier).state = false;
-        // pushReplacementScreen(RiderCategory());
 
         provider.read(GetOtpService.isRiderAccountClick)
             ? pushReplacementScreen(RiderCategory())
-            : pushReplacementScreen(EmergencyContactForm());
+            : pushReplacementScreen(DriverCategory());
+
       } else {
         debugPrint('Error ${response.body}');
         EndpointUpdateUI.updateUi('An error occurred please try again');

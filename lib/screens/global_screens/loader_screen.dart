@@ -3,19 +3,19 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'screen_export.dart';
 
 
-class LoadingScreen extends StatefulWidget {
+class LoadingScreen extends ConsumerStatefulWidget {
   const LoadingScreen({super.key});
 
   @override
-  State<LoadingScreen> createState() => _LoadingScreenState();
+  ConsumerState<LoadingScreen> createState() => _LoadingScreenState();
 }
 
-class _LoadingScreenState extends State<LoadingScreen> {
+class _LoadingScreenState extends ConsumerState<LoadingScreen> {
   @override
   void initState() {
     super.initState();
     Future.delayed(const Duration(seconds: 3), () {
-      if (provider.read(GetOtpService.isRiderAccountClick)) {
+      if (ref.read(GetOtpService.isRiderAccountClick)) {
         // rider
         pushReplacementScreen(const RiderLoginView());
       } else {
