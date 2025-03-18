@@ -1,5 +1,6 @@
 import 'package:buga/Provider/provider.dart';
 import 'package:buga/constant/snackbar_view.dart';
+import 'package:buga/viewmodels/register_model.dart';
 import 'search_export.dart';
 
 class EmployeeSearch extends StatelessWidget {
@@ -52,37 +53,9 @@ class EmployeeSearch extends StatelessWidget {
                   // color: Colors.red,
                   width: double.infinity,
                   height: 45.h,
-                  child: CategoryLayout.categorySearchDisplay()
-                  // ListView(
-                  //   children: [],
-                  // ),
-                  ),
+                  child: CategoryLayout.categorySearchDisplay()),
               SizedBox(height: 4.h),
-              MaterialButton(
-                minWidth: double.infinity,
-                padding: EdgeInsets.symmetric(vertical: 2.h),
-                onPressed: () {
-                  navigateTo(RiderEmergencyView());
-                },
-                color: AppColors.lightYellow,
-                child: Center(
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Proceed',
-                        style: AppTextStyle.medium(
-                          FontWeight.w700,
-                          fontSize: FontSize.font18,
-                        ),
-                      ),
-                      SizedBox(width: 1.w),
-                      Icon(Icons.arrow_circle_right_sharp)
-                    ],
-                  ),
-                ),
-              ),
+              CategoryLayout.proceedButton(),
             ],
           ),
         )),
@@ -93,6 +66,40 @@ class EmployeeSearch extends StatelessWidget {
 
 class CategoryLayout {
   static final userInput = StateProvider((ref) => '');
+
+  static Widget proceedButton() {
+    return Consumer(builder: (context, ref, _) {
+      provider = ref;
+      return MaterialButton(
+        minWidth: double.infinity,
+        height: 7.h,
+        onPressed: () {
+          ref.read(loadingAnimationSpinkit.notifier).state = true;
+          UpdateCategoryProviders.updateModel();
+        },
+        color: AppColors.lightYellow,
+        child: Center(
+          child: ref.watch(loadingAnimationSpinkit)
+              ? loadingAnimation()
+              : Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Proceed',
+                      style: AppTextStyle.medium(
+                        FontWeight.w700,
+                        fontSize: FontSize.font18,
+                      ),
+                    ),
+                    SizedBox(width: 1.w),
+                    Icon(Icons.arrow_circle_right_sharp)
+                  ],
+                ),
+        ),
+      );
+    });
+  }
 
   static Widget userSearch() {
     final TextEditingController controller = TextEditingController();
@@ -120,6 +127,8 @@ class CategoryLayout {
   }
 
   static Widget categorySearchDisplay() {
+    final ValueNotifier<int?> selectedIndexNotifier = ValueNotifier<int?>(null);
+
     return Consumer(builder: (context, ref, _) {
       provider = ref;
       final categoryList = ref.watch(CategorySearch.getCategoryListProvider);
@@ -143,28 +152,44 @@ class CategoryLayout {
         )),
         data: (data) {
           List<Map<String, dynamic>> filteredList = data.where((item) {
+            final name = item['name']?.toLowerCase() ?? '';
             final city = item['city']?.toLowerCase() ?? '';
             final state = item['state']?.toLowerCase() ?? '';
             final input = getUserInput.toLowerCase();
-            return city.contains(input) || state.contains(input);
+            return city.contains(input) || name.contains(input);
           }).toList();
 
-          return ListView.builder(
-            itemCount: filteredList.length,
-            itemBuilder: (context, index) {
-              final item = filteredList[index];
-              return GestureDetector(
-                onTap: () {
-                  debugPrint('ID its ::::: ${item['id']}');
-                },
-                child: ListTile(
-                  title: Text(item['city'] ?? 'City not available',
-                      style: textStyle),
-                  subtitle: Text('State: ${item['state']}', style: textStyle),
-                ),
-              );
-            },
-          );
+          return ValueListenableBuilder<int?>(
+              valueListenable: selectedIndexNotifier,
+              builder: (context, selectedIndex, _) {
+                return ListView.builder(
+                  itemCount: filteredList.length,
+                  itemBuilder: (context, index) {
+                    final item = filteredList[index];
+                    return GestureDetector(
+                      onTap: () {
+                        debugPrint('ID its ::::: ${item['id']}');
+                        // Update selected index and rebuild
+                        ref.read(RegisterProviders.id.notifier).state =
+                            '${item['id']}';
+
+                        selectedIndexNotifier.value = index;
+                      },
+                      child: Container(
+                        color: selectedIndex == index
+                            ? Colors.blue.withOpacity(0.2)
+                            : Colors.transparent,
+                        child: ListTile(
+                          title: Text(item['name'] ?? '',
+                              style: textStyle),
+                          subtitle: Text(item['city'] ?? 'City not available',
+                              style: textStyle),
+                        ),
+                      ),
+                    );
+                  },
+                );
+              });
         },
       );
     });

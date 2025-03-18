@@ -1,7 +1,7 @@
-import 'package:buga/service/get_otp_service.dart';
 import 'package:buga/viewmodels/email_otp_model.dart';
-import 'package:buga/viewmodels/register_model.dart';
-import 'rider_view/auth_views/auth_export.dart';
+import 'package:flutter/services.dart';
+import 'screen_export.dart';
+
 
 class RiderOtpView extends StatefulWidget {
   final GetEmailModel userEmail;
@@ -127,6 +127,8 @@ class _RiderOtpViewState extends State<RiderOtpView> {
                   onTap: () {
                     final emailData =
                         GetEmailModel(eMail: widget.userEmail.eMail);
+                    ref.read(loadingAnimationSpinkit.notifier).state = true;
+
                     GetOtpService.getOtp(emailData);
                     SnackBarView.showSnackBar('Resend code clicked!');
                   },
@@ -155,13 +157,14 @@ class _RiderOtpViewState extends State<RiderOtpView> {
                             debugPrint("Entered OTP: ${_otpController.text}");
                             setState(() {
                               // Update this model
-                              VerifiedEmailOtpModel(
+                              var otpData = VerifiedEmailOtpModel(
                                   eMail: widget.userEmail.eMail,
                                   tokenOtp: _otpController.text);
 
                               // call on endpoint to verify otp
-                              GetOtpService.getOtp(
-                                  GetEmailModel(eMail: _otpController.text));
+                              ref.read(loadingAnimationSpinkit.notifier).state =
+                                  true;
+                              VerifyOtpService.verifyOtp(otpData);
                             });
 
                             // navigateTo(RiderCategory());
@@ -171,20 +174,22 @@ class _RiderOtpViewState extends State<RiderOtpView> {
                       backgroundColor: isButtonEnabled
                           ? AppColors.lightYellow
                           : AppColors.lightGray,
-                      foregroundColor: Colors.black,
+                      foregroundColor: AppColors.black,
                       padding: const EdgeInsets.symmetric(
                           vertical: 12, horizontal: 24),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
                     ),
-                    child: Text(
-                      'Proceed',
-                      style: AppTextStyle.medium(
-                        FontWeight.w700,
-                        fontSize: FontSize.font18,
-                      ),
-                    ),
+                    child: ref.watch(loadingAnimationSpinkit)
+                        ? Center(child: loadingAnimation())
+                        : Text(
+                            'Proceed',
+                            style: AppTextStyle.medium(
+                              FontWeight.w700,
+                              fontSize: FontSize.font18,
+                            ),
+                          ),
                   ),
                 ),
               ],

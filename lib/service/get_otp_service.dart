@@ -1,8 +1,5 @@
 import 'dart:async';
-import 'package:buga/screens/emergency_cont.dart';
-import 'package:buga/screens/otp_view.dart';
-import 'package:buga/screens/rider_view/categories/ride_category.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:buga/screens/onboarding_driver_view/driver_category.dart';
 import 'package:http/http.dart' as http;
 import 'service_export.dart';
 
@@ -65,17 +62,17 @@ class VerifyOtpService {
         body: jsonEncode(verifyOtpEmail.toJson()),
       );
 
-      debugPrint(' Response body ${response.body}');
+      debugPrint(' Response body :: ${response.body}');
       if (response.statusCode == 200 || response.statusCode == 201) {
         final Map<String, dynamic> responseData = json.decode(response.body);
         debugPrint(
             ' Response its $responseData , status code ${response.statusCode}');
         provider.read(loadingAnimationSpinkit.notifier).state = false;
-        // pushReplacementScreen(RiderCategory());
 
         provider.read(GetOtpService.isRiderAccountClick)
             ? pushReplacementScreen(RiderCategory())
-            : pushReplacementScreen(EmergencyContactForm());
+            : pushReplacementScreen(DriverCategory());
+
       } else {
         debugPrint('Error ${response.body}');
         EndpointUpdateUI.updateUi('An error occurred please try again');
