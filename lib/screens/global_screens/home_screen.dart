@@ -1,15 +1,39 @@
+import 'package:buga/Provider/getuser_details.dart';
+import 'package:buga/local_storage/pref.dart';
+import 'package:buga/screens/global_screens/onboarding.dart';
 import 'package:buga/screens/onboarding_driver_view/screen/export.dart';
 import 'screen_export.dart';
 
-
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends ConsumerState<HomeScreen> {
+  @override
+  void initState() {
+    super.initState();
+    getUserDetails();
+  }
+
+  getUserDetails() async {
+    debugPrint('get user details');
+    final getUserTypeKey = await Pref.getStringValue(userTypeKey);
+    final getUserPhoneNumberKey = await Pref.getStringValue(userPhoneNumberKey);
+    final getUserNameKey = await Pref.getStringValue(userNameKey);
+    final getUserMailKey = await Pref.getStringValue(userMailKey);
+
+    // update the UserNotifier inside here
+    ref.read(userProvider.notifier).setUserDetails(
+          name: getUserNameKey,
+          email: getUserMailKey,
+          phoneNumber: getUserPhoneNumberKey,
+          userType: getUserTypeKey,
+        );
+  }
+
   int _currentIndex = 0;
 
   void _showRideDetailsBottomSheet(String rideTitle) {
@@ -28,6 +52,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    provider = ref;
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: _buildAppBar(),
@@ -44,6 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   AppBar _buildAppBar() {
+    final userDetails = ref.watch(userProvider);
     return AppBar(
       backgroundColor: const Color(0xFFFFD700),
       elevation: 0,
@@ -55,9 +82,13 @@ class _HomeScreenState extends State<HomeScreen> {
           },
         ),
       ),
-      title: const Text(
-        'Hi there, Oreoluwa',
-        style: TextStyle(color: Colors.black),
+      title: Text(
+        'Hi there, ${userDetails?.name}',
+        overflow: TextOverflow.ellipsis,
+        style: AppTextStyle.bold(
+          FontWeight.w500,
+          fontSize: FontSize.font24,
+        ),
       ),
       actions: [
         IconButton(
@@ -70,6 +101,8 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Drawer _buildSidebar() {
+    final userDetails = ref.watch(userProvider);
+
     return Drawer(
       child: Column(
         children: [
@@ -78,18 +111,18 @@ class _HomeScreenState extends State<HomeScreen> {
               color: AppColors.white,
             ),
             accountName: Text(
-              'Oreoluwa Okunade',
+              '${userDetails?.name}',
               style: TextStyle(
                   color: AppColors.black, fontWeight: FontWeight.bold),
             ),
             accountEmail: Text(
-              '+2349020065170',
+              '+234 ${userDetails?.phoneNumber}',
               style: TextStyle(color: AppColors.black),
             ),
             currentAccountPicture: CircleAvatar(
               child: Image.asset(
                 appLogo,
-              ), // Replace with your image asset
+              ),
             ),
           ),
           ListTile(
@@ -254,12 +287,25 @@ class _HomeScreenState extends State<HomeScreen> {
                   color: Colors.red, fontSize: 20, fontWeight: FontWeight.bold),
             ),
             onTap: () {
-              // Perform logout action
+              debugPrint(' Log user Out');
+              logUserOut();
             },
           ),
         ],
       ),
     );
+  }
+
+  logUserOut() {
+    Pref.setStringValue(tokenKey, '');
+    UserModel(
+      name: "",
+      email: "",
+      phoneNumber: "",
+      userType: "",
+    );
+
+    pushReplacementScreen(OnboardingView());
   }
 
   Widget _buildWalletBalanceCard() {

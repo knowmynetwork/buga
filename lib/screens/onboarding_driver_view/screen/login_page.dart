@@ -1,6 +1,4 @@
-import 'package:buga/screens/global_screens/home_screen.dart';
 import 'package:buga/screens/global_screens/onboarding.dart';
-
 import 'export.dart';
 import 'package:buga/theme/app_colors.dart';
 
@@ -15,6 +13,7 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _rememberLogin = false; // State variable for checkbox
 
   // Controllers for the email and password fields
+  // please leave these controller outside the build widget
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
