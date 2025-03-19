@@ -73,7 +73,6 @@ class UserNotifier extends StateNotifier<UserModel?> {
     }
   }
 
-  // Clear user details (during logout)
   void clearUser() {
     state = null;
   }
