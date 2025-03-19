@@ -39,20 +39,23 @@ class LoginService {
         String name = data['name'] ?? '';
         String email = data['email'] ?? '';
         String phoneNumber = data['phoneNumber'] ?? '';
-        String? passengerType = data['passengerType'];
+        String passengerType = data['passengerType'] ?? '';
         String driverCategory = data['driverCategory'] ?? '';
         String userType = data['userType'] ?? '';
 
+        // Handle organization data safely
         Map<String, dynamic>? organization = data['organization'];
-        String? organizationId;
-        String? organizationName;
-        String? organizationStreetAddress;
-        String? organizationCity;
-        String? organizationState;
+        String organizationId = '';
+        String organizationName = '';
+        String organizationStreetAddress = '';
+        String organizationCity = '';
+        String organizationState = '';
 
         if (organization != null) {
           organizationId = organization['id'] ?? '';
           organizationName = organization['name'] ?? '';
+
+          // Handle address separately since it's null in the response
           Map<String, dynamic>? organizationAddress = organization['address'];
           if (organizationAddress != null) {
             organizationStreetAddress =
@@ -63,15 +66,12 @@ class LoginService {
         }
 
         // store data on local storage
-        Pref.setStringValue(
-            tokenKey, token.isNotEmpty ? token : 'default_token');
-        Pref.setStringValue(userIdKey, id.isNotEmpty ? id : 'default_id');
-        Pref.setStringValue(
-            userNameKey, name.isNotEmpty ? name : 'default_name');
-        Pref.setStringValue(
-            userMailKey, email.isNotEmpty ? email : 'default_email');
-        Pref.setStringValue(
-            userTypeKey, userType.isNotEmpty ? userType : 'default_user_type');
+        Pref.setStringValue(tokenKey, token);
+        Pref.setStringValue(userIdKey, id);
+        Pref.setStringValue(userNameKey, name);
+        Pref.setStringValue(userMailKey, email);
+        Pref.setStringValue(userTypeKey, userType);
+        Pref.setStringValue(userPhoneNumberKey, phoneNumber);
 
         // navigate to home page
         provider.read(loadingAnimationSpinkit.notifier).state = false;

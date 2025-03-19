@@ -1,14 +1,58 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:buga/Provider/user_provider.dart';
-import 'package:buga/theme/app_colors.dart';
+import 'package:buga/Provider/getuser_details.dart';
+import 'package:buga/local_storage/pref.dart';
+import 'package:buga/screens/global_screens/onboarding.dart';
+import 'package:buga/screens/onboarding_driver_view/screen/export.dart';
+import 'screen_export.dart';
 
-class HomeScreen extends ConsumerWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final user = ref.watch(userProvider);
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends ConsumerState<HomeScreen> {
+  @override
+  void initState() {
+    super.initState();
+    getUserDetails();
+  }
+
+  getUserDetails() async {
+    debugPrint('get user details');
+    final getUserTypeKey = await Pref.getStringValue(userTypeKey);
+    final getUserPhoneNumberKey = await Pref.getStringValue(userPhoneNumberKey);
+    final getUserNameKey = await Pref.getStringValue(userNameKey);
+    final getUserMailKey = await Pref.getStringValue(userMailKey);
+
+    // update the UserNotifier inside here
+    ref.read(userProvider.notifier).setUserDetails(
+          name: getUserNameKey,
+          email: getUserMailKey,
+          phoneNumber: getUserPhoneNumberKey,
+          userType: getUserTypeKey,
+        );
+  }
+
+  int _currentIndex = 0;
+
+  void _showRideDetailsBottomSheet(String rideTitle) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.white,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
+      ),
+      builder: (BuildContext context) {
+        return _RideDetailsBottomSheet(rideTitle: rideTitle);
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    provider = ref;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -25,7 +69,8 @@ class HomeScreen extends ConsumerWidget {
     );
   }
 
-  AppBar _buildAppBar(UserModel? user) {
+  AppBar _buildAppBar() {
+    final userDetails = ref.watch(userProvider);
     return AppBar(
       backgroundColor: const Color(0xFFFFD700),
       elevation: 0,
@@ -38,8 +83,12 @@ class HomeScreen extends ConsumerWidget {
         ),
       ),
       title: Text(
-        user != null ? 'Hi there, ${user.name}' : 'Hi there!',
-        style: const TextStyle(color: Colors.black),
+        'Hi there, ${userDetails?.name}',
+        overflow: TextOverflow.ellipsis,
+        style: AppTextStyle.bold(
+          FontWeight.w500,
+          fontSize: FontSize.font24,
+        ),
       ),
       actions: [
         IconButton(
@@ -51,7 +100,9 @@ class HomeScreen extends ConsumerWidget {
     );
   }
 
-  Drawer _buildSidebar(UserModel? user, BuildContext context) {
+  Drawer _buildSidebar() {
+    final userDetails = ref.watch(userProvider);
+
     return Drawer(
       child: Column(
         children: [
@@ -60,17 +111,34 @@ class HomeScreen extends ConsumerWidget {
               color: AppColors.white,
             ),
             accountName: Text(
-              user?.name ?? 'Guest',
+              '${userDetails?.name}',
               style: TextStyle(
                   color: AppColors.black, fontWeight: FontWeight.bold),
             ),
             accountEmail: Text(
-              user?.email ?? 'guest@example.com',
+              '+234 ${userDetails?.phoneNumber}',
               style: TextStyle(color: AppColors.black),
             ),
             currentAccountPicture: CircleAvatar(
               child: Image.asset(
-                'assets/images/app_logo.png', // Ensure this exists
+                appLogo,
+              ),
+            ),
+          ),
+          ListTile(
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            leading: Icon(
+              Icons.payment,
+              color: AppColors.black,
+              size: 30,
+            ),
+            title: Text(
+              'Trip',
+              style: TextStyle(
+                color: AppColors.black,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
               ),
             ),
           ),
@@ -86,7 +154,8 @@ class HomeScreen extends ConsumerWidget {
                   color: Colors.red, fontSize: 20, fontWeight: FontWeight.bold),
             ),
             onTap: () {
-              // Perform logout action
+              debugPrint(' Log user Out');
+              logUserOut();
             },
           ),
         ],
@@ -94,18 +163,16 @@ class HomeScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildSidebarItem(BuildContext context, IconData icon, String title) {
-    return ListTile(
-      leading: Icon(icon, color: AppColors.black, size: 30),
-      title: Text(title,
-          style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: AppColors.black)),
-      trailing:
-          const Icon(Icons.arrow_forward_ios, color: Colors.black, size: 16),
-      onTap: () => Navigator.pop(context),
+  logUserOut() {
+    Pref.setStringValue(tokenKey, '');
+    UserModel(
+      name: "",
+      email: "",
+      phoneNumber: "",
+      userType: "",
     );
+
+    pushReplacementScreen(OnboardingView());
   }
 
   Widget _buildWalletBalanceCard() {

@@ -1,4 +1,3 @@
-import 'package:buga/screens/global_screens/home_screen.dart';
 import 'package:buga/screens/global_screens/onboarding.dart';
 import 'export.dart';
 import 'package:buga/theme/app_colors.dart';
@@ -12,10 +11,22 @@ class LoginScreen extends ConsumerWidget {
     final TextEditingController passwordController = TextEditingController();
     bool rememberLogin = false;
 
-    return Scaffold(
-      backgroundColor: AppColors.lightYellow,
-      body: SafeArea(
-        child: Container(
+class _LoginScreenState extends State<LoginScreen> {
+  bool _rememberLogin = false; // State variable for checkbox
+
+  // Controllers for the email and password fields
+  // please leave these controller outside the build widget
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer(builder: (context, ref, _) {
+      provider = ref;
+      return Scaffold(
+        backgroundColor: AppColors.lightYellow,
+        body: SafeArea(
+            child: Container(
           color: AppColors.white,
           width: double.infinity,
           height: double.infinity,
