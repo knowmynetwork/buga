@@ -1,9 +1,12 @@
 import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'service_export.dart';
+import '../Provider/user_provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class LoginService {
-  static Future<Map<String, dynamic>?> userLogin(LoginModel loginModel) async {
+  static Future<Map<String, dynamic>?> userLogin(
+      LoginModel loginModel, WidgetRef ref) async {
     debugPrint('trying to login now');
     try {
       final response = await http
@@ -72,6 +75,14 @@ class LoginService {
 
         // navigate to home page
         provider.read(loadingAnimationSpinkit.notifier).state = false;
+        // Store user data in the provider
+        ref.read(userProvider.notifier).setUser(UserModel(
+              token: token,
+              id: id,
+              name: name,
+              email: email,
+              phoneNumber: phoneNumber,
+            ));
         debugPrint('Login successful');
         pushReplacementScreen(HomeScreen());
       } else {
