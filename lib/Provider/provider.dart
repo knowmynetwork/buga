@@ -20,33 +20,3 @@ class CategoryListNotifier
   }
 }
 
-
-
-
-
-
-
-
-
-  // @override
-// Widget build(BuildContext context) {
-//   final categoryList = ref.watch(CategorySearch.getCategoryListProvider);
-
-//   return Scaffold(
-//     appBar: AppBar(title: Text('Category List')),
-    // body: categoryList.when(
-    //   loading: () => Center(child: CircularProgressIndicator()),
-    //   error: (error, stackTrace) => Center(child: Text('Error: ${error.toString()}')),
-    //   data: (data) => ListView.builder(
-    //     itemCount: data.length,
-    //     itemBuilder: (context, index) {
-    //       final item = data[index];
-    //       return ListTile(
-    //         title: Text(item['city'] ?? 'City not available'),
-    //         subtitle: Text('State: ${item['state']}, ID: ${item['id']}'),
-    //       );
-    //     },
-    //   ),
-    // ),
-//   );
-// }

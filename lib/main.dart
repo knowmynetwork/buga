@@ -1,9 +1,13 @@
 import 'package:buga/local_storage/pref.dart';
+import 'package:buga/screens/global_screens/home_screen.dart';
+import 'package:buga/screens/global_screens/onboarding.dart';
 import 'package:buga/screens/onboarding_driver_view/screen/export.dart';
 import 'package:buga/screens/onboarding_driver_view/screen/forget_password.dart';
 import 'package:buga/screens/onboarding_driver_view/screen/login_page.dart';
 import 'package:buga/screens/global_screens/splash_view.dart';
+import 'package:buga/screens/rider_view/auth_views/login_view.dart';
 import 'package:buga/theme/app_theme.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,8 +25,6 @@ class RideSharingApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //   String yourToken = "Your JWT";
-    // bool hasExpired = JwtDecoder.isExpired(yourToken);
     return ResponsiveSizer(
       builder: (context, orientation, screenType) {
         return ProviderScope(
@@ -36,18 +38,115 @@ class RideSharingApp extends StatelessWidget {
                 loginRoute: (context) => LoginScreen(),
                 splashRoute: (context) => SplashScreen(),
                 signUpRoute: (context) => RiderSignUpView(),
-                // otpRoute: (context) => OtpValidationPage(),
-                // home: (context) => HomeScreen(),
                 forgotPageRoute: (context) => ForgotPasswordScreen(),
               },
               home: Consumer(
                 builder: (context, ref, _) {
                   provider = ref;
-                  return SplashScreen();
+                  return TokenCheck();
                 },
               )),
         );
       },
     );
+  }
+}
+
+class TokenCheck extends StatefulWidget {
+  const TokenCheck({super.key});
+
+  @override
+  State createState() => _TokenCheckState();
+}
+
+class _TokenCheckState extends State<TokenCheck> {
+  bool navigationCompleted = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Future.delayed(const Duration(seconds: 3), () {
+        if (mounted) {
+          _checkToken();
+        }
+      });
+    });
+  }
+
+  void _checkToken() async {
+    if (navigationCompleted) {
+      debugPrint(
+          ' Navigation already completed - preventing duplicate navigation');
+      return;
+    }
+
+    try {
+      final userType = await Pref.getStringValue(userTypeKey);
+      final token = await Pref.getStringValue(tokenKey);
+
+      debugPrint('token its $token');
+      debugPrint(' User TYPE is: $userType');
+
+      if (token.isEmpty) {
+        _navigateBasedOnUserType(userType);
+      } else {
+        debugPrint('Checking token expiration');
+        final bool hasExpired = JwtDecoder.isExpired(token);
+        debugPrint('Token expired? $hasExpired');
+
+        if (hasExpired) {
+          debugPrint('Token expired - going to onboarding');
+          _safeNavigate(() {
+            pushReplacementScreen(const OnboardingView());
+          });
+        } else {
+          debugPrint('Token valid - going to home screen');
+          _safeNavigate(() {
+            pushReplacementScreen(const HomeScreen());
+          });
+        }
+      }
+    } catch (e) {
+      debugPrint('ERROR during token check: $e');
+      _safeNavigate(() {
+        pushReplacementScreen(const OnboardingView());
+      });
+    }
+  }
+
+  void _navigateBasedOnUserType(String userType) {
+    if (userType == 'Driver') {
+      debugPrint('Empty token, userType is Driver - going to driver login');
+      _safeNavigate(() {
+        pushReplacementScreen(const LoginScreen());
+      });
+    } else if (userType == 'Passenger') {
+      debugPrint('Empty token, userType is Passenger - going to rider login');
+      _safeNavigate(() {
+        pushReplacementScreen(const RiderLoginView());
+      });
+    } else {
+      debugPrint('Empty token, userType unknown - going to onboarding');
+      _safeNavigate(() {
+        pushReplacementScreen(const OnboardingView());
+      });
+    }
+  }
+
+  void _safeNavigate(Function() navigationAction) {
+    if (!mounted || navigationCompleted) {
+      debugPrint(
+          'Not navigating: widget not mounted or navigation already completed');
+      return;
+    }
+
+    navigationCompleted = true;
+    navigationAction();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return const SizedBox.shrink();
   }
 }
