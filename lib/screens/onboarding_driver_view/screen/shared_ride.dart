@@ -10,7 +10,8 @@ class SharedRideScreen extends StatefulWidget {
 
 class _SharedRideScreenState extends State<SharedRideScreen> {
   bool isBookRealtimeSelected = true;
-  final List<Map<String, String>> savedPlaces = []; // To store "From" and "To" locations
+  final List<Map<String, String>> savedPlaces =
+      []; // To store "From" and "To" locations
   String fromLocation = '';
   String toLocation = '';
 
@@ -83,7 +84,8 @@ class _SharedRideScreenState extends State<SharedRideScreen> {
           _RideFormField(
             label: 'From',
             icon: Icons.circle_outlined,
-            placeholder: fromLocation.isEmpty ? 'Enter Starting Point' : fromLocation,
+            placeholder:
+                fromLocation.isEmpty ? 'Enter Starting Point' : fromLocation,
             isEditable: true,
             onChanged: (value) {
               setState(() {
@@ -172,37 +174,38 @@ class _SharedRideScreenState extends State<SharedRideScreen> {
   }
 
   Widget _buildProceedButton(BuildContext context) {
-  return Padding(
-    padding: const EdgeInsets.all(16),
-    child: ElevatedButton(
-      onPressed: () {
-        // Navigate to the next page
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const RideDetailsScreen(), // Replace with your target screen
-          ),
-        );
-      },
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.yellow,
-        padding: const EdgeInsets.symmetric(vertical: 16),
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: ElevatedButton(
+        onPressed: () {
+          // Navigate to the next page
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) =>
+                  const RideDetailsScreen(), // Replace with your target screen
+            ),
+          );
+        },
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.yellow,
+          padding: const EdgeInsets.symmetric(vertical: 16),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const [
+            Text(
+              'Proceed',
+              style:
+                  TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(width: 8), // Add space between text and icon
+            Icon(Icons.arrow_forward, color: Colors.black),
+          ],
+        ),
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: const [
-          Text(
-            'Proceed',
-            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-          ),
-          SizedBox(width: 8), // Add space between text and icon
-          Icon(Icons.arrow_forward, color: Colors.black),
-        ],
-      ),
-    ),
-  );
-}
-
+    );
+  }
 
   void _showLocationBottomSheet() {
     final locations = [

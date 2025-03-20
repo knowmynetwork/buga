@@ -2,6 +2,7 @@ import 'package:buga/Provider/getuser_details.dart';
 import 'package:buga/local_storage/pref.dart';
 import 'package:buga/screens/global_screens/onboarding.dart';
 import 'package:buga/screens/onboarding_driver_view/screen/export.dart';
+import 'package:buga/screens/ride_details_bottom_sheet.dart';
 import 'screen_export.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -45,7 +46,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
       ),
       builder: (BuildContext context) {
-        return _RideDetailsBottomSheet(rideTitle: rideTitle);
+        return RideDetailsBottomSheet(rideTitle: rideTitle);
       },
     );
   }
@@ -512,143 +513,6 @@ class _RideOptionCard extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-}
-
-class _RideDetailsBottomSheet extends StatefulWidget {
-  final String rideTitle;
-
-  const _RideDetailsBottomSheet({required this.rideTitle});
-
-  @override
-  State<_RideDetailsBottomSheet> createState() =>
-      _RideDetailsBottomSheetState();
-}
-
-class _RideDetailsBottomSheetState extends State<_RideDetailsBottomSheet> {
-  int riders = 2;
-  int luggage = 0;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                widget.rideTitle,
-                style:
-                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-              IconButton(
-                icon: const Icon(Icons.close),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              _buildOptionCard('Saloon Car', '2 riders', isSelected: true),
-              _buildOptionCard('SUV/Minibus', '2+ riders'),
-            ],
-          ),
-          const SizedBox(height: 16),
-          _buildCounterRow('Total No of Riders', riders, max: 2,
-              onChanged: (value) {
-            setState(() {
-              riders = value;
-            });
-          }),
-          const SizedBox(height: 12),
-          _buildCounterRow('Total Luggage Number', luggage, max: 4,
-              onChanged: (value) {
-            setState(() {
-              luggage = value;
-            });
-          }),
-          const SizedBox(height: 16),
-          ElevatedButton(
-            onPressed: () {
-              navigateTo((RideDetailsScreen()));
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.lightYellow,
-              foregroundColor: AppColors.black,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-              padding: const EdgeInsets.symmetric(vertical: 16),
-            ),
-            child: const Center(child: Text('Proceed')),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildOptionCard(String title, String subtitle,
-      {bool isSelected = false}) {
-    return Container(
-      decoration: BoxDecoration(
-        border: Border.all(
-          color: isSelected ? const Color(0xFFFFD700) : AppColors.white,
-        ),
-        borderRadius: BorderRadius.circular(10),
-      ),
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        children: [
-          Text(
-            title,
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: isSelected ? const Color(0xFFFFD700) : Colors.black,
-            ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            subtitle,
-            style: TextStyle(
-              fontSize: 12,
-              color: isSelected ? AppColors.lightYellow : AppColors.white,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildCounterRow(String label, int value,
-      {required int max, required ValueChanged<int> onChanged}) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(label, style: const TextStyle(fontWeight: FontWeight.bold)),
-        Row(
-          children: [
-            IconButton(
-              onPressed: value > 0 ? () => onChanged(value - 1) : null,
-              icon: const Icon(Icons.remove_circle_outline),
-              color: Colors.black,
-            ),
-            Text(value.toString(),
-                style: const TextStyle(fontWeight: FontWeight.bold)),
-            IconButton(
-              onPressed: value < max ? () => onChanged(value + 1) : null,
-              icon: const Icon(Icons.add_circle_outline),
-              color: Colors.black,
-            ),
-          ],
-        ),
-      ],
     );
   }
 }
