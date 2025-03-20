@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:buga/Provider/getuser_details.dart';
+import 'package:buga/screens/global_screens/bottom_nav.dart';
 import 'package:http/http.dart' as http;
 import 'service_export.dart';
 
@@ -75,7 +76,7 @@ class LoginService {
           Pref.setStringValue(userPassKey, loginModel.password);
         }
 
-        pushReplacementScreen(HomeScreen());
+        pushReplacementScreen(MainHomeView());
       } else {
         debugPrint('Error $responseData');
         EndpointUpdateUI.updateUi(message);

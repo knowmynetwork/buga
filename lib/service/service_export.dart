@@ -1,4 +1,3 @@
-export 'package:buga/screens/global_screens/emergency_cont.dart';
 export 'package:buga/screens/global_screens/otp_view.dart';
 export 'package:buga/screens/rider_view/categories/ride_category.dart';
 export 'package:flutter_riverpod/flutter_riverpod.dart';
