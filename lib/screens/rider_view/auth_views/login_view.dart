@@ -1,3 +1,4 @@
+import 'package:buga/Provider/getuser_details.dart';
 import 'auth_export.dart';
 
 class RiderLoginView extends ConsumerStatefulWidget {
@@ -75,6 +76,9 @@ class _RiderLoginViewState extends ConsumerState<RiderLoginView> {
                         onChanged: (value) {
                           setState(() {
                             _rememberLogin = value!;
+                            ref
+                                .read(isRememberPasswordClick.notifier)
+                                .state = true;
                           });
                         },
                       ),
