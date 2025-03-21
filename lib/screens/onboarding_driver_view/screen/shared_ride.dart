@@ -178,7 +178,10 @@ class PassengerAndLuggageInfo extends StatelessWidget {
           borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
         ),
         builder: (context) {
-          return RideDetailsBottomSheet(rideTitle: 'Ride Details');
+          return RideDetailsBottomSheet(
+            rideTitle: 'Ride Details',
+            showSubmitButton: false,
+          );
         },
       ),
       child: Row(

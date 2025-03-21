@@ -1,4 +1,3 @@
-
 import 'package:buga/screens/onboarding_driver_view/screen/shared_ride.dart';
 import 'package:buga/screens/ride_details_bottom_sheet.dart';
 import 'screen_export.dart';
@@ -42,7 +41,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
       ),
       builder: (BuildContext context) {
-        return RideDetailsBottomSheet(rideTitle: rideTitle);
+        return RideDetailsBottomSheet(
+          rideTitle: rideTitle,
+          showSubmitButton: true,
+        );
       },
     );
   }

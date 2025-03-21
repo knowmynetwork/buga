@@ -6,7 +6,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class RideDetailsBottomSheet extends ConsumerWidget {
   final String rideTitle;
-  const RideDetailsBottomSheet({super.key, required this.rideTitle});
+  final bool showSubmitButton;
+  const RideDetailsBottomSheet(
+      {super.key, required this.rideTitle, required this.showSubmitButton});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -66,22 +68,27 @@ class RideDetailsBottomSheet extends ConsumerWidget {
           }),
           const SizedBox(height: 16),
           // Proceed button:
-          ElevatedButton(
-            onPressed: () async {
-              await ref.read(rideDetailsProvider.notifier).submitRideDetails();
-              // Replace navigateTo with your navigation logic:
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const SharedRideScreen(
-                            rideType: "Rider",
-                          )));
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.lightYellow,
-              padding: const EdgeInsets.symmetric(vertical: 16),
+          Visibility(
+            visible: showSubmitButton,
+            child: ElevatedButton(
+              onPressed: () async {
+                await ref
+                    .read(rideDetailsProvider.notifier)
+                    .submitRideDetails();
+                // Replace navigateTo with your navigation logic:
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const SharedRideScreen(
+                              rideType: "Rider",
+                            )));
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.lightYellow,
+                padding: const EdgeInsets.symmetric(vertical: 16),
+              ),
+              child: const Center(child: Text('Proceed')),
             ),
-            child: const Center(child: Text('Proceed')),
           ),
         ],
       ),
