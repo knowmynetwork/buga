@@ -119,7 +119,7 @@ class SharedRideScreen extends ConsumerWidget {
           ),
 
           const Spacer(),
-          _buildSavedPlacesSection(ref),
+          //_buildSavedPlacesSection(ref),
           // Proceed Button:
           Padding(
             padding: const EdgeInsets.all(16),
@@ -170,20 +170,6 @@ class PassengerAndLuggageInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          Text(
-            '${rideDetails.riders} Passengers',
-            style: const TextStyle(fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(width: 16),
-          Text(
-            '${rideDetails.luggage} Luggage',
-            style: const TextStyle(fontWeight: FontWeight.bold),
-          ),
-        ],
-      ),
       onTap: () => showModalBottomSheet(
         context: context,
         isScrollControlled: true,
@@ -194,6 +180,41 @@ class PassengerAndLuggageInfo extends StatelessWidget {
         builder: (context) {
           return RideDetailsBottomSheet(rideTitle: 'Ride Details');
         },
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          // Passenger Icon and Text
+          Row(
+            children: [
+              const Icon(Icons.person,
+                  size: 20, color: Colors.black), // Passenger Icon
+              const SizedBox(width: 4),
+              Text(
+                '${rideDetails.riders} Passengers',
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
+          const SizedBox(width: 16),
+
+          // Luggage Icon and Text
+          Row(
+            children: [
+              const Icon(Icons.luggage,
+                  size: 20, color: Colors.black), // Luggage Icon
+              const SizedBox(width: 4),
+              Text(
+                '${rideDetails.luggage} Luggage',
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
+          const SizedBox(width: 16),
+
+          // Edit Icon
+          const Icon(Icons.edit, size: 20, color: Colors.black), // Edit Icon
+        ],
       ),
     );
   }
