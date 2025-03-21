@@ -1,5 +1,4 @@
 import 'package:buga/screens/rider_view/auth_views/login_view.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'screen_export.dart';
 
 

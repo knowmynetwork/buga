@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'package:buga/Provider/getuser_details.dart';
+import 'package:buga/screens/global_screens/bottom_nav.dart';
 import 'package:http/http.dart' as http;
 import 'service_export.dart';
 
@@ -68,7 +70,13 @@ class LoginService {
         // navigate to home page
         provider.read(loadingAnimationSpinkit.notifier).state = false;
         debugPrint('Login successful');
-        pushReplacementScreen(HomeScreen());
+
+        final rememberPasswordStatus = provider.watch(isRememberPasswordClick);
+        if (rememberPasswordStatus) {
+          Pref.setStringValue(userPassKey, loginModel.password);
+        }
+
+        pushReplacementScreen(MainHomeView());
       } else {
         debugPrint('Error $responseData');
         EndpointUpdateUI.updateUi(message);
@@ -96,6 +104,23 @@ class EndpointUpdateUI {
 }
 
 
+
+
+
+
+
+ 
+// ): User Rider data ist ::: email :: isaiahshell2010@gmail.com 
+// I/flutter ( 7490):  name :: Isaiah 
+// I/flutter ( 7490):  phoneNumber :: 08087878872 
+// I/flutter ( 7490):  password :: @Password 
+
+
+////////////
+// I/flutter ( 7490): User Driver data ist ::: email :: isaiahshell2011@gmail.com 
+// I/flutter ( 7490):  name :: IsaiahCode 
+// I/flutter ( 7490):  phoneNumber :: 090877666565 
+// I/flutter ( 7490):  password :: @Password1 
 
 
 

@@ -1,5 +1,6 @@
 import 'package:buga/Provider/ride_details_provider.dart';
 import 'package:buga/screens/onboarding_driver_view/screen/shared_ride.dart';
+import 'package:buga/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -77,7 +78,7 @@ class RideDetailsBottomSheet extends ConsumerWidget {
                           )));
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.yellow,
+              backgroundColor: AppColors.lightYellow,
               padding: const EdgeInsets.symmetric(vertical: 16),
             ),
             child: const Center(child: Text('Proceed')),
@@ -94,7 +95,7 @@ class RideDetailsBottomSheet extends ConsumerWidget {
       child: Container(
         decoration: BoxDecoration(
           border: Border.all(
-            color: isSelected ? const Color(0xFFFFD700) : Colors.white,
+            color: isSelected ? AppColors.lightYellow : AppColors.white,
           ),
           borderRadius: BorderRadius.circular(10),
         ),
@@ -105,7 +106,7 @@ class RideDetailsBottomSheet extends ConsumerWidget {
               title,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                color: isSelected ? const Color(0xFFFFD700) : Colors.black,
+                color: isSelected ? AppColors.lightYellow : AppColors.black,
               ),
             ),
             const SizedBox(height: 8),
@@ -113,7 +114,7 @@ class RideDetailsBottomSheet extends ConsumerWidget {
               subtitle,
               style: TextStyle(
                 fontSize: 12,
-                color: isSelected ? Colors.yellow : Colors.white,
+                color: isSelected ? AppColors.lightYellow : AppColors.white,
               ),
             ),
           ],

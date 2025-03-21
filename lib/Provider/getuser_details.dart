@@ -81,3 +81,7 @@ class UserNotifier extends StateNotifier<UserModel?> {
 final userProvider = StateNotifierProvider<UserNotifier, UserModel?>((ref) {
   return UserNotifier();
 });
+
+// value holding remember password
+final isRememberPasswordClick = StateProvider((ref) => false);
+
