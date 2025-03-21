@@ -1,31 +1,24 @@
+import 'package:buga/Provider/ride_details_provider.dart';
+import 'package:buga/screens/global_screens/__ride_form_field.dart';
 import 'package:buga/screens/onboarding_driver_view/screen/find_driver.dart';
+import 'package:buga/screens/ride_details_bottom_sheet.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SharedRideScreen extends StatefulWidget {
-  const SharedRideScreen({super.key, required String rideType});
-
-  @override
-  State<SharedRideScreen> createState() => _SharedRideScreenState();
-}
-
-class _SharedRideScreenState extends State<SharedRideScreen> {
-  bool isBookRealtimeSelected = true;
-  final List<Map<String, String>> savedPlaces =
-      []; // To store "From" and "To" locations
-  String fromLocation = '';
-  String toLocation = '';
+class SharedRideScreen extends ConsumerWidget {
+  final String rideType;
+  const SharedRideScreen({super.key, required this.rideType});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final rideDetails = ref.watch(rideDetailsProvider);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xFFFFD700),
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () {
-            Navigator.pop(context);
-          },
+          onPressed: () => Navigator.pop(context),
         ),
         title: const Text(
           'Shared Ride',
@@ -35,219 +28,173 @@ class _SharedRideScreenState extends State<SharedRideScreen> {
       ),
       body: Column(
         children: [
-          _buildTabSection(),
-          const SizedBox(height: 16),
-          _buildFormSection(),
-          const Divider(),
-          _buildSavedPlacesSection(),
-          _buildProceedButton(context),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildTabSection() {
-    return Container(
-      color: const Color(0xFFFFD700),
-      padding: const EdgeInsets.symmetric(vertical: 10),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          _RideOptionButton(
-            label: 'Book Realtime',
-            isSelected: isBookRealtimeSelected,
-            onTap: () {
-              setState(() {
-                isBookRealtimeSelected = true;
-              });
-            },
-          ),
-          _RideOptionButton(
-            label: 'Schedule Trip',
-            isSelected: !isBookRealtimeSelected,
-            onTap: () {
-              setState(() {
-                isBookRealtimeSelected = false;
-              });
-            },
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildFormSection() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Column(
-        children: [
-          _RideFormField(
-            label: 'From',
-            icon: Icons.circle_outlined,
-            placeholder:
-                fromLocation.isEmpty ? 'Enter Starting Point' : fromLocation,
-            isEditable: true,
-            onChanged: (value) {
-              setState(() {
-                fromLocation = value;
-              });
-            },
-          ),
-          const SizedBox(height: 8),
-          _RideFormField(
-            label: 'To',
-            icon: Icons.location_on,
-            placeholder: toLocation.isEmpty ? 'Enter Destination' : toLocation,
-            isEditable: true,
-            onChanged: (value) {
-              setState(() {
-                toLocation = value;
-              });
-            },
-          ),
-          const SizedBox(height: 16),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const [
-              Text(
-                '2 Passengers',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              Text(
-                '4 Luggage',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildSavedPlacesSection() {
-    return Expanded(
-      child: ListView.builder(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        itemCount: savedPlaces.length + 1,
-        itemBuilder: (context, index) {
-          if (index < savedPlaces.length) {
-            final location = savedPlaces[index];
-            return Column(
-              children: [
-                ListTile(
-                  leading: const Icon(Icons.location_pin, color: Colors.black),
-                  title: Text(
-                    '${location['from']} → ${location['to']}',
-                    style: const TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  trailing: IconButton(
-                    icon: const Icon(Icons.delete, color: Colors.red),
-                    onPressed: () {
-                      setState(() {
-                        savedPlaces.removeAt(index);
-                      });
+          // Tab Section:
+          Visibility(
+            visible: false,
+            child: Container(
+              color: const Color(0xFFFFD700),
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  _RideOptionButton(
+                    label: 'Book Realtime',
+                    isSelected: rideDetails.isBookRealtimeSelected,
+                    onTap: () {
+                      ref
+                          .read(rideDetailsProvider.notifier)
+                          .toggleBookingType(true);
                     },
                   ),
-                  onTap: () {
-                    setState(() {
-                      fromLocation = location['from']!;
-                      toLocation = location['to']!;
-                    });
+                  _RideOptionButton(
+                    label: 'Schedule Trip',
+                    isSelected: !rideDetails.isBookRealtimeSelected,
+                    onTap: () {
+                      ref
+                          .read(rideDetailsProvider.notifier)
+                          .toggleBookingType(false);
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 16),
+          // Form Section:
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Column(
+              children: [
+                RideFormField(
+                  label: 'From',
+                  icon: Icons.circle_outlined,
+                  placeholder: rideDetails.fromLocation.isEmpty
+                      ? 'Enter Starting Point'
+                      : rideDetails.fromLocation,
+                  isEditable: true,
+                  onChanged: (value) {
+                    ref
+                        .read(rideDetailsProvider.notifier)
+                        .updateFromLocation(value);
                   },
                 ),
-                const Divider(),
+                const SizedBox(height: 8),
+                RideFormField(
+                  label: 'To',
+                  icon: Icons.location_on,
+                  placeholder: rideDetails.toLocation.isEmpty
+                      ? 'Enter Destination'
+                      : rideDetails.toLocation,
+                  isEditable: true,
+                  onChanged: (value) {
+                    ref
+                        .read(rideDetailsProvider.notifier)
+                        .updateToLocation(value);
+                  },
+                ),
+                const SizedBox(height: 16),
+                _DatePickerField(
+                  selectedDate: rideDetails.date,
+                  onTap: () async {
+                    debugPrint('Opening date picker...');
+                    final selectedDate = await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime.now(),
+                      lastDate: DateTime.now().add(const Duration(days: 365)),
+                    );
+                    if (selectedDate != null) {
+                      final formattedDate =
+                          '${selectedDate.year}-${selectedDate.month}-${selectedDate.day}';
+                      ref
+                          .read(rideDetailsProvider.notifier)
+                          .updateDate(formattedDate);
+                    }
+                  },
+                ),
+                const SizedBox(height: 16),
+                PassengerAndLuggageInfo(rideDetails: rideDetails),
               ],
-            );
-          } else {
-            return ListTile(
-              leading: const Icon(Icons.add, color: Colors.black),
-              title: const Text(
-                'Add Save Place',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              onTap: _showLocationBottomSheet,
-            );
-          }
-        },
-      ),
-    );
-  }
-
-  Widget _buildProceedButton(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16),
-      child: ElevatedButton(
-        onPressed: () {
-          // Navigate to the next page
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) =>
-                  const RideDetailsScreen(), // Replace with your target screen
             ),
-          );
-        },
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.yellow,
-          padding: const EdgeInsets.symmetric(vertical: 16),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
-            Text(
-              'Proceed',
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(width: 8), // Add space between text and icon
-            Icon(Icons.arrow_forward, color: Colors.black),
-          ],
-        ),
-      ),
-    );
-  }
-
-  void _showLocationBottomSheet() {
-    final locations = [
-      'Covenant University',
-      'Lekki, Lagos',
-      'Victoria Island',
-      'Yaba, Lagos',
-      'Ikoyi, Lagos',
-    ];
-
-    showModalBottomSheet(
-      context: context,
-      builder: (context) {
-        return Container(
-          padding: const EdgeInsets.all(16),
-          height: 300,
-          child: ListView.builder(
-            itemCount: locations.length,
-            itemBuilder: (context, index) {
-              return ListTile(
-                title: Text(locations[index]),
-                onTap: () {
-                  setState(() {
-                    if (fromLocation.isEmpty) {
-                      fromLocation = locations[index];
-                    } else if (toLocation.isEmpty) {
-                      toLocation = locations[index];
-                    }
-
-                    if (fromLocation.isNotEmpty && toLocation.isNotEmpty) {
-                      savedPlaces.add({'from': fromLocation, 'to': toLocation});
-                      fromLocation = '';
-                      toLocation = '';
-                    }
-                  });
-                  Navigator.pop(context);
-                },
-              );
-            },
           ),
-        );
-      },
+
+          const Spacer(),
+          _buildSavedPlacesSection(ref),
+          // Proceed Button:
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: ElevatedButton(
+              onPressed: () async {
+                await ref
+                    .read(rideDetailsProvider.notifier)
+                    .submitRideDetails();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const RideDetailsScreen(),
+                  ),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.yellow,
+                padding: const EdgeInsets.symmetric(vertical: 16),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  Text(
+                    'Proceed',
+                    style: TextStyle(
+                        color: Colors.black, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(width: 8),
+                  Icon(Icons.arrow_forward, color: Colors.black),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class PassengerAndLuggageInfo extends StatelessWidget {
+  const PassengerAndLuggageInfo({
+    super.key,
+    required this.rideDetails,
+  });
+
+  final RideDetailsState rideDetails;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Text(
+            '${rideDetails.riders} Passengers',
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(width: 16),
+          Text(
+            '${rideDetails.luggage} Luggage',
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+        ],
+      ),
+      onTap: () => showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        backgroundColor: Colors.white,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
+        ),
+        builder: (context) {
+          return RideDetailsBottomSheet(rideTitle: 'Ride Details');
+        },
+      ),
     );
   }
 }
@@ -258,10 +205,11 @@ class _RideOptionButton extends StatelessWidget {
   final VoidCallback onTap;
 
   const _RideOptionButton({
+    Key? key,
     required this.label,
     required this.isSelected,
     required this.onTap,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -285,68 +233,142 @@ class _RideOptionButton extends StatelessWidget {
   }
 }
 
-class _RideFormField extends StatelessWidget {
-  final String label;
-  final IconData icon;
-  final String placeholder;
-  final bool isEditable;
-  final Function(String)? onChanged;
+Widget _buildSavedPlacesSection(WidgetRef ref) {
+  final rideDetails = ref.watch(rideDetailsProvider);
+  final rideDetailsNotifier = ref.read(rideDetailsProvider.notifier);
 
-  const _RideFormField({
-    required this.label,
-    required this.icon,
-    required this.placeholder,
-    this.isEditable = false,
-    this.onChanged,
-  });
+  return Expanded(
+    child: ListView.builder(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      itemCount: rideDetails.savedPlaces.length + 1,
+      itemBuilder: (context, index) {
+        if (index < rideDetails.savedPlaces.length) {
+          final location = rideDetails.savedPlaces[index];
+          return Column(
+            children: [
+              ListTile(
+                leading: const Icon(Icons.location_pin, color: Colors.black),
+                title: Text(
+                  '${location['from']} → ${location['to']}',
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+                trailing: IconButton(
+                  icon: const Icon(Icons.delete, color: Colors.red),
+                  onPressed: () {
+                    // Remove the saved place using the provider
+                    rideDetailsNotifier.removeSavedPlace(index);
+                  },
+                ),
+                onTap: () {
+                  // Update the "From" and "To" locations using the provider
+                  rideDetailsNotifier.updateFromLocation(location['from']!);
+                  rideDetailsNotifier.updateToLocation(location['to']!);
+                },
+              ),
+              const Divider(),
+            ],
+          );
+        } else {
+          return ListTile(
+            leading: const Icon(Icons.add, color: Colors.black),
+            title: const Text(
+              'Add Saved Place',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            onTap: () {
+              _showLocationBottomSheet(context, rideDetailsNotifier);
+            },
+          );
+        }
+      },
+    ),
+  );
+}
+
+class _DatePickerField extends StatelessWidget {
+  final String selectedDate;
+  final VoidCallback onTap;
+
+  const _DatePickerField({
+    Key? key,
+    required this.selectedDate,
+    required this.onTap,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Icon(icon, size: 20, color: Colors.black),
-        const SizedBox(width: 8),
-        Expanded(
-          child: TextField(
-            readOnly: !isEditable,
-            onChanged: isEditable ? onChanged : null,
-            decoration: InputDecoration(
-              hintText: placeholder,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: const BorderSide(color: Colors.grey),
-              ),
-              filled: true,
-              fillColor: Colors.grey[200],
-              contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+    return GestureDetector(
+      onTap: onTap,
+      child: Row(
+        children: [
+          const Icon(Icons.calendar_today, size: 20, color: Colors.black),
+          const SizedBox(width: 8),
+          Text(
+            selectedDate.isEmpty ? 'When' : selectedDate,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: selectedDate.isEmpty ? Colors.grey : Colors.black,
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
 
-class SummaryPage extends StatelessWidget {
-  final List<Map<String, String>> savedPlaces;
+void _showLocationBottomSheet(
+    BuildContext context, RideDetailsNotifier notifier) {
+  final fromController = TextEditingController();
+  final toController = TextEditingController();
 
-  const SummaryPage({super.key, required this.savedPlaces});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Summary'),
-      ),
-      body: ListView.builder(
-        itemCount: savedPlaces.length,
-        itemBuilder: (context, index) {
-          final location = savedPlaces[index];
-          return ListTile(
-            title: Text('${location['from']} → ${location['to']}'),
-          );
-        },
-      ),
-    );
-  }
+  showModalBottomSheet(
+    context: context,
+    isScrollControlled: true,
+    backgroundColor: Colors.white,
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
+    ),
+    builder: (context) {
+      return Padding(
+        padding: EdgeInsets.only(
+          left: 16,
+          right: 16,
+          bottom: MediaQuery.of(context).viewInsets.bottom + 16,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(
+              controller: fromController,
+              decoration: const InputDecoration(
+                labelText: 'From',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 8),
+            TextField(
+              controller: toController,
+              decoration: const InputDecoration(
+                labelText: 'To',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: () {
+                final from = fromController.text.trim();
+                final to = toController.text.trim();
+                if (from.isNotEmpty && to.isNotEmpty) {
+                  notifier.addSavedPlace(from, to);
+                  Navigator.pop(context);
+                }
+              },
+              child: const Text('Save Place'),
+            ),
+          ],
+        ),
+      );
+    },
+  );
 }

@@ -1,5 +1,4 @@
 import 'package:buga/Provider/ride_details_provider.dart';
-import 'package:buga/screens/onboarding_driver_view/screen/find_driver.dart';
 import 'package:buga/screens/onboarding_driver_view/screen/shared_ride.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
