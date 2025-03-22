@@ -37,6 +37,35 @@ class BugaFormFieldAutocomple extends StatelessWidget {
             option.toLowerCase().contains(textEditingValue.text.toLowerCase()));
       },
       onSelected: onSelected,
+      optionsViewBuilder: (BuildContext context,
+          AutocompleteOnSelected<String> onSelected, Iterable<String> options) {
+        return Align(
+          alignment: Alignment.topLeft,
+          child: Material(
+            elevation: 4.0,
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxHeight: 200),
+              child: ListView.builder(
+                padding: EdgeInsets.zero,
+                shrinkWrap: true,
+                itemCount: options.length,
+                itemBuilder: (BuildContext context, int index) {
+                  final String option = options.elementAt(index);
+                  return ListTile(
+                    title: Text(
+                      option,
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                    onTap: () {
+                      onSelected(option);
+                    },
+                  );
+                },
+              ),
+            ),
+          ),
+        );
+      },
       fieldViewBuilder: (BuildContext context,
           TextEditingController textEditingController,
           FocusNode focusNode,
