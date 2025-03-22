@@ -1,17 +1,20 @@
 import 'package:buga/Provider/ride_details_provider.dart';
-import 'package:buga/screens/global_screens/__ride_form_field.dart';
+import 'package:buga/screens/global_screens/ride_form_field.dart';
 import 'package:buga/screens/onboarding_driver_view/screen/find_driver.dart';
-import 'package:buga/screens/ride_details_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+// The main SharedRideScreen widget
 class SharedRideScreen extends ConsumerWidget {
   final String rideType;
   const SharedRideScreen({super.key, required this.rideType});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // Watch the ride details state and get the notifier
     final rideDetails = ref.watch(rideDetailsProvider);
+    final rideDetailsNotifier = ref.read(rideDetailsProvider.notifier);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xFFFFD700),
@@ -26,172 +29,150 @@ class SharedRideScreen extends ConsumerWidget {
         ),
         centerTitle: true,
       ),
-      body: Column(
+      body: Stack(
         children: [
-          // Tab Section:
-          Visibility(
-            visible: false,
-            child: Container(
-              color: const Color(0xFFFFD700),
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  _RideOptionButton(
-                    label: 'Book Realtime',
-                    isSelected: rideDetails.isBookRealtimeSelected,
-                    onTap: () {
-                      ref
-                          .read(rideDetailsProvider.notifier)
-                          .toggleBookingType(true);
-                    },
-                  ),
-                  _RideOptionButton(
-                    label: 'Schedule Trip',
-                    isSelected: !rideDetails.isBookRealtimeSelected,
-                    onTap: () {
-                      ref
-                          .read(rideDetailsProvider.notifier)
-                          .toggleBookingType(false);
-                    },
-                  ),
-                ],
+          // Main Content
+          Column(
+            children: [
+              const SizedBox(height: 16),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Column(
+                  children: [
+                    // "From" Field (Start Location)
+                    RideFormField(
+                      label: 'From',
+                      icon: Icons.circle_outlined,
+                      placeholder: rideDetails.fromLocation.isEmpty
+                          ? 'Enter Starting Point'
+                          : rideDetails.fromLocation,
+                      isEditable: true,
+                      onChanged: (value) {
+                        rideDetailsNotifier.updateFromLocation(value);
+                      },
+                    ),
+                    const SizedBox(height: 8),
+                    // "To" Field (End Location)
+                    RideFormField(
+                      label: 'To',
+                      icon: Icons.location_on,
+                      placeholder: rideDetails.toLocation.isEmpty
+                          ? 'Enter Destination'
+                          : rideDetails.toLocation,
+                      isEditable: true,
+                      onChanged: (value) {
+                        rideDetailsNotifier.updateToLocation(value);
+                      },
+                    ),
+                    const SizedBox(height: 16),
+                    // Date Picker Field
+                    _DatePickerField(
+                      selectedDate: rideDetails.date,
+                      onTap: () async {
+                        final selectedDate = await showDatePicker(
+                          context: context,
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime.now(),
+                          lastDate:
+                              DateTime.now().add(const Duration(days: 365)),
+                        );
+                        if (selectedDate != null) {
+                          final formattedDate =
+                              '${selectedDate.year}-${selectedDate.month}-${selectedDate.day}';
+                          rideDetailsNotifier.updateDate(formattedDate);
+                        }
+                      },
+                    ),
+                    const SizedBox(height: 16),
+                    // Passenger and Luggage Info Widget
+                    PassengerAndLuggageInfo(rideDetails: rideDetails),
+                  ],
+                ),
               ),
-            ),
-          ),
-          const SizedBox(height: 16),
-          // Form Section:
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Column(
-              children: [
-                RideFormField(
-                  label: 'From',
-                  icon: Icons.circle_outlined,
-                  placeholder: rideDetails.fromLocation.isEmpty
-                      ? 'Enter Starting Point'
-                      : rideDetails.fromLocation,
-                  isEditable: true,
-                  onChanged: (value) {
-                    ref
-                        .read(rideDetailsProvider.notifier)
-                        .updateFromLocation(value);
-                  },
-                ),
-                const SizedBox(height: 8),
-                RideFormField(
-                  label: 'To',
-                  icon: Icons.location_on,
-                  placeholder: rideDetails.toLocation.isEmpty
-                      ? 'Enter Destination'
-                      : rideDetails.toLocation,
-                  isEditable: true,
-                  onChanged: (value) {
-                    ref
-                        .read(rideDetailsProvider.notifier)
-                        .updateToLocation(value);
-                  },
-                ),
-                const SizedBox(height: 16),
-                _DatePickerField(
-                  selectedDate: rideDetails.date,
-                  onTap: () async {
-                    debugPrint('Opening date picker...');
-                    final selectedDate = await showDatePicker(
-                      context: context,
-                      initialDate: DateTime.now(),
-                      firstDate: DateTime.now(),
-                      lastDate: DateTime.now().add(const Duration(days: 365)),
+              const Spacer(),
+              // Proceed Button
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: ElevatedButton(
+                  onPressed: () async {
+                    await rideDetailsNotifier.submitRideDetails();
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const RideDetailsScreen(),
+                      ),
                     );
-                    if (selectedDate != null) {
-                      final formattedDate =
-                          '${selectedDate.year}-${selectedDate.month}-${selectedDate.day}';
-                      ref
-                          .read(rideDetailsProvider.notifier)
-                          .updateDate(formattedDate);
-                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.yellow,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      Text(
+                        'Proceed',
+                        style: TextStyle(
+                            color: Colors.black, fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(width: 8),
+                      Icon(Icons.arrow_forward, color: Colors.black),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+          // Suggestions List Overlay for the "From" Field
+          if (rideDetailsNotifier.isSuggestionsVisible)
+            Positioned(
+              top: 120, // Adjust this value based on your UI layout
+              left: 16,
+              right: 16,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(color: Colors.grey),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: rideDetailsNotifier.filteredLocations.length,
+                  itemBuilder: (context, index) {
+                    final location =
+                        rideDetailsNotifier.filteredLocations[index];
+                    return ListTile(
+                      title: Text(location),
+                      onTap: () {
+                        rideDetailsNotifier.selectFromLocation(location);
+                      },
+                    );
                   },
                 ),
-                const SizedBox(height: 16),
-                PassengerAndLuggageInfo(rideDetails: rideDetails),
-              ],
-            ),
-          ),
-
-          const Spacer(),
-          //_buildSavedPlacesSection(ref),
-          // Proceed Button:
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: ElevatedButton(
-              onPressed: () async {
-                await ref
-                    .read(rideDetailsProvider.notifier)
-                    .submitRideDetails();
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const RideDetailsScreen(),
-                  ),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.yellow,
-                padding: const EdgeInsets.symmetric(vertical: 16),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Text(
-                    'Proceed',
-                    style: TextStyle(
-                        color: Colors.black, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(width: 8),
-                  Icon(Icons.arrow_forward, color: Colors.black),
-                ],
               ),
             ),
-          ),
         ],
       ),
     );
   }
 }
 
+// Widget for displaying passenger and luggage information
 class PassengerAndLuggageInfo extends StatelessWidget {
-  const PassengerAndLuggageInfo({
-    super.key,
-    required this.rideDetails,
-  });
-
   final RideDetailsState rideDetails;
+  const PassengerAndLuggageInfo({super.key, required this.rideDetails});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => showModalBottomSheet(
-        context: context,
-        isScrollControlled: true,
-        backgroundColor: Colors.white,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
-        ),
-        builder: (context) {
-          return RideDetailsBottomSheet(
-            rideTitle: 'Ride Details',
-            showSubmitButton: false,
-          );
-        },
-      ),
+      // You can add a bottom sheet trigger here if needed
+      onTap: () {},
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          // Passenger Icon and Text
           Row(
             children: [
-              const Icon(Icons.person,
-                  size: 20, color: Colors.black), // Passenger Icon
+              const Icon(Icons.person, size: 20, color: Colors.black),
               const SizedBox(width: 4),
               Text(
                 '${rideDetails.riders} Passengers',
@@ -200,12 +181,9 @@ class PassengerAndLuggageInfo extends StatelessWidget {
             ],
           ),
           const SizedBox(width: 16),
-
-          // Luggage Icon and Text
           Row(
             children: [
-              const Icon(Icons.luggage,
-                  size: 20, color: Colors.black), // Luggage Icon
+              const Icon(Icons.luggage, size: 20, color: Colors.black),
               const SizedBox(width: 4),
               Text(
                 '${rideDetails.luggage} Luggage',
@@ -214,110 +192,20 @@ class PassengerAndLuggageInfo extends StatelessWidget {
             ],
           ),
           const SizedBox(width: 16),
-
-          // Edit Icon
-          const Icon(Icons.edit, size: 20, color: Colors.black), // Edit Icon
+          const Icon(Icons.edit, size: 20, color: Colors.black),
         ],
       ),
     );
   }
 }
 
-class _RideOptionButton extends StatelessWidget {
-  final String label;
-  final bool isSelected;
-  final VoidCallback onTap;
-
-  const _RideOptionButton({
-    Key? key,
-    required this.label,
-    required this.isSelected,
-    required this.onTap,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-        decoration: BoxDecoration(
-          color: isSelected ? Colors.black : Colors.white,
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Text(
-          label,
-          style: TextStyle(
-            color: isSelected ? Colors.white : Colors.black,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-Widget _buildSavedPlacesSection(WidgetRef ref) {
-  final rideDetails = ref.watch(rideDetailsProvider);
-  final rideDetailsNotifier = ref.read(rideDetailsProvider.notifier);
-
-  return Expanded(
-    child: ListView.builder(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      itemCount: rideDetails.savedPlaces.length + 1,
-      itemBuilder: (context, index) {
-        if (index < rideDetails.savedPlaces.length) {
-          final location = rideDetails.savedPlaces[index];
-          return Column(
-            children: [
-              ListTile(
-                leading: const Icon(Icons.location_pin, color: Colors.black),
-                title: Text(
-                  '${location['from']} → ${location['to']}',
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
-                trailing: IconButton(
-                  icon: const Icon(Icons.delete, color: Colors.red),
-                  onPressed: () {
-                    // Remove the saved place using the provider
-                    rideDetailsNotifier.removeSavedPlace(index);
-                  },
-                ),
-                onTap: () {
-                  // Update the "From" and "To" locations using the provider
-                  rideDetailsNotifier.updateFromLocation(location['from']!);
-                  rideDetailsNotifier.updateToLocation(location['to']!);
-                },
-              ),
-              const Divider(),
-            ],
-          );
-        } else {
-          return ListTile(
-            leading: const Icon(Icons.add, color: Colors.black),
-            title: const Text(
-              'Add Saved Place',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            onTap: () {
-              _showLocationBottomSheet(context, rideDetailsNotifier);
-            },
-          );
-        }
-      },
-    ),
-  );
-}
-
+// Widget for the Date Picker field
 class _DatePickerField extends StatelessWidget {
   final String selectedDate;
   final VoidCallback onTap;
-
-  const _DatePickerField({
-    Key? key,
-    required this.selectedDate,
-    required this.onTap,
-  }) : super(key: key);
+  const _DatePickerField(
+      {Key? key, required this.selectedDate, required this.onTap})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -339,60 +227,4 @@ class _DatePickerField extends StatelessWidget {
       ),
     );
   }
-}
-
-void _showLocationBottomSheet(
-    BuildContext context, RideDetailsNotifier notifier) {
-  final fromController = TextEditingController();
-  final toController = TextEditingController();
-
-  showModalBottomSheet(
-    context: context,
-    isScrollControlled: true,
-    backgroundColor: Colors.white,
-    shape: const RoundedRectangleBorder(
-      borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
-    ),
-    builder: (context) {
-      return Padding(
-        padding: EdgeInsets.only(
-          left: 16,
-          right: 16,
-          bottom: MediaQuery.of(context).viewInsets.bottom + 16,
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextField(
-              controller: fromController,
-              decoration: const InputDecoration(
-                labelText: 'From',
-                border: OutlineInputBorder(),
-              ),
-            ),
-            const SizedBox(height: 8),
-            TextField(
-              controller: toController,
-              decoration: const InputDecoration(
-                labelText: 'To',
-                border: OutlineInputBorder(),
-              ),
-            ),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () {
-                final from = fromController.text.trim();
-                final to = toController.text.trim();
-                if (from.isNotEmpty && to.isNotEmpty) {
-                  notifier.addSavedPlace(from, to);
-                  Navigator.pop(context);
-                }
-              },
-              child: const Text('Save Place'),
-            ),
-          ],
-        ),
-      );
-    },
-  );
 }
