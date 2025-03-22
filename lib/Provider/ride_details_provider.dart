@@ -107,6 +107,16 @@ class RideDetailsNotifier extends StateNotifier<RideDetailsState> {
     state = state.copyWith(); // Trigger UI update
   }
 
+  void hideFromSuggestions() {
+    _isFromSuggestionsVisible = false;
+    state = state.copyWith();
+  }
+
+  void hideToSuggestions() {
+    _isToSuggestionsVisible = false;
+    state = state.copyWith();
+  }
+
   void updateToLocation(String value) {
     state = state.copyWith(toLocation: value);
     _filteredToLocations = value.isEmpty

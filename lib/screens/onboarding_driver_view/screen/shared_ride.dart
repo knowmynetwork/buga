@@ -15,6 +15,10 @@ class SharedRideScreen extends ConsumerWidget {
     final rideDetails = ref.watch(rideDetailsProvider);
     final rideDetailsNotifier = ref.read(rideDetailsProvider.notifier);
 
+    // Create controllers initialized with current state values.
+    final fromController =
+        TextEditingController(text: rideDetails.fromLocation);
+    final toController = TextEditingController(text: rideDetails.toLocation);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xFFFFD700),
@@ -29,159 +33,169 @@ class SharedRideScreen extends ConsumerWidget {
         ),
         centerTitle: true,
       ),
-      body: Stack(
-        children: [
-          // Main Content
-          Column(
-            children: [
-              const SizedBox(height: 16),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Column(
-                  children: [
-                    // "From" Field (Start Location)
-                    RideFormField(
-                      label: 'From',
-                      icon: Icons.circle_outlined,
-                      placeholder: rideDetails.fromLocation.isEmpty
-                          ? 'Enter Starting Point'
-                          : rideDetails.fromLocation,
-                      isEditable: true,
-                      onChanged: (value) {
-                        rideDetailsNotifier.updateFromLocation(value);
-                      },
-                    ),
-                    const SizedBox(height: 8),
-                    // "To" Field (End Location)
-                    RideFormField(
-                      label: 'To',
-                      icon: Icons.location_on,
-                      placeholder: rideDetails.toLocation.isEmpty
-                          ? 'Enter Destination'
-                          : rideDetails.toLocation,
-                      isEditable: true,
-                      onChanged: (value) {
-                        rideDetailsNotifier.updateToLocation(value);
-                      },
-                    ),
-                    const SizedBox(height: 16),
-                    // Date Picker Field
-                    _DatePickerField(
-                      selectedDate: rideDetails.date,
-                      onTap: () async {
-                        final selectedDate = await showDatePicker(
-                          context: context,
-                          initialDate: DateTime.now(),
-                          firstDate: DateTime.now(),
-                          lastDate:
-                              DateTime.now().add(const Duration(days: 365)),
-                        );
-                        if (selectedDate != null) {
-                          final formattedDate =
-                              '${selectedDate.year}-${selectedDate.month}-${selectedDate.day}';
-                          rideDetailsNotifier.updateDate(formattedDate);
-                        }
-                      },
-                    ),
-                    const SizedBox(height: 16),
-                    // Passenger and Luggage Info Widget
-                    PassengerAndLuggageInfo(rideDetails: rideDetails),
-                  ],
-                ),
-              ),
-              const Spacer(),
-              // Proceed Button
-              Padding(
-                padding: const EdgeInsets.all(16),
-                child: ElevatedButton(
-                  onPressed: () async {
-                    await rideDetailsNotifier.submitRideDetails();
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const RideDetailsScreen(),
+      body: GestureDetector(
+        onTap: () {
+          // Hide suggestions when the user taps outside the suggestions list
+          rideDetailsNotifier.hideFromSuggestions();
+          rideDetailsNotifier.hideToSuggestions();
+          FocusScope.of(context).unfocus();
+        },
+        child: Stack(
+          children: [
+            // Main Content
+            Column(
+              children: [
+                const SizedBox(height: 16),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Column(
+                    children: [
+                      // "From" Field (Start Location)
+                      RideFormField(
+                        label: 'From',
+                        icon: Icons.circle_outlined,
+                        placeholder: rideDetails.fromLocation.isEmpty
+                            ? 'Enter Starting Point'
+                            : rideDetails.fromLocation,
+                        isEditable: true,
+                        controller: fromController, // NEW
+                        onChanged: (value) {
+                          rideDetailsNotifier.updateFromLocation(value);
+                        },
                       ),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.yellow,
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      Text(
-                        'Proceed',
-                        style: TextStyle(
-                            color: Colors.black, fontWeight: FontWeight.bold),
+                      const SizedBox(height: 8),
+                      // "To" Field (End Location)
+                      RideFormField(
+                        label: 'To',
+                        icon: Icons.location_on,
+                        placeholder: rideDetails.toLocation.isEmpty
+                            ? 'Enter Destination'
+                            : rideDetails.toLocation,
+                        isEditable: true,
+                        controller: toController, // NEW
+                        onChanged: (value) {
+                          rideDetailsNotifier.updateToLocation(value);
+                        },
                       ),
-                      SizedBox(width: 8),
-                      Icon(Icons.arrow_forward, color: Colors.black),
+                      const SizedBox(height: 16),
+                      // Date Picker Field
+                      _DatePickerField(
+                        selectedDate: rideDetails.date,
+                        onTap: () async {
+                          final selectedDate = await showDatePicker(
+                            context: context,
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime.now(),
+                            lastDate:
+                                DateTime.now().add(const Duration(days: 365)),
+                          );
+                          if (selectedDate != null) {
+                            final formattedDate =
+                                '${selectedDate.year}-${selectedDate.month}-${selectedDate.day}';
+                            rideDetailsNotifier.updateDate(formattedDate);
+                          }
+                        },
+                      ),
+                      const SizedBox(height: 16),
+                      // Passenger and Luggage Info Widget
+                      PassengerAndLuggageInfo(rideDetails: rideDetails),
                     ],
                   ),
                 ),
-              ),
-            ],
-          ),
-          // Suggestions List Overlay for the "From" Field
-          if (rideDetailsNotifier.isFromSuggestionsVisible)
-            Positioned(
-              top: 120, // Adjust based on the "From" field position
-              left: 16,
-              right: 16,
-              child: Container(
-                constraints: const BoxConstraints(maxHeight: 200),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  border: Border.all(color: Colors.grey),
-                  borderRadius: BorderRadius.circular(8),
+                const Spacer(),
+                // Proceed Button
+                Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      await rideDetailsNotifier.submitRideDetails();
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const RideDetailsScreen(),
+                        ),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.yellow,
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        Text(
+                          'Proceed',
+                          style: TextStyle(
+                              color: Colors.black, fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(width: 8),
+                        Icon(Icons.arrow_forward, color: Colors.black),
+                      ],
+                    ),
+                  ),
                 ),
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: rideDetailsNotifier.filteredFromLocations.length,
-                  itemBuilder: (context, index) {
-                    final location =
-                        rideDetailsNotifier.filteredFromLocations[index];
-                    return ListTile(
-                      title: Text(location),
-                      onTap: () {
-                        rideDetailsNotifier.selectFromLocation(location);
-                      },
-                    );
-                  },
-                ),
-              ),
+              ],
             ),
-          // Suggestions List Overlay for the "To" Field
-          if (rideDetailsNotifier.isToSuggestionsVisible)
-            Positioned(
-              top: 180, // Adjust based on the "To" field position
-              left: 16,
-              right: 16,
-              child: Container(
-                constraints: const BoxConstraints(maxHeight: 200),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  border: Border.all(color: Colors.grey),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: rideDetailsNotifier.filteredToLocations.length,
-                  itemBuilder: (context, index) {
-                    final location =
-                        rideDetailsNotifier.filteredToLocations[index];
-                    return ListTile(
-                      title: Text(location),
-                      onTap: () {
-                        rideDetailsNotifier.selectToLocation(location);
-                      },
-                    );
-                  },
+            // Suggestions List Overlay for the "From" Field
+            if (rideDetailsNotifier.isFromSuggestionsVisible)
+              Positioned(
+                top: 120, // Adjust based on the "From" field position
+                left: 16,
+                right: 16,
+                child: Container(
+                  constraints: const BoxConstraints(maxHeight: 200),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: rideDetailsNotifier.filteredFromLocations.length,
+                    itemBuilder: (context, index) {
+                      final location =
+                          rideDetailsNotifier.filteredFromLocations[index];
+                      return ListTile(
+                        title: Text(location),
+                        onTap: () {
+                          rideDetailsNotifier.selectFromLocation(location);
+                        },
+                      );
+                    },
+                  ),
                 ),
               ),
-            ),
-        ],
+            // Suggestions List Overlay for the "To" Field
+            if (rideDetailsNotifier.isToSuggestionsVisible)
+              Positioned(
+                top: 180, // Adjust based on the "To" field position
+                left: 16,
+                right: 16,
+                child: Container(
+                  constraints: const BoxConstraints(maxHeight: 200),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: rideDetailsNotifier.filteredToLocations.length,
+                    itemBuilder: (context, index) {
+                      final location =
+                          rideDetailsNotifier.filteredToLocations[index];
+                      return ListTile(
+                        title: Text(location),
+                        onTap: () {
+                          rideDetailsNotifier.selectToLocation(location);
+                        },
+                      );
+                    },
+                  ),
+                ),
+              ),
+          ],
+        ),
       ),
     );
   }

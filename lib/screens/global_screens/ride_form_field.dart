@@ -9,6 +9,7 @@ class RideFormField extends StatelessWidget {
   final VoidCallback? onTap;
   final List<String> suggestions;
   final Function(String)? onSuggestionSelected;
+  final TextEditingController? controller; // NEW
 
   const RideFormField({
     super.key,
@@ -20,6 +21,7 @@ class RideFormField extends StatelessWidget {
     this.onTap,
     this.suggestions = const [],
     this.onSuggestionSelected,
+    this.controller, // NEW
   });
 
   @override
@@ -33,8 +35,10 @@ class RideFormField extends StatelessWidget {
             const SizedBox(width: 8),
             Expanded(
               child: TextField(
+                controller: controller, // use the controller if provided
                 readOnly: !isEditable,
                 onChanged: onChanged,
+                onTap: onTap,
                 decoration: InputDecoration(
                   hintText: placeholder,
                   border: OutlineInputBorder(
