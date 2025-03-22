@@ -199,7 +199,8 @@ class RideDetailsScreenState extends ConsumerState<RideDetailsScreen> {
                         final rideDetailsNotifier =
                             ref.read(rideDetailsProvider.notifier);
 
-                        await rideDetailsNotifier.submitRideRequest();
+                        await rideDetailsNotifier
+                            .submitRideDetailsAndFindDriver();
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFFFFD700),

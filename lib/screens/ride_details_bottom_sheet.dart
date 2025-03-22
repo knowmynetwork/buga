@@ -74,7 +74,7 @@ class RideDetailsBottomSheet extends ConsumerWidget {
               onPressed: () async {
                 await ref
                     .read(rideDetailsProvider.notifier)
-                    .submitRideDetails();
+                    .submitRideDetailsAndGetMoreRideDetails();
                 // Replace navigateTo with your navigation logic:
                 Navigator.push(
                     context,

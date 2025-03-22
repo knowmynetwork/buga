@@ -127,7 +127,8 @@ class SharedRideScreen extends ConsumerWidget {
                 // Proceed Button at the bottom.
                 ElevatedButton(
                   onPressed: () async {
-                    await rideDetailsNotifier.submitRideDetails();
+                    await rideDetailsNotifier
+                        .submitRideDetailsAndGetMoreRideDetails();
                     Navigator.push(
                       context,
                       MaterialPageRoute(

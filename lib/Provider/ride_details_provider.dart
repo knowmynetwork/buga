@@ -141,11 +141,11 @@ class RideDetailsNotifier extends StateNotifier<RideDetailsState> {
   }
 
   Future<void> submitRideForm() async {
-    await submitRideDetails();
+    await submitRideDetailsAndGetMoreRideDetails();
     // You can also extend this to notify other listeners or analytics
   }
 
-  Future<void> submitRideDetails() async {
+  Future<void> submitRideDetailsAndGetMoreRideDetails() async {
     await Future.delayed(const Duration(seconds: 1)); // simulate network delay
     state = state.copyWith(
       estimatedPrice: '₦15,500 - ₦16,500',
@@ -163,7 +163,7 @@ class RideDetailsNotifier extends StateNotifier<RideDetailsState> {
     // TODO: Implement your API submission logic here.
   }
 
-  Future<void> submitRideRequest() async {
+  Future<void> submitRideDetailsAndFindDriver() async {
     debugPrint('Submitting Ride Request...');
     debugPrint('Estimated Price: ${state.estimatedPrice}');
     debugPrint('Your Own Price: ${state.yourOwnPrice}');
