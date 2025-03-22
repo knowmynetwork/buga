@@ -12,6 +12,10 @@ class RideDetailsState {
   final bool isBookRealtimeSelected;
   final String rideOption;
   final String date;
+  final String estimatedPrice; // Added field
+  final String estimatedTravelTime; // Added field
+  final String yourOwnPrice; // Added field
+  final String messageToDrivers; // Added field
 
   const RideDetailsState({
     this.savedPlaces = const [],
@@ -22,6 +26,10 @@ class RideDetailsState {
     this.isBookRealtimeSelected = false,
     this.rideOption = 'Saloon Car',
     this.date = '',
+    this.estimatedPrice = '', // Default value
+    this.estimatedTravelTime = '', // Default value
+    this.yourOwnPrice = '', // Default value
+    this.messageToDrivers = '', // Default value
   });
 
   RideDetailsState copyWith({
@@ -33,6 +41,10 @@ class RideDetailsState {
     bool? isBookRealtimeSelected,
     String? rideOption,
     String? date,
+    String? estimatedPrice, // Added parameter
+    String? estimatedTravelTime, // Added parameter
+    String? yourOwnPrice, // Added parameter
+    String? messageToDrivers, // Added parameter
   }) {
     return RideDetailsState(
       savedPlaces: savedPlaces ?? this.savedPlaces,
@@ -44,6 +56,11 @@ class RideDetailsState {
           isBookRealtimeSelected ?? this.isBookRealtimeSelected,
       rideOption: rideOption ?? this.rideOption,
       date: date ?? this.date,
+      estimatedPrice: estimatedPrice ?? this.estimatedPrice, // Added line
+      estimatedTravelTime:
+          estimatedTravelTime ?? this.estimatedTravelTime, // Added line
+      yourOwnPrice: yourOwnPrice ?? this.yourOwnPrice, // Added line
+      messageToDrivers: messageToDrivers ?? this.messageToDrivers, // Added line
     );
   }
 }
@@ -107,7 +124,33 @@ class RideDetailsNotifier extends StateNotifier<RideDetailsState> {
     state = state.copyWith(date: value);
   }
 
+  void updateEstimatedPrice(String value) {
+    state = state.copyWith(estimatedPrice: value);
+  }
+
+  void updateYourOwnPrice(String value) {
+    state = state.copyWith(yourOwnPrice: value);
+  }
+
+  void updateMessageToDrivers(String value) {
+    state = state.copyWith(messageToDrivers: value);
+  }
+
+  void updateEstimatedTravelTime(String value) {
+    state = state.copyWith(estimatedTravelTime: value);
+  }
+
+  Future<void> submitRideForm() async {
+    await submitRideDetails();
+    // You can also extend this to notify other listeners or analytics
+  }
+
   Future<void> submitRideDetails() async {
+    await Future.delayed(const Duration(seconds: 1)); // simulate network delay
+    state = state.copyWith(
+      estimatedPrice: '₦15,500 - ₦16,500',
+      estimatedTravelTime: '1 hour 10 mins',
+    );
     debugPrint('Submitting Ride Details:');
     debugPrint('Riders: ${state.riders}');
     debugPrint('Luggage: ${state.luggage}');
@@ -118,6 +161,18 @@ class RideDetailsNotifier extends StateNotifier<RideDetailsState> {
     debugPrint('Ride Option: ${state.rideOption}');
     debugPrint('Date: ${state.date}');
     // TODO: Implement your API submission logic here.
+  }
+
+  Future<void> submitRideRequest() async {
+    debugPrint('Submitting Ride Request...');
+    debugPrint('Estimated Price: ${state.estimatedPrice}');
+    debugPrint('Your Own Price: ${state.yourOwnPrice}');
+    debugPrint('Message to Drivers: ${state.messageToDrivers}');
+    debugPrint('Estimated Travel Time: ${state.estimatedTravelTime}');
+    debugPrint('Message to drivers: ${state.messageToDrivers}');
+    // Simulate network delay
+    await Future.delayed(const Duration(seconds: 1));
+    debugPrint('Ride request submitted.');
   }
 }
 

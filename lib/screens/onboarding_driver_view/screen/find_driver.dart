@@ -1,11 +1,18 @@
+import 'package:buga/screens/global_screens/ride_form_field.dart';
 import 'package:buga/theme/app_text_styles.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:buga/Provider/ride_details_provider.dart';
 
-class RideDetailsScreen extends StatelessWidget {
+class RideDetailsScreen extends ConsumerWidget {
   const RideDetailsScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final rideDetails = ref.watch(rideDetailsProvider);
+    final yourOwnPriceController = TextEditingController();
+    final messageToDriversController = TextEditingController();
+
     return Scaffold(
       body: Stack(
         children: [
@@ -47,9 +54,9 @@ class RideDetailsScreen extends StatelessWidget {
                   child: const Icon(Icons.pin_drop, color: Colors.white),
                 ),
                 const SizedBox(height: 4),
-                const Text(
-                  'Covenant University',
-                  style: TextStyle(
+                Text(
+                  rideDetails.fromLocation,
+                  style: const TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.w500,
                   ),
@@ -73,9 +80,9 @@ class RideDetailsScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              child: const Text(
-                '46, Ogundiran',
-                style: TextStyle(
+              child: Text(
+                rideDetails.toLocation,
+                style: const TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w500,
                 ),
@@ -114,26 +121,26 @@ class RideDetailsScreen extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 4),
-                        const Text(
-                          '15,500 - 16,500',
-                          style: TextStyle(
+                        Text(
+                          rideDetails.estimatedPrice,
+                          style: const TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                             color: Colors.green,
                           ),
                         ),
                         const SizedBox(height: 4),
-                        const Text(
-                          'Solo Ride',
-                          style: TextStyle(
+                        Text(
+                          rideDetails.rideOption,
+                          style: const TextStyle(
                             fontSize: 14,
                             color: Color.fromARGB(255, 0, 0, 0),
                           ),
                         ),
                         const SizedBox(height: 8),
-                        const Text(
-                          'Est. Travel Time: 1 hour 10 mins',
-                          style: TextStyle(
+                        Text(
+                          'Est. Travel Time: ${rideDetails.estimatedTravelTime}',
+                          style: const TextStyle(
                             fontSize: 14,
                             color: Color.fromARGB(255, 0, 0, 0),
                           ),
@@ -142,34 +149,43 @@ class RideDetailsScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  // Input Fields
-                  TextField(
-                    decoration: InputDecoration(
-                      hintText: "What's your price?",
-                      prefixIcon: const Icon(Icons.money),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(color: Colors.grey),
-                      ),
-                    ),
+                  PriceFormField(
+                    icon: Icons.money,
+                    placeholder: "What's your price?",
+                    controller: yourOwnPriceController,
+                    onChanged: (value) {
+                      ref
+                          .read(rideDetailsProvider.notifier)
+                          .updateYourOwnPrice(value);
+                    },
                   ),
                   const SizedBox(height: 12),
-                  TextField(
-                    decoration: InputDecoration(
-                      hintText: 'Any comments or wishes for the driver?',
-                      prefixIcon: const Icon(Icons.chat_bubble_outline),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(color: Colors.grey),
-                      ),
-                    ),
+                  RideFormField(
+                    label: '',
+                    icon: Icons.circle_outlined,
+                    placeholder: 'Any comments for the driver?',
+                    isEditable: true,
+                    onChanged: (value) {
+                      ref
+                          .read(rideDetailsProvider.notifier)
+                          .updateMessageToDrivers(value);
+                    },
                   ),
                   const SizedBox(height: 20),
                   // Find Driver Button
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        final rideDetailsNotifier =
+                            ref.read(rideDetailsProvider.notifier);
+                        rideDetailsNotifier.state =
+                            rideDetailsNotifier.state.copyWith(
+                          yourOwnPrice: yourOwnPriceController.text,
+                          messageToDrivers: messageToDriversController.text,
+                        );
+                        await rideDetailsNotifier.submitRideRequest();
+                      },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFFFFD700),
                         padding: const EdgeInsets.symmetric(vertical: 16),
@@ -183,11 +199,6 @@ class RideDetailsScreen extends StatelessWidget {
                           FontWeight.w500,
                           fontSize: FontSize.font16,
                         ),
-                        //  TextStyle(
-                        //   color: Colors.black,
-                        //   fontSize: 16,
-                        //   fontWeight: FontWeight.bold,
-                        // ),
                       ),
                     ),
                   ),

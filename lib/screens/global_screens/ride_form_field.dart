@@ -1,78 +1,88 @@
 import 'package:flutter/material.dart';
 
-class BugaFormFieldAutocomple extends StatelessWidget {
+class RideFormField extends StatelessWidget {
   final String label;
   final IconData icon;
   final String placeholder;
-  final String initialValue;
-  final List<String> options;
-  final ValueChanged<String> onSelected;
-  final ValueChanged<String>? onChanged;
-  final InputDecoration? decoration;
   final bool isEditable;
-  final TextEditingController? controller;
+  final Function(String)? onChanged;
+  final VoidCallback? onTap;
 
-  const BugaFormFieldAutocomple({
-    Key? key,
+  const RideFormField({
+    super.key,
     required this.label,
     required this.icon,
     required this.placeholder,
-    required this.initialValue,
-    required this.options,
-    required this.onSelected,
+    required this.isEditable,
     this.onChanged,
-    this.decoration,
-    this.isEditable = true,
-    this.controller,
-  }) : super(key: key);
+    this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Autocomplete<String>(
-      optionsBuilder: (TextEditingValue textEditingValue) {
-        if (textEditingValue.text.isEmpty) {
-          return const Iterable<String>.empty();
-        }
-        return options.where((String option) =>
-            option.toLowerCase().contains(textEditingValue.text.toLowerCase()));
-      },
-      onSelected: onSelected,
-      fieldViewBuilder: (BuildContext context,
-          TextEditingController textEditingController,
-          FocusNode focusNode,
-          VoidCallback onFieldSubmitted) {
-        textEditingController.text = initialValue;
-        textEditingController.selection = TextSelection.fromPosition(
-          TextPosition(offset: textEditingController.text.length),
-        );
-
-        return Row(
-          children: [
-            Icon(icon, size: 20, color: Colors.black),
-            const SizedBox(width: 8),
-            Expanded(
-              child: TextField(
-                controller: controller ?? textEditingController,
-                focusNode: focusNode,
-                readOnly: !isEditable,
-                onChanged: onChanged,
-                decoration: decoration ??
-                    InputDecoration(
-                      hintText: placeholder,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: const BorderSide(color: Colors.grey),
-                      ),
-                      filled: true,
-                      fillColor: Colors.grey[200],
-                      contentPadding:
-                          const EdgeInsets.symmetric(horizontal: 16),
-                    ),
+    return Row(
+      children: [
+        Icon(icon, size: 20, color: Colors.black),
+        const SizedBox(width: 8),
+        Expanded(
+          child: GestureDetector(
+            onTap: () {
+              debugPrint('RideFormField tapped'); // Debugging log
+              if (onTap != null) {
+                onTap!();
+              }
+            },
+            child: TextField(
+              readOnly: !isEditable,
+              onChanged: isEditable ? onChanged : null,
+              decoration: InputDecoration(
+                hintText: placeholder,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: const BorderSide(color: Colors.grey),
+                ),
+                filled: true,
+                fillColor: Colors.grey[200],
+                contentPadding: const EdgeInsets.symmetric(horizontal: 16),
               ),
             ),
-          ],
-        );
-      },
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class PriceFormField extends StatelessWidget {
+  final IconData icon;
+  final String placeholder;
+  final TextEditingController controller;
+  final ValueChanged<String>? onChanged;
+
+  const PriceFormField({
+    super.key,
+    required this.icon,
+    required this.placeholder,
+    required this.controller,
+    this.onChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      controller: controller,
+      onChanged: onChanged,
+      decoration: InputDecoration(
+        hintText: placeholder,
+        prefixIcon: Icon(icon, color: Colors.black),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: const BorderSide(color: Colors.grey),
+        ),
+        filled: true,
+        fillColor: Colors.grey[200],
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+      ),
     );
   }
 }
