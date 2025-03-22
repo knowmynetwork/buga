@@ -1,3 +1,4 @@
+import 'package:buga/screens/ride_details_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -39,6 +40,39 @@ class SharedRideScreen extends ConsumerWidget {
             padding: const EdgeInsets.all(16.0),
             child: Column(
               children: [
+                // Tab Section:
+                Visibility(
+                  visible: false,
+                  child: Container(
+                    color: const Color(0xFFFFD700),
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        _RideOptionButton(
+                          label: 'Book Realtime',
+                          isSelected: rideDetails.isBookRealtimeSelected,
+                          onTap: () {
+                            ref
+                                .read(rideDetailsProvider.notifier)
+                                .toggleBookingType(true);
+                          },
+                        ),
+                        _RideOptionButton(
+                          label: 'Schedule Trip',
+                          isSelected: !rideDetails.isBookRealtimeSelected,
+                          onTap: () {
+                            ref
+                                .read(rideDetailsProvider.notifier)
+                                .toggleBookingType(false);
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16),
+
                 // "From" Field using BugaFormFieldAutocomple
                 BugaFormFieldAutocomple(
                   label: 'From',
@@ -88,10 +122,7 @@ class SharedRideScreen extends ConsumerWidget {
                 ),
                 const SizedBox(height: 16),
                 // GestureDetector around Passenger and Luggage Info to dismiss the keyboard on tap.
-                GestureDetector(
-                  onTap: () => FocusScope.of(context).unfocus(),
-                  child: PassengerAndLuggageInfo(rideDetails: rideDetails),
-                ),
+                PassengerAndLuggageInfo(rideDetails: rideDetails),
                 const SizedBox(height: 16),
                 // Proceed Button at the bottom.
                 ElevatedButton(
@@ -162,41 +193,100 @@ class _DatePickerField extends StatelessWidget {
   }
 }
 
-// Widget for displaying passenger and luggage information.
-class PassengerAndLuggageInfo extends StatelessWidget {
-  final RideDetailsState rideDetails;
-  const PassengerAndLuggageInfo({Key? key, required this.rideDetails})
-      : super(key: key);
+class _RideOptionButton extends StatelessWidget {
+  final String label;
+  final bool isSelected;
+  final VoidCallback onTap;
+
+  const _RideOptionButton({
+    Key? key,
+    required this.label,
+    required this.isSelected,
+    required this.onTap,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        Row(
-          children: [
-            const Icon(Icons.person, size: 20, color: Colors.black),
-            const SizedBox(width: 4),
-            Text(
-              '${rideDetails.riders} Passengers',
-              style: const TextStyle(fontWeight: FontWeight.bold),
-            ),
-          ],
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+        decoration: BoxDecoration(
+          color: isSelected ? Colors.black : Colors.white,
+          borderRadius: BorderRadius.circular(20),
         ),
-        const SizedBox(width: 16),
-        Row(
-          children: [
-            const Icon(Icons.luggage, size: 20, color: Colors.black),
-            const SizedBox(width: 4),
-            Text(
-              '${rideDetails.luggage} Luggage',
-              style: const TextStyle(fontWeight: FontWeight.bold),
-            ),
-          ],
+        child: Text(
+          label,
+          style: TextStyle(
+            color: isSelected ? Colors.white : Colors.black,
+            fontWeight: FontWeight.bold,
+          ),
         ),
-        const SizedBox(width: 16),
-        const Icon(Icons.edit, size: 20, color: Colors.black),
-      ],
+      ),
+    );
+  }
+}
+
+class PassengerAndLuggageInfo extends StatelessWidget {
+  const PassengerAndLuggageInfo({
+    super.key,
+    required this.rideDetails,
+  });
+
+  final RideDetailsState rideDetails;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () => showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        backgroundColor: Colors.white,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
+        ),
+        builder: (context) {
+          return RideDetailsBottomSheet(
+            rideTitle: 'Ride Details',
+            showSubmitButton: false,
+          );
+        },
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          // Passenger Icon and Text
+          Row(
+            children: [
+              const Icon(Icons.person,
+                  size: 20, color: Colors.black), // Passenger Icon
+              const SizedBox(width: 4),
+              Text(
+                '${rideDetails.riders} Passengers',
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
+          const SizedBox(width: 16),
+
+          // Luggage Icon and Text
+          Row(
+            children: [
+              const Icon(Icons.luggage,
+                  size: 20, color: Colors.black), // Luggage Icon
+              const SizedBox(width: 4),
+              Text(
+                '${rideDetails.luggage} Luggage',
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
+          const SizedBox(width: 16),
+
+          // Edit Icon
+          const Icon(Icons.edit, size: 20, color: Colors.black), // Edit Icon
+        ],
+      ),
     );
   }
 }
