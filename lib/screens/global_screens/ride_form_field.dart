@@ -80,7 +80,7 @@ class PriceFormField extends StatelessWidget {
           borderSide: const BorderSide(color: Colors.grey),
         ),
         filled: true,
-        fillColor: Colors.grey[200],
+        fillColor: Colors.white,
         contentPadding: const EdgeInsets.symmetric(horizontal: 16),
       ),
     );

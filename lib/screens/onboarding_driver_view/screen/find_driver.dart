@@ -4,14 +4,34 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:buga/Provider/ride_details_provider.dart';
 
-class RideDetailsScreen extends ConsumerWidget {
+class RideDetailsScreen extends ConsumerStatefulWidget {
   const RideDetailsScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  RideDetailsScreenState createState() => RideDetailsScreenState();
+}
+
+class RideDetailsScreenState extends ConsumerState<RideDetailsScreen> {
+  late final TextEditingController yourOwnPriceController;
+  late final TextEditingController messageToDriversController;
+
+  @override
+  void initState() {
+    super.initState();
+    yourOwnPriceController = TextEditingController();
+    messageToDriversController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    yourOwnPriceController.dispose();
+    messageToDriversController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final rideDetails = ref.watch(rideDetailsProvider);
-    final yourOwnPriceController = TextEditingController();
-    final messageToDriversController = TextEditingController();
 
     return Scaffold(
       body: Stack(
@@ -160,11 +180,10 @@ class RideDetailsScreen extends ConsumerWidget {
                     },
                   ),
                   const SizedBox(height: 12),
-                  RideFormField(
-                    label: '',
-                    icon: Icons.circle_outlined,
+                  PriceFormField(
+                    icon: Icons.chat_bubble_outline,
                     placeholder: 'Any comments for the driver?',
-                    isEditable: true,
+                    controller: messageToDriversController,
                     onChanged: (value) {
                       ref
                           .read(rideDetailsProvider.notifier)
@@ -179,11 +198,7 @@ class RideDetailsScreen extends ConsumerWidget {
                       onPressed: () async {
                         final rideDetailsNotifier =
                             ref.read(rideDetailsProvider.notifier);
-                        rideDetailsNotifier.state =
-                            rideDetailsNotifier.state.copyWith(
-                          yourOwnPrice: yourOwnPriceController.text,
-                          messageToDrivers: messageToDriversController.text,
-                        );
+
                         await rideDetailsNotifier.submitRideRequest();
                       },
                       style: ElevatedButton.styleFrom(

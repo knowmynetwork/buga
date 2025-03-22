@@ -167,7 +167,6 @@ class RideDetailsNotifier extends StateNotifier<RideDetailsState> {
     debugPrint('Submitting Ride Request...');
     debugPrint('Estimated Price: ${state.estimatedPrice}');
     debugPrint('Your Own Price: ${state.yourOwnPrice}');
-    debugPrint('Message to Drivers: ${state.messageToDrivers}');
     debugPrint('Estimated Travel Time: ${state.estimatedTravelTime}');
     debugPrint('Message to drivers: ${state.messageToDrivers}');
     // Simulate network delay
