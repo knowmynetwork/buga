@@ -124,12 +124,13 @@ class SharedRideScreen extends ConsumerWidget {
             ],
           ),
           // Suggestions List Overlay for the "From" Field
-          if (rideDetailsNotifier.isSuggestionsVisible)
+          if (rideDetailsNotifier.isFromSuggestionsVisible)
             Positioned(
-              top: 120, // Adjust this value based on your UI layout
+              top: 120, // Adjust based on the "From" field position
               left: 16,
               right: 16,
               child: Container(
+                constraints: const BoxConstraints(maxHeight: 200),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   border: Border.all(color: Colors.grey),
@@ -137,14 +138,43 @@ class SharedRideScreen extends ConsumerWidget {
                 ),
                 child: ListView.builder(
                   shrinkWrap: true,
-                  itemCount: rideDetailsNotifier.filteredLocations.length,
+                  itemCount: rideDetailsNotifier.filteredFromLocations.length,
                   itemBuilder: (context, index) {
                     final location =
-                        rideDetailsNotifier.filteredLocations[index];
+                        rideDetailsNotifier.filteredFromLocations[index];
                     return ListTile(
                       title: Text(location),
                       onTap: () {
                         rideDetailsNotifier.selectFromLocation(location);
+                      },
+                    );
+                  },
+                ),
+              ),
+            ),
+          // Suggestions List Overlay for the "To" Field
+          if (rideDetailsNotifier.isToSuggestionsVisible)
+            Positioned(
+              top: 180, // Adjust based on the "To" field position
+              left: 16,
+              right: 16,
+              child: Container(
+                constraints: const BoxConstraints(maxHeight: 200),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(color: Colors.grey),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: rideDetailsNotifier.filteredToLocations.length,
+                  itemBuilder: (context, index) {
+                    final location =
+                        rideDetailsNotifier.filteredToLocations[index];
+                    return ListTile(
+                      title: Text(location),
+                      onTap: () {
+                        rideDetailsNotifier.selectToLocation(location);
                       },
                     );
                   },

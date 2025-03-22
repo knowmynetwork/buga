@@ -1,5 +1,7 @@
 import 'package:buga/screens/rider_view/auth_views/auth_export.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 @immutable
 class RideDetailsState {
@@ -50,8 +52,7 @@ class RideDetailsState {
 class RideDetailsNotifier extends StateNotifier<RideDetailsState> {
   RideDetailsNotifier()
       : super(RideDetailsState(
-          date: DateFormat('yyyy-MM-dd')
-              .format(DateTime.now()), // Initialize date
+          date: DateFormat('yyyy-MM-dd').format(DateTime.now()),
         ));
 
   // Mock list of locations
@@ -68,13 +69,17 @@ class RideDetailsNotifier extends StateNotifier<RideDetailsState> {
     'San Jose',
   ];
 
-  // Filtered locations for the dropdown
-  List<String> _filteredLocations = [];
-  List<String> get filteredLocations => _filteredLocations;
+  // For the "From" field suggestions
+  List<String> _filteredFromLocations = [];
+  List<String> get filteredFromLocations => _filteredFromLocations;
+  bool _isFromSuggestionsVisible = false;
+  bool get isFromSuggestionsVisible => _isFromSuggestionsVisible;
 
-// Visibility flag for the suggestions list
-  bool _isSuggestionsVisible = false;
-  bool get isSuggestionsVisible => _isSuggestionsVisible;
+  // For the "To" field suggestions
+  List<String> _filteredToLocations = [];
+  List<String> get filteredToLocations => _filteredToLocations;
+  bool _isToSuggestionsVisible = false;
+  bool get isToSuggestionsVisible => _isToSuggestionsVisible;
 
   void updateRiders(int value) {
     state = state.copyWith(riders: value);
@@ -86,32 +91,37 @@ class RideDetailsNotifier extends StateNotifier<RideDetailsState> {
 
   void updateFromLocation(String value) {
     state = state.copyWith(fromLocation: value);
-    _filterLocations(value);
-    _isSuggestionsVisible = value.isNotEmpty;
+    _filteredFromLocations = value.isEmpty
+        ? []
+        : _allLocations
+            .where((location) =>
+                location.toLowerCase().contains(value.toLowerCase()))
+            .toList();
+    _isFromSuggestionsVisible = value.isNotEmpty;
     state = state.copyWith(); // Trigger UI update
   }
 
   void selectFromLocation(String value) {
     state = state.copyWith(fromLocation: value);
-    _isSuggestionsVisible = false; // Hide suggestions
+    _isFromSuggestionsVisible = false; // Hide suggestions
     state = state.copyWith(); // Trigger UI update
   }
 
   void updateToLocation(String value) {
     state = state.copyWith(toLocation: value);
-    _filterLocations(value);
+    _filteredToLocations = value.isEmpty
+        ? []
+        : _allLocations
+            .where((location) =>
+                location.toLowerCase().contains(value.toLowerCase()))
+            .toList();
+    _isToSuggestionsVisible = value.isNotEmpty;
+    state = state.copyWith(); // Trigger UI update
   }
 
-  void _filterLocations(String query) {
-    if (query.isEmpty) {
-      _filteredLocations = [];
-    } else {
-      _filteredLocations = _allLocations
-          .where((location) =>
-              location.toLowerCase().contains(query.toLowerCase()))
-          .toList();
-    }
-    // Notify listeners about the change
+  void selectToLocation(String value) {
+    state = state.copyWith(toLocation: value);
+    _isToSuggestionsVisible = false; // Hide suggestions
     state = state.copyWith(); // Trigger UI update
   }
 
@@ -148,20 +158,7 @@ class RideDetailsNotifier extends StateNotifier<RideDetailsState> {
     debugPrint(
         'Booking Type: ${state.isBookRealtimeSelected ? 'Realtime' : 'Scheduled'}');
     debugPrint('Ride Option: ${state.rideOption}');
-
     // TODO: Implement your API submission logic here.
-    // Example:
-    // await http.post(
-    //   Uri.parse('https://yourapi.com/submit'),
-    //   body: {
-    //     'riders': state.riders.toString(),
-    //     'luggage': state.luggage.toString(),
-    //     'from': state.fromLocation,
-    //     'to': state.toLocation,
-    //     'bookingType': state.isBookRealtimeSelected ? 'realtime' : 'scheduled',
-    //     'rideOption': state.rideOption,
-    //   },
-    // );
   }
 }
 
