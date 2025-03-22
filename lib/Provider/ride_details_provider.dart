@@ -1,4 +1,3 @@
-import 'package:buga/screens/rider_view/auth_views/auth_export.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -12,7 +11,7 @@ class RideDetailsState {
   final String toLocation;
   final bool isBookRealtimeSelected;
   final String rideOption;
-  final String date; // New property for the date
+  final String date;
 
   const RideDetailsState({
     this.savedPlaces = const [],
@@ -55,7 +54,7 @@ class RideDetailsNotifier extends StateNotifier<RideDetailsState> {
           date: DateFormat('yyyy-MM-dd').format(DateTime.now()),
         ));
 
-  // Mock list of locations
+  // Full list of available locations.
   final List<String> _allLocations = [
     'New York',
     'Los Angeles',
@@ -69,17 +68,8 @@ class RideDetailsNotifier extends StateNotifier<RideDetailsState> {
     'San Jose',
   ];
 
-  // For the "From" field suggestions
-  List<String> _filteredFromLocations = [];
-  List<String> get filteredFromLocations => _filteredFromLocations;
-  bool _isFromSuggestionsVisible = false;
-  bool get isFromSuggestionsVisible => _isFromSuggestionsVisible;
-
-  // For the "To" field suggestions
-  List<String> _filteredToLocations = [];
-  List<String> get filteredToLocations => _filteredToLocations;
-  bool _isToSuggestionsVisible = false;
-  bool get isToSuggestionsVisible => _isToSuggestionsVisible;
+  // Public getter to allow the UI to access the locations.
+  List<String> get allLocations => _allLocations;
 
   void updateRiders(int value) {
     state = state.copyWith(riders: value);
@@ -91,60 +81,18 @@ class RideDetailsNotifier extends StateNotifier<RideDetailsState> {
 
   void updateFromLocation(String value) {
     state = state.copyWith(fromLocation: value);
-    _filteredFromLocations = value.isEmpty
-        ? []
-        : _allLocations
-            .where((location) =>
-                location.toLowerCase().contains(value.toLowerCase()))
-            .toList();
-    _isFromSuggestionsVisible = value.isNotEmpty;
-    state = state.copyWith(); // Trigger UI update
   }
 
   void selectFromLocation(String value) {
     state = state.copyWith(fromLocation: value);
-    _isFromSuggestionsVisible = false; // Hide suggestions
-    state = state.copyWith(); // Trigger UI update
-  }
-
-  void hideFromSuggestions() {
-    _isFromSuggestionsVisible = false;
-    state = state.copyWith();
-  }
-
-  void hideToSuggestions() {
-    _isToSuggestionsVisible = false;
-    state = state.copyWith();
   }
 
   void updateToLocation(String value) {
     state = state.copyWith(toLocation: value);
-    _filteredToLocations = value.isEmpty
-        ? []
-        : _allLocations
-            .where((location) =>
-                location.toLowerCase().contains(value.toLowerCase()))
-            .toList();
-    _isToSuggestionsVisible = value.isNotEmpty;
-    state = state.copyWith(); // Trigger UI update
   }
 
   void selectToLocation(String value) {
     state = state.copyWith(toLocation: value);
-    _isToSuggestionsVisible = false; // Hide suggestions
-    state = state.copyWith(); // Trigger UI update
-  }
-
-  void addSavedPlace(String from, String to) {
-    final updatedSavedPlaces = List<Map<String, String>>.from(state.savedPlaces)
-      ..add({'from': from, 'to': to});
-    state = state.copyWith(savedPlaces: updatedSavedPlaces);
-  }
-
-  void removeSavedPlace(int index) {
-    final updatedSavedPlaces = List<Map<String, String>>.from(state.savedPlaces)
-      ..removeAt(index);
-    state = state.copyWith(savedPlaces: updatedSavedPlaces);
   }
 
   void toggleBookingType(bool isRealtime) {
@@ -168,6 +116,7 @@ class RideDetailsNotifier extends StateNotifier<RideDetailsState> {
     debugPrint(
         'Booking Type: ${state.isBookRealtimeSelected ? 'Realtime' : 'Scheduled'}');
     debugPrint('Ride Option: ${state.rideOption}');
+    debugPrint('Date: ${state.date}');
     // TODO: Implement your API submission logic here.
   }
 }
