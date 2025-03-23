@@ -1,3 +1,4 @@
+import 'package:buga/Models/ride_details_state.dart';
 import 'package:buga/constant/snackbar_view.dart';
 import 'package:buga/screens/ride_details_bottom_sheet.dart';
 import 'package:flutter/material.dart';
