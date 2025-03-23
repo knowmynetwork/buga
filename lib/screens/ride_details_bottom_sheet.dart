@@ -12,86 +12,92 @@ class RideDetailsBottomSheet extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final rideDetails = ref.watch(rideDetailsProvider);
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          // Header with close button:
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    final rideDetailsAsync = ref.watch(rideDetailsProvider);
+    return rideDetailsAsync.when(
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (err, stack) => Center(child: Text('Error: $err')),
+      data: (rideDetails) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
-                rideTitle,
-                style:
-                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              // Header with close button:
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    rideTitle,
+                    style: const TextStyle(
+                        fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.close),
+                    onPressed: () => Navigator.pop(context),
+                  ),
+                ],
               ),
-              IconButton(
-                icon: const Icon(Icons.close),
-                onPressed: () => Navigator.pop(context),
+              // Ride option cards:
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  _buildOptionCard(
+                    'Saloon Car',
+                    '2 riders',
+                    isSelected: rideDetails.rideOption == 'Saloon Car',
+                    onTap: () => ref
+                        .read(rideDetailsProvider.notifier)
+                        .updateRideOption('Saloon Car'),
+                  ),
+                  _buildOptionCard(
+                    'SUV/Minibus',
+                    '2+ riders',
+                    isSelected: rideDetails.rideOption == 'SUV/Minibus',
+                    onTap: () => ref
+                        .read(rideDetailsProvider.notifier)
+                        .updateRideOption('SUV/Minibus'),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+              // Counter rows for riders and luggage:
+              _buildCounterRow('Total No of Riders', rideDetails.riders, max: 2,
+                  onChanged: (value) {
+                ref.read(rideDetailsProvider.notifier).updateRiders(value);
+              }),
+              const SizedBox(height: 12),
+              _buildCounterRow('Total Luggage Number', rideDetails.luggage,
+                  max: 4, onChanged: (value) {
+                ref.read(rideDetailsProvider.notifier).updateLuggage(value);
+              }),
+              const SizedBox(height: 16),
+              // Proceed button:
+              Visibility(
+                visible: showSubmitButton,
+                child: ElevatedButton(
+                  onPressed: () async {
+                    await ref
+                        .read(rideDetailsProvider.notifier)
+                        .submitRideDetailsAndGetMoreRideDetails();
+                    // Replace navigateTo with your navigation logic:
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const SharedRideScreen(
+                                  rideType: "Rider",
+                                )));
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.lightYellow,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                  ),
+                  child: const Center(child: Text('Proceed')),
+                ),
               ),
             ],
           ),
-          // Ride option cards:
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              _buildOptionCard(
-                'Saloon Car',
-                '2 riders',
-                isSelected: rideDetails.rideOption == 'Saloon Car',
-                onTap: () => ref
-                    .read(rideDetailsProvider.notifier)
-                    .updateRideOption('Saloon Car'),
-              ),
-              _buildOptionCard(
-                'SUV/Minibus',
-                '2+ riders',
-                isSelected: rideDetails.rideOption == 'SUV/Minibus',
-                onTap: () => ref
-                    .read(rideDetailsProvider.notifier)
-                    .updateRideOption('SUV/Minibus'),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          // Counter rows for riders and luggage:
-          _buildCounterRow('Total No of Riders', rideDetails.riders, max: 2,
-              onChanged: (value) {
-            ref.read(rideDetailsProvider.notifier).updateRiders(value);
-          }),
-          const SizedBox(height: 12),
-          _buildCounterRow('Total Luggage Number', rideDetails.luggage, max: 4,
-              onChanged: (value) {
-            ref.read(rideDetailsProvider.notifier).updateLuggage(value);
-          }),
-          const SizedBox(height: 16),
-          // Proceed button:
-          Visibility(
-            visible: showSubmitButton,
-            child: ElevatedButton(
-              onPressed: () async {
-                await ref
-                    .read(rideDetailsProvider.notifier)
-                    .submitRideDetailsAndGetMoreRideDetails();
-                // Replace navigateTo with your navigation logic:
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const SharedRideScreen(
-                              rideType: "Rider",
-                            )));
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.lightYellow,
-                padding: const EdgeInsets.symmetric(vertical: 16),
-              ),
-              child: const Center(child: Text('Proceed')),
-            ),
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 

@@ -13,153 +13,160 @@ class SharedRideScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final rideDetails = ref.watch(rideDetailsProvider);
-    final rideDetailsNotifier = ref.read(rideDetailsProvider.notifier);
+    final rideDetailsAsync = ref.watch(rideDetailsProvider);
 
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color(0xFFFFD700),
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => Navigator.pop(context),
-        ),
-        title: const Text(
-          'Shared Ride',
-          style: TextStyle(color: Colors.black),
-        ),
-        centerTitle: true,
-      ),
-      body: SingleChildScrollView(
-        child: GestureDetector(
-          onTap: () {
-            // Dismiss the keyboard when tapping outside.
-            FocusScope.of(context).unfocus();
-          },
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: [
-                // Tab Section:
-                Visibility(
-                  visible: false,
-                  child: Container(
-                    color: const Color(0xFFFFD700),
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        _RideOptionButton(
-                          label: 'Book Realtime',
-                          isSelected: rideDetails.isBookRealtimeSelected,
-                          onTap: () {
-                            ref
-                                .read(rideDetailsProvider.notifier)
-                                .toggleBookingType(true);
-                          },
+    return rideDetailsAsync.when(
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (err, stack) => Center(child: Text('Error: $err')),
+      data: (rideDetails) {
+        final rideDetailsNotifier = ref.read(rideDetailsProvider.notifier);
+        return Scaffold(
+          appBar: AppBar(
+            backgroundColor: const Color(0xFFFFD700),
+            elevation: 0,
+            leading: IconButton(
+              icon: const Icon(Icons.arrow_back, color: Colors.black),
+              onPressed: () => Navigator.pop(context),
+            ),
+            title: const Text(
+              'Shared Ride',
+              style: TextStyle(color: Colors.black),
+            ),
+            centerTitle: true,
+          ),
+          body: SingleChildScrollView(
+            child: GestureDetector(
+              onTap: () {
+                // Dismiss the keyboard when tapping outside.
+                FocusScope.of(context).unfocus();
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  children: [
+                    // Tab Section:
+                    Visibility(
+                      visible: false,
+                      child: Container(
+                        color: const Color(0xFFFFD700),
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            _RideOptionButton(
+                              label: 'Book Realtime',
+                              isSelected: rideDetails.isBookRealtimeSelected,
+                              onTap: () {
+                                ref
+                                    .read(rideDetailsProvider.notifier)
+                                    .toggleBookingType(true);
+                              },
+                            ),
+                            _RideOptionButton(
+                              label: 'Schedule Trip',
+                              isSelected: !rideDetails.isBookRealtimeSelected,
+                              onTap: () {
+                                ref
+                                    .read(rideDetailsProvider.notifier)
+                                    .toggleBookingType(false);
+                              },
+                            ),
+                          ],
                         ),
-                        _RideOptionButton(
-                          label: 'Schedule Trip',
-                          isSelected: !rideDetails.isBookRealtimeSelected,
-                          onTap: () {
-                            ref
-                                .read(rideDetailsProvider.notifier)
-                                .toggleBookingType(false);
-                          },
-                        ),
-                      ],
+                      ),
                     ),
-                  ),
-                ),
-                const SizedBox(height: 16),
+                    const SizedBox(height: 16),
 
-                // "From" Field using BugaFormFieldAutocomple
-                BugaFormFieldAutocomple(
-                  label: 'From',
-                  icon: Icons.location_on,
-                  placeholder: 'Enter Starting Point',
-                  initialValue: rideDetails.fromLocation,
-                  options: rideDetailsNotifier.allLocations,
-                  onSelected: (selection) {
-                    rideDetailsNotifier.selectFromLocation(selection);
-                  },
-                  onChanged: (value) {
-                    rideDetailsNotifier.updateFromLocation(value);
-                  },
-                ),
-                const SizedBox(height: 8),
-                // "To" Field using BugaFormFieldAutocomple
-                BugaFormFieldAutocomple(
-                  label: 'To',
-                  icon: Icons.location_on,
-                  placeholder: 'Enter Destination',
-                  initialValue: rideDetails.toLocation,
-                  options: rideDetailsNotifier.allLocations,
-                  onSelected: (selection) {
-                    rideDetailsNotifier.selectToLocation(selection);
-                  },
-                  onChanged: (value) {
-                    rideDetailsNotifier.updateToLocation(value);
-                  },
-                ),
-                const SizedBox(height: 16),
-                // Date Picker Field
-                _DatePickerField(
-                  selectedDate: rideDetails.date,
-                  onTap: () async {
-                    final selectedDate = await showDatePicker(
-                      context: context,
-                      initialDate: DateTime.now(),
-                      firstDate: DateTime.now(),
-                      lastDate: DateTime.now().add(const Duration(days: 365)),
-                    );
-                    if (selectedDate != null) {
-                      final formattedDate =
-                          DateFormat('yyyy-MM-dd').format(selectedDate);
-                      rideDetailsNotifier.updateDate(formattedDate);
-                    }
-                  },
-                ),
-                const SizedBox(height: 16),
-                // GestureDetector around Passenger and Luggage Info to dismiss the keyboard on tap.
-                PassengerAndLuggageInfo(rideDetails: rideDetails),
-                const SizedBox(height: 16),
-                // Proceed Button at the bottom.
-                ElevatedButton(
-                  onPressed: () async {
-                    await rideDetailsNotifier
-                        .submitRideDetailsAndGetMoreRideDetails();
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const RideDetailsScreen(),
+                    // "From" Field using BugaFormFieldAutocomple
+                    BugaFormFieldAutocomple(
+                      label: 'From',
+                      icon: Icons.location_on,
+                      placeholder: 'Enter Starting Point',
+                      initialValue: rideDetails.fromLocation,
+                      options: rideDetailsNotifier.allLocations,
+                      onSelected: (selection) {
+                        rideDetailsNotifier.selectFromLocation(selection);
+                      },
+                      onChanged: (value) {
+                        rideDetailsNotifier.updateFromLocation(value);
+                      },
+                    ),
+                    const SizedBox(height: 8),
+                    // "To" Field using BugaFormFieldAutocomple
+                    BugaFormFieldAutocomple(
+                      label: 'To',
+                      icon: Icons.location_on,
+                      placeholder: 'Enter Destination',
+                      initialValue: rideDetails.toLocation,
+                      options: rideDetailsNotifier.allLocations,
+                      onSelected: (selection) {
+                        rideDetailsNotifier.selectToLocation(selection);
+                      },
+                      onChanged: (value) {
+                        rideDetailsNotifier.updateToLocation(value);
+                      },
+                    ),
+                    const SizedBox(height: 16),
+                    // Date Picker Field
+                    _DatePickerField(
+                      selectedDate: rideDetails.date,
+                      onTap: () async {
+                        final selectedDate = await showDatePicker(
+                          context: context,
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime.now(),
+                          lastDate:
+                              DateTime.now().add(const Duration(days: 365)),
+                        );
+                        if (selectedDate != null) {
+                          final formattedDate =
+                              DateFormat('yyyy-MM-dd').format(selectedDate);
+                          rideDetailsNotifier.updateDate(formattedDate);
+                        }
+                      },
+                    ),
+                    const SizedBox(height: 16),
+                    // GestureDetector around Passenger and Luggage Info to dismiss the keyboard on tap.
+                    PassengerAndLuggageInfo(rideDetails: rideDetails),
+                    const SizedBox(height: 16),
+                    // Proceed Button at the bottom.
+                    ElevatedButton(
+                      onPressed: () async {
+                        await rideDetailsNotifier
+                            .submitRideDetailsAndGetMoreRideDetails();
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const RideDetailsScreen(),
+                          ),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.yellow,
+                        padding: const EdgeInsets.symmetric(vertical: 16),
                       ),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.yellow,
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      Text(
-                        'Proceed',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const [
+                          Text(
+                            'Proceed',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(width: 8),
+                          Icon(Icons.arrow_forward, color: Colors.black),
+                        ],
                       ),
-                      SizedBox(width: 8),
-                      Icon(Icons.arrow_forward, color: Colors.black),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

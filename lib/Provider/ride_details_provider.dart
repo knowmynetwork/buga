@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:intl/intl.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -65,11 +67,14 @@ class RideDetailsState {
   }
 }
 
-class RideDetailsNotifier extends StateNotifier<RideDetailsState> {
-  RideDetailsNotifier()
-      : super(RideDetailsState(
-          date: DateFormat('yyyy-MM-dd').format(DateTime.now()),
-        ));
+class RideDetailsNotifier extends AsyncNotifier<RideDetailsState> {
+  @override
+  FutureOr<RideDetailsState> build() {
+    // Initialize state (you could even fetch from API here)
+    return RideDetailsState(
+      date: DateFormat('yyyy-MM-dd').format(DateTime.now()),
+    );
+  }
 
   // Full list of available locations.
   final List<String> _allLocations = [
@@ -89,55 +94,61 @@ class RideDetailsNotifier extends StateNotifier<RideDetailsState> {
   List<String> get allLocations => _allLocations;
 
   void updateRiders(int value) {
-    state = state.copyWith(riders: value);
+    state = state.whenData((current) => current.copyWith(riders: value));
   }
 
   void updateLuggage(int value) {
-    state = state.copyWith(luggage: value);
+    state = state.whenData((current) => current.copyWith(luggage: value));
   }
 
   void updateFromLocation(String value) {
-    state = state.copyWith(fromLocation: value);
+    state = state.whenData(
+      (current) => current.copyWith(fromLocation: value),
+    );
   }
 
   void selectFromLocation(String value) {
-    state = state.copyWith(fromLocation: value);
+    state = state.whenData((current) => current.copyWith(fromLocation: value));
   }
 
   void updateToLocation(String value) {
-    state = state.copyWith(toLocation: value);
+    state = state.whenData((current) => current.copyWith(toLocation: value));
   }
 
   void selectToLocation(String value) {
-    state = state.copyWith(toLocation: value);
+    state = state.whenData((current) => current.copyWith(toLocation: value));
   }
 
   void toggleBookingType(bool isRealtime) {
-    state = state.copyWith(isBookRealtimeSelected: isRealtime);
+    state = state.whenData(
+        (current) => current.copyWith(isBookRealtimeSelected: isRealtime));
   }
 
   void updateRideOption(String option) {
-    state = state.copyWith(rideOption: option);
+    state = state.whenData((current) => current.copyWith(rideOption: option));
   }
 
   void updateDate(String value) {
-    state = state.copyWith(date: value);
+    state = state.whenData((current) => current.copyWith(date: value));
   }
 
   void updateEstimatedPrice(String value) {
-    state = state.copyWith(estimatedPrice: value);
+    state =
+        state.whenData((current) => current.copyWith(estimatedPrice: value));
   }
 
   void updateYourOwnPrice(String value) {
-    state = state.copyWith(yourOwnPrice: value);
+    state = state.whenData((current) => current.copyWith(yourOwnPrice: value));
   }
 
   void updateMessageToDrivers(String value) {
-    state = state.copyWith(messageToDrivers: value);
+    state =
+        state.whenData((current) => current.copyWith(messageToDrivers: value));
   }
 
   void updateEstimatedTravelTime(String value) {
-    state = state.copyWith(estimatedTravelTime: value);
+    state = state
+        .whenData((current) => current.copyWith(estimatedTravelTime: value));
   }
 
   Future<void> submitRideForm() async {
@@ -146,36 +157,59 @@ class RideDetailsNotifier extends StateNotifier<RideDetailsState> {
   }
 
   Future<void> submitRideDetailsAndGetMoreRideDetails() async {
-    await Future.delayed(const Duration(seconds: 1)); // simulate network delay
-    state = state.copyWith(
-      estimatedPrice: '₦15,500 - ₦16,500',
-      estimatedTravelTime: '1 hour 10 mins',
-    );
-    debugPrint('Submitting Ride Details:');
-    debugPrint('Riders: ${state.riders}');
-    debugPrint('Luggage: ${state.luggage}');
-    debugPrint('From Location: ${state.fromLocation}');
-    debugPrint('To Location: ${state.toLocation}');
-    debugPrint(
-        'Booking Type: ${state.isBookRealtimeSelected ? 'Realtime' : 'Scheduled'}');
-    debugPrint('Ride Option: ${state.rideOption}');
-    debugPrint('Date: ${state.date}');
-    // TODO: Implement your API submission logic here.
+    state = const AsyncValue.loading();
+
+    try {
+      // Simulate network delay
+      await Future.delayed(const Duration(seconds: 1));
+
+      final current = state.requireValue;
+
+      final updated = current.copyWith(
+        estimatedPrice: '₦15,500 - ₦16,500',
+        estimatedTravelTime: '1 hour 10 mins',
+      );
+
+      state = AsyncValue.data(updated);
+
+      debugPrint('Submitting Ride Details:');
+      debugPrint('Riders: ${updated.riders}');
+      debugPrint('Luggage: ${updated.luggage}');
+      debugPrint('From Location: ${updated.fromLocation}');
+      debugPrint('To Location: ${updated.toLocation}');
+      debugPrint(
+          'Booking Type: ${updated.isBookRealtimeSelected ? 'Realtime' : 'Scheduled'}');
+      debugPrint('Ride Option: ${updated.rideOption}');
+      debugPrint('Date: ${updated.date}');
+    } catch (e, st) {
+      state = AsyncValue.error(e, st);
+    }
   }
 
   Future<void> submitRideDetailsAndFindDriver() async {
-    debugPrint('Submitting Ride Request...');
-    debugPrint('Estimated Price: ${state.estimatedPrice}');
-    debugPrint('Your Own Price: ${state.yourOwnPrice}');
-    debugPrint('Estimated Travel Time: ${state.estimatedTravelTime}');
-    debugPrint('Message to drivers: ${state.messageToDrivers}');
-    // Simulate network delay
-    await Future.delayed(const Duration(seconds: 1));
-    debugPrint('Ride request submitted.');
+    state = const AsyncValue.loading();
+
+    try {
+      await Future.delayed(const Duration(seconds: 1));
+      final current = state.requireValue;
+
+      debugPrint('Submitting Ride Request...');
+      debugPrint('Estimated Price: ${current.estimatedPrice}');
+      debugPrint('Your Own Price: ${current.yourOwnPrice}');
+      debugPrint('Estimated Travel Time: ${current.estimatedTravelTime}');
+      debugPrint('Message to drivers: ${current.messageToDrivers}');
+
+      // You might also update the state with a flag like `submitted: true` if needed
+
+      state = AsyncValue.data(current);
+      debugPrint('Ride request submitted.');
+    } catch (e, st) {
+      state = AsyncValue.error(e, st);
+    }
   }
 }
 
 final rideDetailsProvider =
-    StateNotifierProvider<RideDetailsNotifier, RideDetailsState>(
-  (ref) => RideDetailsNotifier(),
+    AsyncNotifierProvider<RideDetailsNotifier, RideDetailsState>(
+  RideDetailsNotifier.new,
 );
