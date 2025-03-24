@@ -1,0 +1,208 @@
+import 'package:buga/screens/onboarding_driver_view/screen/shared_ride.dart';
+import 'package:buga/screens/ride_details_bottom_sheet.dart';
+import 'screen_export.dart';
+
+class HomeScreen extends ConsumerStatefulWidget {
+  const HomeScreen({super.key});
+
+  @override
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends ConsumerState<HomeScreen> {
+  @override
+  void initState() {
+    super.initState();
+    getUserDetails();
+  }
+
+  getUserDetails() async {
+    debugPrint('get user details');
+    final getUserTypeKey = await Pref.getStringValue(userTypeKey);
+    final getUserPhoneNumberKey = await Pref.getStringValue(userPhoneNumberKey);
+    final getUserNameKey = await Pref.getStringValue(userNameKey);
+    final getUserMailKey = await Pref.getStringValue(userMailKey);
+
+    // update the UserNotifier inside here
+    ref.read(userProvider.notifier).setUserDetails(
+          name: getUserNameKey,
+          email: getUserMailKey,
+          phoneNumber: getUserPhoneNumberKey,
+          userType: getUserTypeKey,
+        );
+  }
+
+  void _showRideDetailsBottomSheet(String rideTitle) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: AppColors.white,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
+      ),
+      builder: (BuildContext context) {
+        return RideDetailsBottomSheet(
+          rideTitle: rideTitle,
+          showSubmitButton: true,
+        );
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    provider = ref;
+
+    return Container(
+      color: AppColors.white,
+      width: double.infinity,
+      height: double.infinity,
+      child: Column(
+        children: [
+          AppLayout.buildWalletBalanceCard(),
+          _buildTabs(),
+          _buildRideOptions(),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTabs() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          TextButton(
+            onPressed: () {},
+            child: Text(
+              'Order Now',
+              style: AppTextStyle.medium(FontWeight.w400,
+                  fontSize: FontSize.font20),
+            ),
+          ),
+          TextButton(
+            onPressed: () {},
+            child: Text(
+              'Schedule Trip',
+              style: AppTextStyle.medium(FontWeight.w400,
+                  fontSize: FontSize.font20),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildRideOptions() {
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Ready To Move?',
+              style:
+                  AppTextStyle.bold(FontWeight.w700, fontSize: FontSize.font16),
+            ),
+            Text(
+              'Select your ride',
+              style: AppTextStyle.light(FontWeight.w500,
+                  fontSize: FontSize.font14, color: AppColors.gray),
+            ),
+            const SizedBox(height: 12),
+            Expanded(
+              child: GridView.count(
+                crossAxisCount: 2,
+                crossAxisSpacing: 12,
+                mainAxisSpacing: 12,
+                children: [
+                  _RideOptionCard(
+                    title: 'Solo Ride',
+                    subtitle: 'Single Rider',
+                    icon: Icons.directions_car,
+                    onTap: () => _showRideDetailsBottomSheet('Solo Ride'),
+                  ),
+                  _RideOptionCard(
+                    title: 'Share A Ride',
+                    subtitle: 'Shared Ride',
+                    icon: Icons.car_rental,
+                    onTap: () => Navigator.push(
+                        context,
+                        navigateTo(
+                          SharedRideScreen(
+                            rideType: 'Share A Ride',
+                          ),
+                        )),
+                  ),
+                  _RideOptionCard(
+                    title: 'Airport Shuttle',
+                    subtitle: '20 Seater Bus',
+                    icon: Icons.airport_shuttle,
+                    onTap: () => ('Airport Shuttle'),
+                  ),
+                  _RideOptionCard(
+                    title: 'Intra-School',
+                    subtitle: 'Electric Tricycle',
+                    icon: Icons.electric_bike,
+                    onTap: () => ('Intra-School'),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _RideOptionCard extends StatelessWidget {
+  final String title;
+  final String subtitle;
+  final IconData icon;
+  final VoidCallback onTap;
+
+  const _RideOptionCard({
+    required this.title,
+    required this.subtitle,
+    required this.icon,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Card(
+        elevation: 2,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(icon, size: 50, color: AppColors.black),
+              const SizedBox(height: 12),
+              Text(
+                title,
+                style: AppTextStyle.medium(FontWeight.w500,
+                    fontSize: FontSize.font16),
+                textAlign: TextAlign.center,
+              ),
+              Text(
+                subtitle,
+                style: AppTextStyle.light(FontWeight.w500,
+                    fontSize: FontSize.font14, color: AppColors.gray),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

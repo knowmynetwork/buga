@@ -1,27 +1,22 @@
-import 'package:buga/route/navigation.dart';
-import 'package:buga/screens/rider_view/onboarding_rider_view/onboarding.dart';
-import 'package:buga/theme/app_colors.dart';
-import 'package:buga/theme/app_text_styles.dart';
-import 'package:buga/widgets/input_field.dart';
-import 'package:flutter/material.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:buga/Provider/getuser_details.dart';
+import 'auth_export.dart';
 
-import 'register_view.dart';
-
-class RiderLoginView extends StatefulWidget {
+class RiderLoginView extends ConsumerStatefulWidget {
   const RiderLoginView({super.key});
 
   @override
-  State<RiderLoginView> createState() => _RiderLoginViewState();
+  ConsumerState<RiderLoginView> createState() => _RiderLoginViewState();
 }
 
-class _RiderLoginViewState extends State<RiderLoginView> {
+class _RiderLoginViewState extends ConsumerState<RiderLoginView> {
+  // please leave these controller outside the build widget
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _rememberLogin = false;
 
   @override
   Widget build(BuildContext context) {
+    provider = ref;
     return Scaffold(
       backgroundColor: AppColors.lightYellow,
       body: SafeArea(
@@ -81,6 +76,9 @@ class _RiderLoginViewState extends State<RiderLoginView> {
                         onChanged: (value) {
                           setState(() {
                             _rememberLogin = value!;
+                            ref
+                                .read(isRememberPasswordClick.notifier)
+                                .state = true;
                           });
                         },
                       ),
@@ -109,23 +107,45 @@ class _RiderLoginViewState extends State<RiderLoginView> {
             SizedBox(height: 5.h),
             MaterialButton(
               minWidth: double.infinity,
-              padding: EdgeInsets.symmetric(vertical: 2.h),
-              onPressed: () {},
+              height: 7.h,
+              onPressed: () {
+                if (_emailController.text.isEmpty ||
+                    _passwordController.text.isEmpty) {
+                  SnackBarView.showSnackBar('All input are required');
+                } else {
+                  InternetChecks.internetCheck();
+                  Future.delayed(const Duration(seconds: 1), () {
+                    if (ref.read(InternetChecks.isUserConnected)) {
+                      debugPrint(
+                          ' internet status ${ref.read(InternetChecks.isUserConnected)}');
+                      setState(() {
+                        final data = LoginModel(
+                            email: _emailController.text,
+                            password: _passwordController.text);
+                        LoginService.userLogin(data);
+                      });
+                    }
+                  });
+                }
+              },
               color: AppColors.lightYellow,
               child: Center(
-                child: Text(
-                  'Login',
-                  style: AppTextStyle.medium(
-                    FontWeight.w700,
-                    fontSize: FontSize.font18,
-                  ),
-                ),
+                child: ref.watch(loadingAnimationSpinkit)
+                    ? loadingAnimation()
+                    : Text(
+                        'Login',
+                        style: AppTextStyle.medium(
+                          FontWeight.w700,
+                          fontSize: FontSize.font18,
+                        ),
+                      ),
               ),
             ),
             SizedBox(height: 3.h),
             Center(
               child: GestureDetector(
                 onTap: () {
+                  // the actual screen to be shown
                   navigateTo(RiderRegisterView());
                 },
                 child: Text(
