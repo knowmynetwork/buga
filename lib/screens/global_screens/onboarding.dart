@@ -213,7 +213,7 @@ class _OnboardingViewState extends State<OnboardingView> {
                               onPressed: () {
                                 onBoardingSilds();
                               },
-                              color: AppColors.lightYellow,
+                              color: AppColors.yellow,
                               child: Center(
                                 child: Text(
                                   'Register',
@@ -255,9 +255,9 @@ class _OnboardingViewState extends State<OnboardingView> {
                                 child: Text(
                                   'Skip',
                                   style: TextStyle(
-                                    color: AppColors.lightYellow,
+                                    color: AppColors.yellow,
                                     decoration: TextDecoration.underline,
-                                    decorationColor: AppColors.lightYellow,
+                                    decorationColor: AppColors.yellow,
                                     decorationStyle: TextDecorationStyle.solid,
                                     decorationThickness: 2.0,
                                   ),
@@ -271,7 +271,7 @@ class _OnboardingViewState extends State<OnboardingView> {
                                   onPressed: () {
                                     onBoardingSilds();
                                   },
-                                  color: AppColors.lightYellow,
+                                  color: AppColors.yellow,
                                   child: Icon(Icons.arrow_forward),
                                 ),
                               )

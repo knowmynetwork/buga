@@ -24,7 +24,7 @@ class _RiderRegisterViewState extends State<RiderRegisterView> {
     return Consumer(builder: (context, ref, _) {
       provider = ref;
       return Scaffold(
-        backgroundColor: AppColors.lightYellow,
+        backgroundColor: AppColors.yellow,
         body: SafeArea(
             child: Container(
           color: AppColors.white,
@@ -160,7 +160,7 @@ class _RiderRegisterViewState extends State<RiderRegisterView> {
                     }
                   }
                 },
-                color: AppColors.lightYellow,
+                color: AppColors.yellow,
                 child: Center(
                   child: ref.watch(loadingAnimationSpinkit)
                       ? Center(child: loadingAnimation())

@@ -1,14 +1,6 @@
-import 'package:buga/constant/global_variable.dart';
-import 'package:buga/constant/internet_check.dart';
-import 'package:buga/constant/snackbar_view.dart';
+
 import 'package:buga/service/get_otp_service.dart';
-import 'package:buga/theme/app_colors.dart';
-import 'package:buga/viewmodels/register_model.dart';
-import 'package:buga/viewmodels/email_otp_model.dart';
-import 'package:flutter/material.dart';
-import 'package:buga/widgets/input_field.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
+import 'export.dart';
 
 class RiderSignUpView extends StatefulWidget {
   const RiderSignUpView({super.key});
@@ -34,7 +26,7 @@ class _RiderSignUpViewState extends State<RiderSignUpView> {
     return Consumer(builder: (context, ref, _) {
       provider = ref;
       return Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.white,
         body: SafeArea(
           child: SingleChildScrollView(
             padding: const EdgeInsets.all(16.0),
@@ -285,7 +277,7 @@ class _RiderSignUpViewState extends State<RiderSignUpView> {
                         }
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.lightYellow,
+                        backgroundColor: AppColors.yellow,
                         // padding: const EdgeInsets.symmetric(
                         //     vertical: 16.0, horizontal: 16.0),
                         shape: RoundedRectangleBorder(

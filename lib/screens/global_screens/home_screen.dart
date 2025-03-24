@@ -41,7 +41,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
       ),
       builder: (BuildContext context) {
-        return RideDetailsBottomSheet(rideTitle: rideTitle);
+        return RideDetailsBottomSheet(
+          rideTitle: rideTitle,
+          showSubmitButton: true,
+        );
       },
     );
   }
@@ -75,13 +78,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             setState(() {
               isBoxTap = true;
             });
-          }, isBoxTap ? AppColors.lightYellow : AppColors.white, 'Order Now'),
+          }, isBoxTap ? AppColors.yellow : AppColors.white, 'Order Now'),
           tabSelectedBox(() {
             setState(() {
               isBoxTap = false;
             });
-          }, isBoxTap ? AppColors.white : AppColors.lightYellow,
-              'Schedule Trip')
+          }, isBoxTap ? AppColors.white : AppColors.yellow, 'Schedule Trip')
         ],
       ),
     );

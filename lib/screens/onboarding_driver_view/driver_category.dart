@@ -1,8 +1,5 @@
 import 'package:buga/screens/onboarding_driver_view/screen/login_page.dart';
 import 'package:buga/screens/rider_view/categories/ride_category.dart';
-import 'package:buga/theme/app_colors.dart';
-import 'package:buga/viewmodels/register_model.dart';
-
 import 'screen/export.dart';
 
 class DriverCategory extends StatefulWidget {
@@ -21,7 +18,7 @@ class _DriverCategoryState extends State<DriverCategory> {
     return Consumer(builder: (context, ref, _) {
       provider = ref;
       return Scaffold(
-        backgroundColor: AppColors.lightYellow,
+        backgroundColor: AppColors.yellow,
         body: SafeArea(
             child: Container(
           color: AppColors.white,
@@ -55,7 +52,7 @@ class _DriverCategoryState extends State<DriverCategory> {
                     });
                   },
                       box1 ? AppColors.white : AppColors.lightGray1,
-                      box1 ? AppColors.lightYellow : AppColors.lightGray1,
+                      box1 ? AppColors.yellow : AppColors.lightGray1,
                       'Car',
                       Icons.person_add_alt_1),
                   optionBox(() {
@@ -65,7 +62,7 @@ class _DriverCategoryState extends State<DriverCategory> {
                     });
                   },
                       box2 ? AppColors.white : AppColors.lightGray1,
-                      box2 ? AppColors.lightYellow : AppColors.lightGray1,
+                      box2 ? AppColors.yellow : AppColors.lightGray1,
                       'E-trike',
                       Icons.people_outline_sharp),
                 ],
@@ -85,7 +82,7 @@ class _DriverCategoryState extends State<DriverCategory> {
                   UpdateCategoryProviders.updateModel();
                   // pushReplacementScreen(LoadingScreen());
                 },
-                color: AppColors.lightYellow,
+                color: AppColors.yellow,
                 child: Center(
                   child: ref.watch(loadingAnimationSpinkit)
                       ? loadingAnimation()

@@ -1,11 +1,36 @@
-import 'package:buga/theme/app_text_styles.dart';
-import 'package:flutter/material.dart';
 
-class RideDetailsScreen extends StatelessWidget {
+
+import 'export.dart';
+
+class RideDetailsScreen extends ConsumerStatefulWidget {
   const RideDetailsScreen({super.key});
 
   @override
+  RideDetailsScreenState createState() => RideDetailsScreenState();
+}
+
+class RideDetailsScreenState extends ConsumerState<RideDetailsScreen> {
+  late final TextEditingController yourOwnPriceController;
+  late final TextEditingController messageToDriversController;
+
+  @override
+  void initState() {
+    super.initState();
+    yourOwnPriceController = TextEditingController();
+    messageToDriversController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    yourOwnPriceController.dispose();
+    messageToDriversController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final rideDetails = ref.watch(rideDetailsProvider);
+
     return Scaffold(
       body: Stack(
         children: [
@@ -26,7 +51,7 @@ class RideDetailsScreen extends StatelessWidget {
             top: 50,
             left: 16,
             child: IconButton(
-              icon: const Icon(Icons.arrow_back, color: Colors.black),
+              icon: const Icon(Icons.arrow_back),
               onPressed: () {
                 Navigator.pop(context);
               },
@@ -40,17 +65,17 @@ class RideDetailsScreen extends StatelessWidget {
               children: [
                 Container(
                   padding: const EdgeInsets.all(6),
-                  decoration: const BoxDecoration(
-                    color: Colors.black,
+                  decoration: BoxDecoration(
+                    color: AppColors.black,
                     shape: BoxShape.circle,
                   ),
-                  child: const Icon(Icons.pin_drop, color: Colors.white),
+                  child: Icon(Icons.pin_drop, color: AppColors.white),
                 ),
                 const SizedBox(height: 4),
-                const Text(
-                  'Covenant University',
+                Text(
+                  rideDetails.fromLocation,
                   style: TextStyle(
-                    color: Colors.black,
+                    color: AppColors.black,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -64,7 +89,7 @@ class RideDetailsScreen extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: AppColors.white,
                 borderRadius: BorderRadius.circular(12),
                 boxShadow: [
                   BoxShadow(
@@ -73,9 +98,9 @@ class RideDetailsScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              child: const Text(
-                '46, Ogundiran',
-                style: TextStyle(
+              child: Text(
+                rideDetails.toLocation,
+                style: const TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w500,
                 ),
@@ -87,8 +112,8 @@ class RideDetailsScreen extends StatelessWidget {
             alignment: Alignment.bottomCenter,
             child: Container(
               padding: const EdgeInsets.all(16),
-              decoration: const BoxDecoration(
-                color: Colors.white,
+              decoration: BoxDecoration(
+                color: AppColors.white,
                 borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
                 boxShadow: [
                   BoxShadow(
@@ -106,89 +131,88 @@ class RideDetailsScreen extends StatelessWidget {
                   Center(
                     child: Column(
                       children: [
-                        const Text(
-                          'Recommended Price Range',
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.black,
+                        Container(
+                          padding: EdgeInsets.symmetric(vertical: 2.h),
+                          decoration: BoxDecoration(
+                              color: AppColors.lightYellow,
+                              borderRadius: BorderRadius.circular(8)),
+                          width: double.infinity,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Recommended Price Range',
+                                style: AppTextStyle.bold(
+                                  FontWeight.w500,
+                                  fontSize: FontSize.font16,
+                                ),
+                              ),
+                              SizedBox(height: 1.h),
+                              Text(
+                                rideDetails.estimatedPrice,
+                                style: AppTextStyle.bold(FontWeight.w500,
+                                    fontSize: FontSize.font20,
+                                    color: AppColors.green),
+                              ),
+                              SizedBox(height: 1.h),
+                              Text(
+                                rideDetails.rideOption,
+                                style: AppTextStyle.medium(FontWeight.w500,
+                                    fontSize: FontSize.font14),
+                              ),
+                            ],
                           ),
                         ),
-                        const SizedBox(height: 4),
-                        const Text(
-                          '15,500 - 16,500',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.green,
-                          ),
-                        ),
-                        const SizedBox(height: 4),
-                        const Text(
-                          'Solo Ride',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Color.fromARGB(255, 0, 0, 0),
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        const Text(
-                          'Est. Travel Time: 1 hour 10 mins',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Color.fromARGB(255, 0, 0, 0),
-                          ),
+                        SizedBox(height: 2.h),
+                        Text(
+                          'Est. Travel Time: ${rideDetails.estimatedTravelTime}',
+                          style: AppTextStyle.medium(FontWeight.w500,
+                              fontSize: FontSize.font14),
                         ),
                       ],
                     ),
                   ),
-                  const SizedBox(height: 20),
-                  // Input Fields
-                  TextField(
-                    decoration: InputDecoration(
-                      hintText: "What's your price?",
-                      prefixIcon: const Icon(Icons.money),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(color: Colors.grey),
-                      ),
-                    ),
+                  SizedBox(height: 2.h),
+                  PriceFormField(
+                    icon: Icons.money,
+                    placeholder: "What's your price?",
+                    controller: yourOwnPriceController,
+                    onChanged: (value) {
+                      ref
+                          .read(rideDetailsProvider.notifier)
+                          .updateYourOwnPrice(value);
+                    },
                   ),
-                  const SizedBox(height: 12),
-                  TextField(
-                    decoration: InputDecoration(
-                      hintText: 'Any comments or wishes for the driver?',
-                      prefixIcon: const Icon(Icons.chat_bubble_outline),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(color: Colors.grey),
-                      ),
-                    ),
+                  SizedBox(height: 1.h),
+                  PriceFormField(
+                    icon: Icons.chat_bubble_outline,
+                    placeholder: 'Any comments for the driver?',
+                    controller: messageToDriversController,
+                    onChanged: (value) {
+                      ref
+                          .read(rideDetailsProvider.notifier)
+                          .updateMessageToDrivers(value);
+                    },
                   ),
                   const SizedBox(height: 20),
                   // Find Driver Button
-                  SizedBox(
+                  materialButton(
+                    buttonBkColor: AppColors.yellow,
+                    onPres: () async {
+                      final rideDetailsNotifier =
+                          ref.read(rideDetailsProvider.notifier);
+
+                      await rideDetailsNotifier
+                          .submitRideDetailsAndFindDriver();
+                    },
+                    height: 7.h,
                     width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFFFFD700),
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                      ),
-                      child: Text(
-                        'Find Driver',
-                        style: AppTextStyle.bold(
-                          FontWeight.w500,
-                          fontSize: FontSize.font16,
-                        ),
-                        //  TextStyle(
-                        //   color: Colors.black,
-                        //   fontSize: 16,
-                        //   fontWeight: FontWeight.bold,
-                        // ),
-                      ),
+                    borderRadiusSize: 5,
+                    widget: Text(
+                      'Find Driver',
+                      style: AppTextStyle.medium(FontWeight.w500,
+                          fontSize: FontSize.font16),
                     ),
                   ),
                 ],

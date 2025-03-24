@@ -19,16 +19,16 @@ class BoldYellowTheme {
       ),
       textTheme: GoogleFonts.poppinsTextTheme(),
       buttonTheme: ButtonThemeData(
-        buttonColor: AppColors.lightYellow, // Yellow buttons
+        buttonColor: AppColors.yellow, // Yellow buttons
         textTheme: ButtonTextTheme.primary,
       ),
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
-        selectedItemColor: AppColors.lightYellow, // Bold yellow
+        selectedItemColor: AppColors.yellow, // Bold yellow
         unselectedItemColor: AppColors.white,
       ),
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
-          backgroundColor: AppColors.lightYellow, // Yellow background
+          backgroundColor: AppColors.yellow, // Yellow background
           foregroundColor: AppColors.black, // Black text color
           minimumSize: const Size(double.infinity, 48), // Full width
           shape: RoundedRectangleBorder(
@@ -43,7 +43,7 @@ class BoldYellowTheme {
       // Define custom ElevatedButton style
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.lightYellow, // Yellow background
+          backgroundColor: AppColors.yellow, // Yellow background
           foregroundColor: AppColors.black, // Black text color
           minimumSize: const Size(double.infinity, 48), // Full width
           shape: RoundedRectangleBorder(

@@ -1,4 +1,3 @@
-
 import 'screen_export.dart';
 
 List<Widget> navViews = [
@@ -22,7 +21,7 @@ class _MainHomeViewState extends ConsumerState<MainHomeView> {
     provider = ref;
 
     return Scaffold(
-      backgroundColor: AppColors.lightYellow,
+      backgroundColor: AppColors.yellow,
       appBar: AppLayout.buildAppBar(),
       drawer: AppLayout.buildSidebar(),
       body: SafeArea(
@@ -35,7 +34,7 @@ class _MainHomeViewState extends ConsumerState<MainHomeView> {
             _currentIndex = index;
           });
         },
-        selectedItemColor: AppColors.lightYellow,
+        selectedItemColor: AppColors.yellow,
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(icon: Icon(Icons.local_taxi), label: 'Trips'),

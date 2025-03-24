@@ -24,7 +24,7 @@ class _RiderCategoryState extends State<RiderCategory> {
     return Consumer(builder: (context, ref, _) {
       provider = ref;
       return Scaffold(
-        backgroundColor: AppColors.lightYellow,
+        backgroundColor: AppColors.yellow,
         body: SafeArea(
             child: Container(
           color: AppColors.white,
@@ -59,7 +59,7 @@ class _RiderCategoryState extends State<RiderCategory> {
                     });
                   },
                       box1 ? AppColors.white : AppColors.lightGray1,
-                      box1 ? AppColors.lightYellow : AppColors.lightGray1,
+                      box1 ? AppColors.yellow : AppColors.lightGray1,
                       'Student',
                       Icons.abc),
                   optionBox(() {
@@ -70,7 +70,7 @@ class _RiderCategoryState extends State<RiderCategory> {
                     });
                   },
                       box2 ? AppColors.white : AppColors.lightGray1,
-                      box2 ? AppColors.lightYellow : AppColors.lightGray1,
+                      box2 ? AppColors.yellow : AppColors.lightGray1,
                       'Resident',
                       Icons.abc),
                   optionBox(() {
@@ -81,7 +81,7 @@ class _RiderCategoryState extends State<RiderCategory> {
                     });
                   },
                       box3 ? AppColors.white : AppColors.lightGray1,
-                      box3 ? AppColors.lightYellow : AppColors.lightGray1,
+                      box3 ? AppColors.yellow : AppColors.lightGray1,
                       'Employee',
                       Icons.abc),
                 ],
@@ -111,7 +111,7 @@ class _RiderCategoryState extends State<RiderCategory> {
                     // navigateTo(EmployeeSearch());
                   }
                 },
-                color: AppColors.lightYellow,
+                color: AppColors.yellow,
                 child: Center(
                   child: ref.watch(loadingAnimationSpinkit)
                       ? loadingAnimation()

@@ -1,4 +1,3 @@
-
 import 'screen_export.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -19,13 +18,12 @@ class _SplashScreenState extends State<SplashScreen> {
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (context, ref, _) {
       provider = ref;
       return Scaffold(
-          backgroundColor: AppColors.lightYellow,
+          backgroundColor: AppColors.yellow,
           body: PopScope(
               canPop: true,
               onPopInvoked: (didPop) {

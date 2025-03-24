@@ -10,7 +10,9 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 
 class RideDetailsBottomSheet extends ConsumerWidget {
   final String rideTitle;
-  const RideDetailsBottomSheet({super.key, required this.rideTitle});
+  final bool showSubmitButton;
+  const RideDetailsBottomSheet(
+      {super.key, required this.rideTitle, required this.showSubmitButton});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -23,21 +25,27 @@ class RideDetailsBottomSheet extends ConsumerWidget {
           // Header with close button:
           Row(
             children: [
-              Padding(
-                padding: EdgeInsets.only(left: 31.w),
-                child: Text(
-                  rideTitle,
-                  style: AppTextStyle.medium(FontWeight.w500,
-                      fontSize: FontSize.font20),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(right: 1.w, left: 19.w),
-                child: IconButton(
-                  icon: const Icon(Icons.close),
-                  onPressed: () => popScreen(),
-                ),
-              ),
+              Expanded(
+                  flex: 6,
+                  child: Container(
+                    alignment: Alignment.centerRight,
+                    width: 100.w,
+                    child: Text(
+                      rideTitle,
+                      style: AppTextStyle.medium(FontWeight.w500,
+                          fontSize: FontSize.font20),
+                    ),
+                  )),
+              Expanded(
+                  flex: 3,
+                  child: Container(
+                    width: 100.w,
+                    alignment: Alignment.centerRight,
+                    child: IconButton(
+                      icon: const Icon(Icons.close),
+                      onPressed: () => popScreen(),
+                    ),
+                  ))
             ],
           ),
           SizedBox(height: 2.h),
@@ -80,17 +88,24 @@ class RideDetailsBottomSheet extends ConsumerWidget {
           Text('Maz 4'),
           SizedBox(height: 4.h),
           // Proceed button:
-          materialButton(
-            buttonBkColor: AppColors.lightYellow,
-            onPres: () {
-              navigateTo(SharedRideScreen(
-                rideType: "Rider",
-              ));
-            },
-            height: 7.h,
-            width: double.infinity,
-            borderRadiusSize: 5,
-            widget: Text('Proceed'),
+          Visibility(
+            visible: showSubmitButton,
+            child: materialButton(
+              buttonBkColor: AppColors.yellow,
+              onPres: () async {
+                await ref
+                    .read(rideDetailsProvider.notifier)
+                    .submitRideDetailsAndGetMoreRideDetails();
+                // Replace navigateTo with your navigation logic:
+                navigateTo(SharedRideScreen(
+                  rideType: "Rider",
+                ));
+              },
+              height: 7.h,
+              width: double.infinity,
+              borderRadiusSize: 5,
+              widget: Text('Proceed'),
+            ),
           )
         ],
       ),
@@ -104,7 +119,7 @@ class RideDetailsBottomSheet extends ConsumerWidget {
       child: Container(
         decoration: BoxDecoration(
           border: Border.all(
-            color: isSelected ? AppColors.lightYellow : AppColors.white,
+            color: isSelected ? AppColors.yellow : AppColors.white,
           ),
           borderRadius: BorderRadius.circular(10),
         ),
@@ -115,14 +130,14 @@ class RideDetailsBottomSheet extends ConsumerWidget {
             Text(
               title,
               style: AppTextStyle.medium(FontWeight.w500,
-                  color: isSelected ? AppColors.lightYellow : AppColors.black,
+                  color: isSelected ? AppColors.yellow : AppColors.black,
                   fontSize: FontSize.font16),
             ),
             const SizedBox(height: 8),
             Text(
               subtitle,
               style: AppTextStyle.light(FontWeight.w500,
-                  color: isSelected ? AppColors.lightYellow : AppColors.white,
+                  color: isSelected ? AppColors.yellow : AppColors.white,
                   fontSize: FontSize.font13),
             ),
           ],

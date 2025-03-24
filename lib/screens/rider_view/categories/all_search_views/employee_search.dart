@@ -11,7 +11,7 @@ class EmployeeSearch extends StatelessWidget {
     return Consumer(builder: (context, ref, _) {
       provider = ref;
       return Scaffold(
-        backgroundColor: AppColors.lightYellow,
+        backgroundColor: AppColors.yellow,
         body: SafeArea(
             child: Container(
           color: AppColors.white,
@@ -77,7 +77,7 @@ class CategoryLayout {
           ref.read(loadingAnimationSpinkit.notifier).state = true;
           UpdateCategoryProviders.updateModel();
         },
-        color: AppColors.lightYellow,
+        color: AppColors.yellow,
         child: Center(
           child: ref.watch(loadingAnimationSpinkit)
               ? loadingAnimation()
@@ -180,8 +180,7 @@ class CategoryLayout {
                             ? Colors.blue.withOpacity(0.2)
                             : Colors.transparent,
                         child: ListTile(
-                          title: Text(item['name'] ?? '',
-                              style: textStyle),
+                          title: Text(item['name'] ?? '', style: textStyle),
                           subtitle: Text(item['city'] ?? 'City not available',
                               style: textStyle),
                         ),

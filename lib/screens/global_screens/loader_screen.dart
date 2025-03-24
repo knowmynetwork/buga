@@ -1,7 +1,6 @@
 import 'package:buga/screens/rider_view/auth_views/login_view.dart';
 import 'screen_export.dart';
 
-
 class LoadingScreen extends ConsumerStatefulWidget {
   const LoadingScreen({super.key});
 
@@ -27,7 +26,7 @@ class _LoadingScreenState extends ConsumerState<LoadingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.lightYellow,
+      backgroundColor: AppColors.yellow,
       body: SafeArea(
         child: Container(
           color: AppColors.white,
@@ -38,7 +37,7 @@ class _LoadingScreenState extends ConsumerState<LoadingScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SpinKitWaveSpinner(
-                color: AppColors.lightYellow,
+                color: AppColors.yellow,
               ),
               SizedBox(height: 3.h),
               Text(
