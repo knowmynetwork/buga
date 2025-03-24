@@ -2,6 +2,8 @@ import 'package:buga/Provider/getuser_details.dart';
 import 'package:buga/local_storage/pref.dart';
 import 'package:buga/screens/global_screens/onboarding.dart';
 import 'package:buga/screens/onboarding_driver_view/screen/export.dart';
+import '../onboarding_driver_view/screen/saved_places/all_saved_place.dart';
+import '../onboarding_driver_view/screen/saved_places/saved_place.dart';
 import 'screen_export.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -224,6 +226,38 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             onTap: () {
               Navigator.pop(context);
               // Navigate to Payment Screen
+            },
+          ),
+          // For adding of new saved place for the driver
+          ListTile(
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            leading: Icon(
+              Icons.add_location_sharp,
+              color: AppColors.black,
+              size: 30,
+            ),
+            title: Text(
+              'Add Place', // Find a more intuitive text for this
+              style: TextStyle(
+                color: AppColors.black,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            trailing: const Icon(
+              Icons.arrow_forward_ios,
+              color: Colors.black,
+              size: 16,
+            ),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const SavedPlacesListScreen(),
+                ),
+              );
+              // Navigator.pop(context);
             },
           ),
           ListTile(
