@@ -1,4 +1,3 @@
-
 import 'package:buga/screens/onboarding_driver_view/screen/shared_ride.dart';
 import 'package:buga/screens/ride_details_bottom_sheet.dart';
 import 'screen_export.dart';
@@ -65,29 +64,49 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     );
   }
 
+  bool isBoxTap = true;
   Widget _buildTabs() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12),
+      padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 3.h),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          TextButton(
-            onPressed: () {},
-            child: Text(
-              'Order Now',
-              style: AppTextStyle.medium(FontWeight.w400,
-                  fontSize: FontSize.font20),
-            ),
-          ),
-          TextButton(
-            onPressed: () {},
-            child: Text(
-              'Schedule Trip',
-              style: AppTextStyle.medium(FontWeight.w400,
-                  fontSize: FontSize.font20),
-            ),
-          ),
+          tabSelectedBox(() {
+            setState(() {
+              isBoxTap = true;
+            });
+          }, isBoxTap ? AppColors.lightYellow : AppColors.white, 'Order Now'),
+          tabSelectedBox(() {
+            setState(() {
+              isBoxTap = false;
+            });
+          }, isBoxTap ? AppColors.white : AppColors.lightYellow,
+              'Schedule Trip')
         ],
+      ),
+    );
+  }
+
+  Widget tabSelectedBox(VoidCallback userTap, Color borderColor, String text) {
+    return GestureDetector(
+      onTap: userTap,
+      child: Container(
+        width: 40.w,
+        decoration: BoxDecoration(
+          border: Border(
+            bottom: BorderSide(
+              color: borderColor,
+              width: 2.0,
+            ),
+          ),
+        ),
+        child: Center(
+          child: Text(
+            text,
+            style:
+                AppTextStyle.medium(FontWeight.w400, fontSize: FontSize.font20),
+          ),
+        ),
       ),
     );
   }

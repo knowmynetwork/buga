@@ -1,5 +1,10 @@
+import 'package:buga/route/navigation.dart';
 import 'package:buga/screens/onboarding_driver_view/screen/find_driver.dart';
+import 'package:buga/theme/app_colors.dart';
+import 'package:buga/theme/app_text_styles.dart';
+import 'package:buga/widgets/app_button.dart';
 import 'package:flutter/material.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 class SharedRideScreen extends StatefulWidget {
   const SharedRideScreen({super.key, required String rideType});
@@ -19,17 +24,17 @@ class _SharedRideScreenState extends State<SharedRideScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color(0xFFFFD700),
+        backgroundColor: AppColors.lightYellow,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          icon: Icon(Icons.arrow_back, color: AppColors.black),
           onPressed: () {
-            Navigator.pop(context);
+            popScreen();
           },
         ),
-        title: const Text(
+        title: Text(
           'Shared Ride',
-          style: TextStyle(color: Colors.black),
+          style: AppTextStyle.bold(FontWeight.w500, fontSize: FontSize.font20),
         ),
         centerTitle: true,
       ),
@@ -41,6 +46,7 @@ class _SharedRideScreenState extends State<SharedRideScreen> {
           const Divider(),
           _buildSavedPlacesSection(),
           _buildProceedButton(context),
+          SizedBox(height: 2.h),
         ],
       ),
     );
@@ -48,7 +54,7 @@ class _SharedRideScreenState extends State<SharedRideScreen> {
 
   Widget _buildTabSection() {
     return Container(
-      color: const Color(0xFFFFD700),
+      color: AppColors.lightYellow,
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -135,7 +141,7 @@ class _SharedRideScreenState extends State<SharedRideScreen> {
             return Column(
               children: [
                 ListTile(
-                  leading: const Icon(Icons.location_pin, color: Colors.black),
+                  leading: Icon(Icons.location_pin, color: AppColors.black),
                   title: Text(
                     '${location['from']} → ${location['to']}',
                     style: const TextStyle(fontWeight: FontWeight.bold),
@@ -160,10 +166,11 @@ class _SharedRideScreenState extends State<SharedRideScreen> {
             );
           } else {
             return ListTile(
-              leading: const Icon(Icons.add, color: Colors.black),
-              title: const Text(
+              leading: Icon(Icons.add, color: AppColors.black),
+              title: Text(
                 'Add Save Place',
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: AppTextStyle.bold(FontWeight.w500,
+                    fontSize: FontSize.font18),
               ),
               onTap: _showLocationBottomSheet,
             );
@@ -175,32 +182,27 @@ class _SharedRideScreenState extends State<SharedRideScreen> {
 
   Widget _buildProceedButton(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(16),
-      child: ElevatedButton(
-        onPressed: () {
-          // Navigate to the next page
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) =>
-                  const RideDetailsScreen(), // Replace with your target screen
-            ),
-          );
+      padding: EdgeInsets.symmetric(horizontal: 4.w),
+      child: materialButton(
+        buttonBkColor: AppColors.lightYellow,
+        onPres: () {
+          navigateTo(RideDetailsScreen());
         },
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.yellow,
-          padding: const EdgeInsets.symmetric(vertical: 16),
-        ),
-        child: Row(
+        height: 7.h,
+        width: double.infinity,
+        borderRadiusSize: 5,
+        widget: Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
+          children: [
             Text(
               'Proceed',
               style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+                  AppTextStyle.bold(FontWeight.w500, fontSize: FontSize.font16),
             ),
-            SizedBox(width: 8), // Add space between text and icon
-            Icon(Icons.arrow_forward, color: Colors.black),
+            SizedBox(width: 1.w),
+            Icon(
+              Icons.arrow_forward,
+            ),
           ],
         ),
       ),
@@ -270,13 +272,13 @@ class _RideOptionButton extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
         decoration: BoxDecoration(
-          color: isSelected ? Colors.black : Colors.white,
+          color: isSelected ? AppColors.black : AppColors.white,
           borderRadius: BorderRadius.circular(20),
         ),
         child: Text(
           label,
           style: TextStyle(
-            color: isSelected ? Colors.white : Colors.black,
+            color: isSelected ? AppColors.white : AppColors.black,
             fontWeight: FontWeight.bold,
           ),
         ),
