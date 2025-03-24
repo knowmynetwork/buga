@@ -1,6 +1,5 @@
 import 'package:buga/screens/global_screens/buga_button.dart';
 import 'package:buga/screens/global_screens/ride_form_field.dart';
-import 'package:buga/theme/app_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:buga/Provider/ride_details_provider.dart';
@@ -198,7 +197,7 @@ class RideDetailsScreenState extends ConsumerState<RideDetailsScreen> {
                           },
                         ),
                         const SizedBox(height: 20),
-                        FindDriverButton(
+                        BugaButton(
                           onPressed: () async {
                             await rideDetailsNotifier
                                 .submitRideDetailsAndFindDriver();

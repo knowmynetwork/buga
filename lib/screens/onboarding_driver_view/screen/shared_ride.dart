@@ -1,5 +1,4 @@
 import 'package:buga/Models/ride_details_state.dart';
-import 'package:buga/constant/snackbar_view.dart';
 import 'package:buga/screens/global_screens/buga_button.dart';
 import 'package:buga/screens/ride_details_bottom_sheet.dart';
 import 'package:flutter/material.dart';
@@ -39,120 +38,117 @@ class SharedRideScreen extends ConsumerWidget {
           ? const SizedBox.shrink()
           : GestureDetector(
               onTap: () => FocusScope.of(context).unfocus(),
-              child: Column(
-                children: [
-                  // Tab Section
-                  Visibility(
-                    visible: false,
-                    child: Container(
-                      color: const Color(0xFFFFD700),
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+              child: SafeArea(
+                child: Column(
+                  children: [
+                    // Tab Section
+                    Visibility(
+                      visible: false,
+                      child: Container(
+                        color: const Color(0xFFFFD700),
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            _RideOptionButton(
+                              label: 'Book Realtime',
+                              isSelected: rideDetails.isBookRealtimeSelected,
+                              onTap: () {
+                                ref
+                                    .read(rideDetailsProvider.notifier)
+                                    .toggleBookingType(true);
+                              },
+                            ),
+                            _RideOptionButton(
+                              label: 'Schedule Trip',
+                              isSelected: !rideDetails.isBookRealtimeSelected,
+                              onTap: () {
+                                ref
+                                    .read(rideDetailsProvider.notifier)
+                                    .toggleBookingType(false);
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Column(
                         children: [
-                          _RideOptionButton(
-                            label: 'Book Realtime',
-                            isSelected: rideDetails.isBookRealtimeSelected,
-                            onTap: () {
-                              ref
-                                  .read(rideDetailsProvider.notifier)
-                                  .toggleBookingType(true);
+                          BugaFormFieldAutocomple(
+                            label: 'From',
+                            icon: Icons.location_on,
+                            placeholder: 'Enter Starting Point',
+                            initialValue: rideDetails.fromLocation,
+                            options: rideDetailsNotifier.allLocations,
+                            onSelected: rideDetailsNotifier.selectFromLocation,
+                            onChanged: rideDetailsNotifier.updateFromLocation,
+                          ),
+                          const SizedBox(height: 8),
+                          BugaFormFieldAutocomple(
+                            label: 'To',
+                            icon: Icons.location_on,
+                            placeholder: 'Enter Destination',
+                            initialValue: rideDetails.toLocation,
+                            options: rideDetailsNotifier.allLocations,
+                            onSelected: rideDetailsNotifier.selectToLocation,
+                            onChanged: rideDetailsNotifier.updateToLocation,
+                          ),
+                          const SizedBox(height: 16),
+                          _DatePickerField(
+                            selectedDate: rideDetails.date,
+                            onTap: () async {
+                              final selectedDate = await showDatePicker(
+                                context: context,
+                                initialDate: DateTime.now(),
+                                firstDate: DateTime.now(),
+                                lastDate: DateTime.now()
+                                    .add(const Duration(days: 365)),
+                              );
+                              if (selectedDate != null) {
+                                final formattedDate = DateFormat('yyyy-MM-dd')
+                                    .format(selectedDate);
+                                rideDetailsNotifier.updateDate(formattedDate);
+                              }
                             },
                           ),
-                          _RideOptionButton(
-                            label: 'Schedule Trip',
-                            isSelected: !rideDetails.isBookRealtimeSelected,
-                            onTap: () {
-                              ref
-                                  .read(rideDetailsProvider.notifier)
-                                  .toggleBookingType(false);
-                            },
-                          ),
+                          const SizedBox(height: 16),
+                          PassengerAndLuggageInfo(rideDetails: rideDetails),
                         ],
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 16),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Column(
-                      children: [
-                        BugaFormFieldAutocomple(
-                          label: 'From',
-                          icon: Icons.location_on,
-                          placeholder: 'Enter Starting Point',
-                          initialValue: rideDetails.fromLocation,
-                          options: rideDetailsNotifier.allLocations,
-                          onSelected: rideDetailsNotifier.selectFromLocation,
-                          onChanged: rideDetailsNotifier.updateFromLocation,
-                        ),
-                        const SizedBox(height: 8),
-                        BugaFormFieldAutocomple(
-                          label: 'To',
-                          icon: Icons.location_on,
-                          placeholder: 'Enter Destination',
-                          initialValue: rideDetails.toLocation,
-                          options: rideDetailsNotifier.allLocations,
-                          onSelected: rideDetailsNotifier.selectToLocation,
-                          onChanged: rideDetailsNotifier.updateToLocation,
-                        ),
-                        const SizedBox(height: 16),
-                        _DatePickerField(
-                          selectedDate: rideDetails.date,
-                          onTap: () async {
-                            final selectedDate = await showDatePicker(
-                              context: context,
-                              initialDate: DateTime.now(),
-                              firstDate: DateTime.now(),
-                              lastDate:
-                                  DateTime.now().add(const Duration(days: 365)),
+                    const Spacer(),
+                    BugaButton(
+                        onPressed: () async {
+                          await rideDetailsNotifier
+                              .submitRideDetailsAndGetMoreRideDetails();
+
+                          final rideState = ref.read(rideDetailsProvider);
+
+                          if (rideState.hasError) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text(
+                                    'Failed to fetch ride details. Please try again.'),
+                                backgroundColor: Colors.red,
+                              ),
                             );
-                            if (selectedDate != null) {
-                              final formattedDate =
-                                  DateFormat('yyyy-MM-dd').format(selectedDate);
-                              rideDetailsNotifier.updateDate(formattedDate);
-                            }
-                          },
-                        ),
-                        const SizedBox(height: 16),
-                        PassengerAndLuggageInfo(rideDetails: rideDetails),
-                      ],
-                    ),
-                  ),
-                  const Spacer(),
-                  FindDriverButton(
-                    onPressed: () async {
-                      ref.read(loadingAnimationSpinkit.notifier).state = true;
+                            return;
+                          }
 
-                      await rideDetailsNotifier
-                          .submitRideDetailsAndGetMoreRideDetails();
-
-                      ref.read(loadingAnimationSpinkit.notifier).state = false;
-
-                      final rideState = ref.read(rideDetailsProvider);
-
-                      if (rideState.hasError) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text(
-                                'Failed to fetch ride details. Please try again.'),
-                            backgroundColor: Colors.red,
-                          ),
-                        );
-                        return;
-                      }
-
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const RideDetailsScreen(),
-                        ),
-                      );
-                    },
-                    label: 'Proceed',
-                    isLoading: ref.watch(loadingAnimationSpinkit),
-                  ),
-                ],
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const RideDetailsScreen(),
+                            ),
+                          );
+                        },
+                        label: 'Proceed',
+                        isLoading: rideDetailsAsync.isLoading),
+                  ],
+                ),
               ),
             ),
     );

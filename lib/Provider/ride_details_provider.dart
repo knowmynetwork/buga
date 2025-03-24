@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:buga/Models/azure_map_result.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:buga/Models/ride_details_state.dart';
@@ -21,6 +22,7 @@ class RideDetailsNotifier extends AsyncNotifier<RideDetailsState> {
 
   // Full list of available locations.
   List<String> _allLocations = [];
+  List<AzureMapResult> _locationResults = [];
 
   // Public getter to allow the UI to access the locations.
   List<String> get allLocations => _allLocations;
@@ -45,8 +47,15 @@ class RideDetailsNotifier extends AsyncNotifier<RideDetailsState> {
   }
 
   void selectFromLocation(String value) {
-    selectedLocationFromMaps = value;
-    state = state.whenData((current) => current.copyWith(fromLocation: value));
+    //selectedLocationFromMaps = value;
+    //state = state.whenData((current) => current.copyWith(fromLocation: value));
+    final selected = _locationResults.firstWhere(
+        (r) => r.freeformAddress == value,
+        orElse: () =>
+            AzureMapResult(id: '', freeformAddress: value, lat: 0.0, lon: 0.0));
+    selectedLocationFromMaps = selected.freeformAddress;
+    state = state.whenData(
+        (current) => current.copyWith(fromLocation: selected.freeformAddress));
   }
 
   void updateToLocation(String value) {
@@ -159,9 +168,13 @@ class RideDetailsNotifier extends AsyncNotifier<RideDetailsState> {
         debugPrint('azure maps response: $data');
 
         final results = data['results'] as List;
-        return results
-            .map((r) => r['address']['freeformAddress'].toString())
-            .toList();
+        // return results
+        //     .map((r) => r['address']['freeformAddress'].toString())
+        //     .toList();
+        _locationResults =
+            results.map((r) => AzureMapResult.fromJson(r)).toList();
+
+        return _locationResults.map((r) => r.freeformAddress).toList();
       } else {
         debugPrint('Failed to fetch suggestions: ${response.statusCode}');
         return [];

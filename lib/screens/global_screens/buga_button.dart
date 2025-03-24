@@ -1,13 +1,11 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 
-class FindDriverButton extends StatelessWidget {
+class BugaButton extends StatelessWidget {
   final VoidCallback onPressed;
   final String label;
   final bool isLoading;
 
-  const FindDriverButton({
+  const BugaButton({
     super.key,
     required this.onPressed,
     required this.label,
@@ -16,27 +14,32 @@ class FindDriverButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      child: ElevatedButton(
-        onPressed: onPressed,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: const Color(0xFFFFD700),
-          padding: const EdgeInsets.symmetric(vertical: 16),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
+    return Padding(
+      padding:
+          const EdgeInsets.symmetric(horizontal: 16), // Add horizontal margin
+      child: SizedBox(
+        width: double.infinity,
+        child: ElevatedButton(
+          onPressed: onPressed,
+          style: ElevatedButton.styleFrom(
+            backgroundColor: const Color(0xFFFFD700),
+            padding: const EdgeInsets.symmetric(vertical: 16),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
           ),
-        ),
-        child: isLoading
-            ? const CircularProgressIndicator(color: Colors.black)
-            : Text(
-                label,
-                style: const TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 16,
-                  color: Colors.black,
+          child: isLoading
+              ? const CircularProgressIndicator(
+                  color: Colors.black, strokeWidth: 2)
+              : Text(
+                  label,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 16,
+                    color: Colors.black,
+                  ),
                 ),
-              ),
+        ),
       ),
     );
   }
