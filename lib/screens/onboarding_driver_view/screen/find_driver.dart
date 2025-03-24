@@ -1,3 +1,4 @@
+import 'package:buga/screens/global_screens/buga_button.dart';
 import 'package:buga/screens/global_screens/ride_form_field.dart';
 import 'package:buga/theme/app_text_styles.dart';
 import 'package:flutter/material.dart';
@@ -197,29 +198,13 @@ class RideDetailsScreenState extends ConsumerState<RideDetailsScreen> {
                           },
                         ),
                         const SizedBox(height: 20),
-                        // Find Driver Button
-                        SizedBox(
-                          width: double.infinity,
-                          child: ElevatedButton(
-                            onPressed: () async {
-                              await rideDetailsNotifier
-                                  .submitRideDetailsAndFindDriver();
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFFFFD700),
-                              padding: const EdgeInsets.symmetric(vertical: 16),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                            ),
-                            child: Text(
-                              'Find Driver',
-                              style: AppTextStyle.bold(
-                                FontWeight.w500,
-                                fontSize: FontSize.font16,
-                              ),
-                            ),
-                          ),
+                        FindDriverButton(
+                          onPressed: () async {
+                            await rideDetailsNotifier
+                                .submitRideDetailsAndFindDriver();
+                          },
+                          label: 'Find Driver',
+                          isLoading: false,
                         ),
                       ],
                     ),

@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 import 'package:buga/Models/ride_details_state.dart';
 import 'package:intl/intl.dart';
@@ -7,6 +9,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 @immutable
 class RideDetailsNotifier extends AsyncNotifier<RideDetailsState> {
+  String? selectedLocationFromMaps;
+
   @override
   FutureOr<RideDetailsState> build() {
     // Initialize state (you could even fetch from API here)
@@ -16,18 +20,7 @@ class RideDetailsNotifier extends AsyncNotifier<RideDetailsState> {
   }
 
   // Full list of available locations.
-  final List<String> _allLocations = [
-    'New York',
-    'Los Angeles',
-    'Chicago',
-    'Houston',
-    'Phoenix',
-    'Philadelphia',
-    'San Antonio',
-    'San Diego',
-    'Dallas',
-    'San Jose',
-  ];
+  List<String> _allLocations = [];
 
   // Public getter to allow the UI to access the locations.
   List<String> get allLocations => _allLocations;
@@ -40,13 +33,19 @@ class RideDetailsNotifier extends AsyncNotifier<RideDetailsState> {
     state = state.whenData((current) => current.copyWith(luggage: value));
   }
 
-  void updateFromLocation(String value) {
+  void updateFromLocation(String value) async {
+    debugPrint('updateFromLocation: $value');
+
     state = state.whenData(
       (current) => current.copyWith(fromLocation: value),
     );
+
+    final suggestions = await _fetchLocationSuggestions(value);
+    _allLocations = suggestions;
   }
 
   void selectFromLocation(String value) {
+    selectedLocationFromMaps = value;
     state = state.whenData((current) => current.copyWith(fromLocation: value));
   }
 
@@ -144,6 +143,32 @@ class RideDetailsNotifier extends AsyncNotifier<RideDetailsState> {
       debugPrint('Ride request submitted.');
     } catch (e, st) {
       state = AsyncValue.error(e, st);
+    }
+  }
+
+  Future<List<String>> _fetchLocationSuggestions(String query) async {
+    if (query.isEmpty) return [];
+
+    final uri = Uri.parse(
+        'https://onepeopleapi.azurewebsites.net/api/AzureMapsProxy/search?query=$query&limit=15');
+
+    try {
+      final response = await http.get(uri);
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        debugPrint('azure maps response: $data');
+
+        final results = data['results'] as List;
+        return results
+            .map((r) => r['address']['freeformAddress'].toString())
+            .toList();
+      } else {
+        debugPrint('Failed to fetch suggestions: ${response.statusCode}');
+        return [];
+      }
+    } catch (e) {
+      debugPrint('Error fetching location suggestions: $e');
+      return [];
     }
   }
 }

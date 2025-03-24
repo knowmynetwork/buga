@@ -1,5 +1,6 @@
 import 'package:buga/Models/ride_details_state.dart';
 import 'package:buga/constant/snackbar_view.dart';
+import 'package:buga/screens/global_screens/buga_button.dart';
 import 'package:buga/screens/ride_details_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -119,59 +120,37 @@ class SharedRideScreen extends ConsumerWidget {
                     ),
                   ),
                   const Spacer(),
-                  Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: ElevatedButton(
-                      onPressed: () async {
-                        ref.read(loadingAnimationSpinkit.notifier).state = true;
+                  FindDriverButton(
+                    onPressed: () async {
+                      ref.read(loadingAnimationSpinkit.notifier).state = true;
 
-                        await rideDetailsNotifier
-                            .submitRideDetailsAndGetMoreRideDetails();
+                      await rideDetailsNotifier
+                          .submitRideDetailsAndGetMoreRideDetails();
 
-                        ref.read(loadingAnimationSpinkit.notifier).state =
-                            false;
+                      ref.read(loadingAnimationSpinkit.notifier).state = false;
 
-                        final rideState = ref.read(rideDetailsProvider);
+                      final rideState = ref.read(rideDetailsProvider);
 
-                        if (rideState.hasError) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text(
-                                  'Failed to fetch ride details. Please try again.'),
-                              backgroundColor: Colors.red,
-                            ),
-                          );
-                          return;
-                        }
-
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const RideDetailsScreen(),
+                      if (rideState.hasError) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text(
+                                'Failed to fetch ride details. Please try again.'),
+                            backgroundColor: Colors.red,
                           ),
                         );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.yellow,
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                      ),
-                      child: ref.watch(loadingAnimationSpinkit)
-                          ? loadingAnimation()
-                          : Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: const [
-                                Text(
-                                  'Proceed',
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                SizedBox(width: 8),
-                                Icon(Icons.arrow_forward, color: Colors.black),
-                              ],
-                            ),
-                    ),
+                        return;
+                      }
+
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const RideDetailsScreen(),
+                        ),
+                      );
+                    },
+                    label: 'Proceed',
+                    isLoading: ref.watch(loadingAnimationSpinkit),
                   ),
                 ],
               ),
