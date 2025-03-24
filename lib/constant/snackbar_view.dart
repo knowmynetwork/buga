@@ -9,7 +9,7 @@ class SnackBarView {
   static void showSnackBar(String text, {int sec = 2}) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        backgroundColor: AppColors.lightYellow,
+        backgroundColor: AppColors.yellow,
         content: Text(
           text,
           overflow: TextOverflow.ellipsis,
@@ -24,7 +24,6 @@ class SnackBarView {
     );
   }
 }
-
 
 /// value holding loading animation across app
 final loadingAnimationSpinkit = StateProvider((ref) => false);

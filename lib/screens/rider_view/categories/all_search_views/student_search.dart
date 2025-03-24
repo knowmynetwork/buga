@@ -8,7 +8,7 @@ class StudentSearchView extends StatelessWidget {
     return Consumer(builder: (context, ref, _) {
       provider = ref;
       return Scaffold(
-        backgroundColor: AppColors.lightYellow,
+        backgroundColor: AppColors.yellow,
         body: SafeArea(
             child: Container(
           color: AppColors.white,

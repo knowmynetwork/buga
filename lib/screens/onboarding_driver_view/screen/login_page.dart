@@ -1,6 +1,5 @@
 import 'package:buga/screens/global_screens/onboarding.dart';
 import 'export.dart';
-import 'package:buga/theme/app_colors.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -22,7 +21,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Consumer(builder: (context, ref, _) {
       provider = ref;
       return Scaffold(
-        backgroundColor: AppColors.lightYellow,
+        backgroundColor: AppColors.yellow,
         body: SafeArea(
             child: Container(
           color: AppColors.white,
@@ -131,7 +130,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     });
                   }
                 },
-                color: AppColors.lightYellow,
+                color: AppColors.yellow,
                 child: Center(
                   child: ref.watch(loadingAnimationSpinkit)
                       ? loadingAnimation()

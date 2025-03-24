@@ -2,7 +2,6 @@ import 'package:buga/viewmodels/email_otp_model.dart';
 import 'package:flutter/services.dart';
 import 'screen_export.dart';
 
-
 class RiderOtpView extends StatefulWidget {
   final GetEmailModel userEmail;
   // ignore: use_super_parameters
@@ -54,7 +53,7 @@ class _RiderOtpViewState extends State<RiderOtpView> {
     return Consumer(builder: (context, ref, _) {
       provider = ref;
       return Scaffold(
-        backgroundColor: AppColors.lightYellow,
+        backgroundColor: AppColors.yellow,
         body: SafeArea(
           child: Container(
             color: AppColors.white,
@@ -172,7 +171,7 @@ class _RiderOtpViewState extends State<RiderOtpView> {
                         : null,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: isButtonEnabled
-                          ? AppColors.lightYellow
+                          ? AppColors.yellow
                           : AppColors.lightGray,
                       foregroundColor: AppColors.black,
                       padding: const EdgeInsets.symmetric(
