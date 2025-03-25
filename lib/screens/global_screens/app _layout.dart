@@ -1,3 +1,5 @@
+import 'package:flutter_svg/svg.dart';
+
 import '../../riders/onboarding/screen/saved_places/all_saved_place.dart';
 import 'screen_export.dart';
 
@@ -8,11 +10,14 @@ class AppLayout {
       backgroundColor: AppColors.yellow,
       elevation: 0,
       leading: Builder(
-        builder: (context) => IconButton(
-          icon: Icon(Icons.menu, color: AppColors.black),
-          onPressed: () {
+        builder: (context) => InkWell(
+          onTap: () {
             Scaffold.of(context).openDrawer();
           },
+          child: SvgPicture.asset(
+            'assets/icons/driver/menu.svg',
+            fit: BoxFit.scaleDown,
+          ),
         ),
       ),
       title: Text(
@@ -24,10 +29,19 @@ class AppLayout {
         ),
       ),
       actions: [
-        IconButton(
-          icon: const Icon(Icons.notifications_none, color: Colors.black),
-          onPressed: () {},
+        Container(
+          decoration: BoxDecoration(
+            color: AppColors.white,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          padding: const EdgeInsets.symmetric(horizontal: 7.33, vertical: 5.67),
+          margin: EdgeInsets.only(right: 20),
+          child: Badge.count(count: 2, child: const Icon(Icons.notifications)),
         ),
+        // IconButton(
+        //   icon: const Icon(Icons.notifications_none, color: Colors.black),
+        //   onPressed: () {},
+        // ),
       ],
       centerTitle: true,
     );
@@ -39,37 +53,57 @@ class AppLayout {
       decoration: BoxDecoration(
         color: AppColors.yellow,
         borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(30),
-          bottomRight: Radius.circular(30),
+          bottomLeft: Radius.circular(20),
+          bottomRight: Radius.circular(20),
         ),
       ),
-      child: Column(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          SizedBox(height: 1.h),
-          const Center(
-            child: Icon(Icons.account_balance_wallet, size: 60),
+          SvgPicture.asset('assets/icons/driver/left_pattern.svg'),
+          Column(
+            children: [
+              SizedBox(height: 1.h),
+              Center(
+                child: Icon(Icons.account_balance_wallet, size: 62),
+              ),
+              SizedBox(height: 1.h),
+              Text(
+                '₦15,235',
+                style: AppTextStyle.bold(
+                  FontWeight.w700,
+                  fontSize: 32,
+                ),
+              ),
+              SizedBox(height: 2),
+              Text(
+                'WALLET BALANCE',
+                style: AppTextStyle.bold(
+                  FontWeight.w700,
+                  fontSize: 12,
+                  color: Color(0xFF565656),
+                ),
+              ),
+              SizedBox(height: 15),
+              materialButton(
+                  buttonBkColor: AppColors.white,
+                  onPres: () {},
+                  borderRadiusSize: 5,
+                  height: 5.h,
+                  width: 30.w,
+                  widget: Text(
+                    'Withdraw',
+                    style: TextStyle(
+                      color: AppColors.black,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  )),
+              SizedBox(height: 3.h),
+            ],
           ),
-          SizedBox(height: 1.h),
-          Text(
-            '\u20A615,235',
-            style:
-                AppTextStyle.bold(FontWeight.w400, fontSize: FontSize.font30),
-          ),
-          SizedBox(height: 1.h),
-          Text(
-            'WALLET BALANCE',
-            style:
-                AppTextStyle.bold(FontWeight.w400, fontSize: FontSize.font16),
-          ),
-          SizedBox(height: 1.h),
-          materialButton(
-              buttonBkColor: AppColors.white,
-              onPres: () {},
-              borderRadiusSize: 5,
-              height: 5.h,
-              width: 30.w,
-              widget: Text('Top Up')),
-          SizedBox(height: 3.h),
+          SvgPicture.asset('assets/icons/driver/right_pattern.svg'),
         ],
       ),
     );
