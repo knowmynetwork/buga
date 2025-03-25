@@ -55,7 +55,7 @@ class _MainHomeViewState extends ConsumerState<MainHomeView> {
                 'assets/icons/driver/drive.svg',
                 color: _currentIndex == 2 ? AppColors.yellow : AppColors.black,
               ),
-              label: 'Drive'),
+              label: 'Drive,'),
         ],
       ),
     );
