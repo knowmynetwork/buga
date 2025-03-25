@@ -1,5 +1,5 @@
 export 'package:buga/screens/global_screens/otp_view.dart';
-export 'package:buga/screens/rider_view/categories/ride_category.dart';
+export 'package:buga/riders/categories/ride_category.dart';
 export 'package:flutter_riverpod/flutter_riverpod.dart';
 export 'package:buga/constant/global_variable.dart';
 export 'package:buga/constant/snackbar_view.dart';
@@ -14,7 +14,7 @@ export 'package:buga/service/login_service.dart';
 export 'package:buga/viewmodels/email_otp_model.dart';
 export 'dart:io';
 export 'package:buga/Provider/provider.dart';
-export 'package:buga/screens/rider_view/categories/all_search_views/employee_search.dart';
-export 'package:buga/screens/rider_view/categories/all_search_views/resident_search.dart';
-export 'package:buga/screens/rider_view/categories/all_search_views/student_search.dart';
+export 'package:buga/riders/categories/all_search_views/employee_search.dart';
+export 'package:buga/riders/categories/all_search_views/resident_search.dart';
+export 'package:buga/riders/categories/all_search_views/student_search.dart';
 export 'package:buga/viewmodels/register_model.dart';

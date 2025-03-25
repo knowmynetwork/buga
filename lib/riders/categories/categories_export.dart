@@ -1,5 +1,5 @@
 
-export 'package:buga/screens/rider_view/auth_views/login_view.dart';
+export 'package:buga/riders/auth/login_view.dart';
 export 'package:buga/theme/app_colors.dart';
 export 'package:buga/theme/app_text_styles.dart';
 export 'package:flutter/material.dart';

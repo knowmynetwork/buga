@@ -1,5 +1,5 @@
-import 'package:buga/screens/onboarding_driver_view/screen/login_page.dart';
-import 'package:buga/screens/rider_view/categories/ride_category.dart';
+import 'package:buga/riders/onboarding/screen/login_page.dart';
+import 'package:buga/riders/categories/ride_category.dart';
 import 'screen/export.dart';
 
 class DriverCategory extends StatefulWidget {

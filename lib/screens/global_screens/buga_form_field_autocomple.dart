@@ -13,7 +13,7 @@ class BugaFormFieldAutocomple extends StatelessWidget {
   final TextEditingController? controller;
 
   const BugaFormFieldAutocomple({
-    Key? key,
+    super.key,
     required this.label,
     required this.icon,
     required this.placeholder,
@@ -24,7 +24,7 @@ class BugaFormFieldAutocomple extends StatelessWidget {
     this.decoration,
     this.isEditable = true,
     this.controller,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -1,4 +1,4 @@
-import '../onboarding_driver_view/screen/saved_places/all_saved_place.dart';
+import '../../riders/onboarding/screen/saved_places/all_saved_place.dart';
 import 'screen_export.dart';
 
 class AppLayout {

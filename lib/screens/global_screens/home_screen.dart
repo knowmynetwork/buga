@@ -1,9 +1,4 @@
-import 'package:buga/Provider/getuser_details.dart';
-import 'package:buga/local_storage/pref.dart';
-import 'package:buga/screens/global_screens/onboarding.dart';
-import 'package:buga/screens/onboarding_driver_view/screen/export.dart';
-import '../onboarding_driver_view/screen/saved_places/all_saved_place.dart';
-import '../onboarding_driver_view/screen/saved_places/saved_place.dart';
+import 'package:buga/riders/onboarding/screen/export.dart';
 import 'screen_export.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {

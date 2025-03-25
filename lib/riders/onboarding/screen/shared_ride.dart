@@ -165,8 +165,7 @@ class _DatePickerField extends StatelessWidget {
   final String selectedDate;
   final VoidCallback onTap;
   const _DatePickerField(
-      {Key? key, required this.selectedDate, required this.onTap})
-      : super(key: key);
+      {required this.selectedDate, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -196,11 +195,10 @@ class _RideOptionButton extends StatelessWidget {
   final VoidCallback onTap;
 
   const _RideOptionButton({
-    Key? key,
     required this.label,
     required this.isSelected,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

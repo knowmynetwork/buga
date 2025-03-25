@@ -1,4 +1,4 @@
-import 'package:buga/screens/rider_view/auth_views/login_view.dart';
+import 'package:buga/riders/auth/login_view.dart';
 
 import 'screen_export.dart';
 
