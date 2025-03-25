@@ -59,7 +59,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       child: Column(
         children: [
           AppLayout.buildWalletBalanceCard(),
-          _buildTabs(),
+          // _buildTabs(),
           _buildRideOptions(),
         ],
       ),
@@ -67,26 +67,26 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   bool isBoxTap = true;
-  Widget _buildTabs() {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 3.h),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          tabSelectedBox(() {
-            setState(() {
-              isBoxTap = true;
-            });
-          }, isBoxTap ? AppColors.yellow : AppColors.white, 'Order Now'),
-          tabSelectedBox(() {
-            setState(() {
-              isBoxTap = false;
-            });
-          }, isBoxTap ? AppColors.white : AppColors.yellow, 'Schedule Trip')
-        ],
-      ),
-    );
-  }
+  // Widget _buildTabs() {
+  //   return Padding(
+  //     padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 3.h),
+  //     child: Row(
+  //       mainAxisAlignment: MainAxisAlignment.spaceAround,
+  //       children: [
+  //         tabSelectedBox(() {
+  //           setState(() {
+  //             isBoxTap = true;
+  //           });
+  //         }, isBoxTap ? AppColors.yellow : AppColors.white, 'Order Now'),
+  //         tabSelectedBox(() {
+  //           setState(() {
+  //             isBoxTap = false;
+  //           });
+  //         }, isBoxTap ? AppColors.white : AppColors.yellow, 'Schedule Trip')
+  //       ],
+  //     ),
+  //   );
+  // }
 
   Widget tabSelectedBox(VoidCallback userTap, Color borderColor, String text) {
     return GestureDetector(
