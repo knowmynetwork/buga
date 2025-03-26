@@ -16,4 +16,4 @@ String userPhoneNumberKey = 'number';
 String passengerTypeKey = 'passengerType';
 String driverCategoryKey = 'driverCategory';
 String userTypeKey = 'userType';
-String mapKey = 'AIzaSyBA9FUYOMmpCHpCTpT-wdGKDE4DMUWlvnU';
+String mapKey = 'AIzaSyBA9E4DMUWlvnU';
