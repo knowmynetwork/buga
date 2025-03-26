@@ -1,6 +1,5 @@
-import 'package:buga/screens/onboarding_driver_view/screen/shared_ride.dart';
-import 'package:buga/screens/ride_details_bottom_sheet.dart';
-import 'screen_export.dart';
+import '../../global_screens/setup_bottom_sheet.dart';
+import 'home_export.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -32,22 +31,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         );
   }
 
-  void _showRideDetailsBottomSheet(String rideTitle) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: AppColors.white,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
-      ),
-      builder: (BuildContext context) {
-        return RideDetailsBottomSheet(
-          rideTitle: rideTitle,
-          showSubmitButton: true,
-        );
-      },
-    );
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -138,22 +122,23 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 mainAxisSpacing: 12,
                 children: [
                   _RideOptionCard(
-                    title: 'Solo Ride',
-                    subtitle: 'Single Rider',
-                    icon: Icons.directions_car,
-                    onTap: () => _showRideDetailsBottomSheet('Solo Ride'),
-                  ),
+                      title: 'Solo Ride',
+                      subtitle: 'Single Rider',
+                      icon: Icons.directions_car,
+                      onTap: () => SetUpBottomSheet.setUpBottomSheet(
+                              RideDetailsBottomSheet(
+                            rideTitle: 'Solo Ride',
+                            showSubmitButton: true,
+                          ))),
                   _RideOptionCard(
                     title: 'Share A Ride',
                     subtitle: 'Shared Ride',
                     icon: Icons.car_rental,
-                    onTap: () => Navigator.push(
-                        context,
-                        navigateTo(
-                          SharedRideScreen(
-                            rideType: 'Share A Ride',
-                          ),
-                        )),
+                    onTap: () => navigateTo(
+                      SharedRideScreen(
+                        rideType: 'Share A Ride',
+                      ),
+                    ),
                   ),
                   _RideOptionCard(
                     title: 'Airport Shuttle',

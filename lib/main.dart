@@ -1,13 +1,13 @@
 import 'package:buga/local_storage/pref.dart';
 import 'package:buga/screens/global_screens/onboarding.dart';
-import 'package:buga/screens/onboarding_driver_view/screen/export.dart';
-import 'package:buga/screens/onboarding_driver_view/screen/forget_password.dart';
-import 'package:buga/screens/onboarding_driver_view/screen/login_page.dart';
+import 'package:buga/screens/driver_view/screen/export.dart';
+import 'package:buga/screens/driver_view/screen/forget_password.dart';
+import 'package:buga/screens/driver_view/screen/login_page.dart';
 import 'package:buga/screens/global_screens/splash_view.dart';
 import 'package:buga/screens/rider_view/auth_views/login_view.dart';
 import 'package:buga/theme/app_theme.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
-import 'screens/global_screens/bottom_nav.dart';
+import 'screens/rider_view/home_view/main_home_view.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

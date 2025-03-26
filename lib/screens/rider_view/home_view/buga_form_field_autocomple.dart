@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+
+import 'home_export.dart';
 
 class BugaFormFieldAutocomple extends StatelessWidget {
   final String label;
@@ -77,7 +78,7 @@ class BugaFormFieldAutocomple extends StatelessWidget {
 
         return Row(
           children: [
-            Icon(icon, size: 20, color: Colors.black),
+            Icon(icon, size: 20),
             const SizedBox(width: 8),
             Expanded(
               child: TextField(
@@ -90,7 +91,7 @@ class BugaFormFieldAutocomple extends StatelessWidget {
                       hintText: placeholder,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
-                        borderSide: const BorderSide(color: Colors.grey),
+                        borderSide: BorderSide(color: AppColors.gray),
                       ),
                       filled: true,
                       fillColor: Colors.grey[200],

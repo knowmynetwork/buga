@@ -1,4 +1,4 @@
-import 'package:buga/screens/onboarding_driver_view/screen/login_page.dart';
+import 'package:buga/screens/driver_view/screen/login_page.dart';
 import 'package:buga/screens/rider_view/categories/ride_category.dart';
 import 'screen/export.dart';
 

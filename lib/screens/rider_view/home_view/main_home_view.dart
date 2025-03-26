@@ -1,4 +1,6 @@
-import 'screen_export.dart';
+import 'home_export.dart';
+import 'home_screen.dart';
+
 
 List<Widget> navViews = [
   HomeScreen(),

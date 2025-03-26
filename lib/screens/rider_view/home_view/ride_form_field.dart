@@ -1,4 +1,6 @@
-import 'package:flutter/material.dart';
+
+
+import 'home_export.dart';
 
 class RideFormField extends StatelessWidget {
   final String label;
@@ -22,7 +24,7 @@ class RideFormField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Icon(icon, size: 20, color: Colors.black),
+        Icon(icon, size: 20),
         const SizedBox(width: 8),
         Expanded(
           child: GestureDetector(
@@ -39,7 +41,7 @@ class RideFormField extends StatelessWidget {
                 hintText: placeholder,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
-                  borderSide: const BorderSide(color: Colors.grey),
+                  borderSide: BorderSide(color: AppColors.gray),
                 ),
                 filled: true,
                 fillColor: Colors.grey[200],
@@ -74,13 +76,13 @@ class PriceFormField extends StatelessWidget {
       onChanged: onChanged,
       decoration: InputDecoration(
         hintText: placeholder,
-        prefixIcon: Icon(icon, color: Colors.black),
+        prefixIcon: Icon(icon, color: AppColors.black),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(color: Colors.grey),
+          borderSide: BorderSide(color: AppColors.gray),
         ),
         filled: true,
-        fillColor: Colors.white,
+        fillColor: AppColors.white,
         contentPadding: const EdgeInsets.symmetric(horizontal: 16),
       ),
     );

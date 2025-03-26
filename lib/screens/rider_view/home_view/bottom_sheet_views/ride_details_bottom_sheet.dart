@@ -1,12 +1,5 @@
-import 'package:buga/Provider/ride_details_provider.dart';
-import 'package:buga/route/navigation.dart';
-import 'package:buga/screens/onboarding_driver_view/screen/shared_ride.dart';
-import 'package:buga/theme/app_colors.dart';
-import 'package:buga/theme/app_text_styles.dart';
-import 'package:buga/widgets/app_button.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
+
+import 'sheet_export.dart';
 
 class RideDetailsBottomSheet extends ConsumerWidget {
   final String rideTitle;

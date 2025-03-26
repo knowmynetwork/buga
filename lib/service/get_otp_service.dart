@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:buga/screens/onboarding_driver_view/driver_category.dart';
+import 'package:buga/screens/driver_view/driver_category.dart';
 import 'package:http/http.dart' as http;
 import 'service_export.dart';
 
