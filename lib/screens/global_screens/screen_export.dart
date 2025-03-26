@@ -7,7 +7,7 @@ export 'package:buga/screens/driver_view/screen/login_page.dart';
 export 'package:buga/service/get_otp_service.dart';
 export  'package:buga/Provider/getuser_details.dart';
 export 'package:buga/screens/rider_view/home_view/home_screen.dart';
-export 'app _layout.dart';
+export '../rider_view/home_view/app _layout.dart';
 export 'package:flutter_spinkit/flutter_spinkit.dart';
 export  'package:buga/local_storage/pref.dart';
 export  'package:buga/screens/global_screens/onboarding.dart';

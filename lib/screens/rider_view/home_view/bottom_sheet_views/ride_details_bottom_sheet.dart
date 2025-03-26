@@ -1,14 +1,25 @@
-
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:buga/viewmodels/ridermodel/rides_type.dart';
 import 'sheet_export.dart';
 
-class RideDetailsBottomSheet extends ConsumerWidget {
+class RideDetailsBottomSheet extends ConsumerStatefulWidget {
   final String rideTitle;
   final bool showSubmitButton;
   const RideDetailsBottomSheet(
       {super.key, required this.rideTitle, required this.showSubmitButton});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<RideDetailsBottomSheet> createState() =>
+      _RideDetailsBottomSheetState();
+}
+
+class _RideDetailsBottomSheetState
+    extends ConsumerState<RideDetailsBottomSheet> {
+  String getRideType = '';
+  String getRideMode = '';
+  @override
+  Widget build(BuildContext context) {
+    provider = ref;
     final rideDetails = ref.watch(rideDetailsProvider);
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 3.h),
@@ -24,7 +35,7 @@ class RideDetailsBottomSheet extends ConsumerWidget {
                     alignment: Alignment.centerRight,
                     width: 100.w,
                     child: Text(
-                      rideTitle,
+                      widget.rideTitle,
                       style: AppTextStyle.medium(FontWeight.w500,
                           fontSize: FontSize.font20),
                     ),
@@ -46,24 +57,40 @@ class RideDetailsBottomSheet extends ConsumerWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              _buildOptionCard(
-                Icons.directions_car,
-                'Saloon Car',
-                '2 riders',
-                isSelected: rideDetails.rideOption == 'Saloon Car',
-                onTap: () => ref
+              _buildOptionCard(Icons.directions_car, 'Saloon Car', '2 riders',
+                  isSelected: rideDetails.rideOption == 'Saloon Car',
+                  onTap: () {
+                setState(() {
+                  getRideMode = 'Saloon Car';
+                  getRideType = widget.rideTitle;
+                  debugPrint('type Saloon Car');
+                  ref.read(StoreRideType.rideTypeProvider.notifier).state =
+                      StoreRideType(
+                    rideType: getRideType,
+                    rideMode: getRideMode,
+                  );
+                });
+                ref
                     .read(rideDetailsProvider.notifier)
-                    .updateRideOption('Saloon Car'),
-              ),
-              _buildOptionCard(
-                Icons.car_rental,
-                'SUV/Minibus',
-                '2+ riders',
-                isSelected: rideDetails.rideOption == 'SUV/Minibus',
-                onTap: () => ref
+                    .updateRideOption('Saloon Car');
+              }),
+              _buildOptionCard(Icons.car_rental, 'SUV/Minibus', '2+ riders',
+                  isSelected: rideDetails.rideOption == 'SUV/Minibus',
+                  onTap: () {
+                setState(() {
+                  getRideMode = 'SUV/Minibus';
+                  getRideType = widget.rideTitle;
+                  debugPrint('type SUV/Minibus');
+                  ref.read(StoreRideType.rideTypeProvider.notifier).state =
+                      StoreRideType(
+                    rideType: getRideType,
+                    rideMode: getRideMode,
+                  );
+                });
+                ref
                     .read(rideDetailsProvider.notifier)
-                    .updateRideOption('SUV/Minibus'),
-              ),
+                    .updateRideOption('SUV/Minibus');
+              }),
             ],
           ),
           SizedBox(height: 3.h),
@@ -82,14 +109,19 @@ class RideDetailsBottomSheet extends ConsumerWidget {
           SizedBox(height: 4.h),
           // Proceed button:
           Visibility(
-            visible: showSubmitButton,
+            visible: widget.showSubmitButton,
             child: materialButton(
               buttonBkColor: AppColors.yellow,
               onPres: () async {
                 await ref
                     .read(rideDetailsProvider.notifier)
                     .submitRideDetailsAndGetMoreRideDetails();
-                // Replace navigateTo with your navigation logic:
+                // update the model
+                ref.read(StoreRideType.rideTypeProvider.notifier).state =
+                    StoreRideType(
+                  rideType: getRideType,
+                  rideMode: getRideMode,
+                );
                 navigateTo(SharedRideScreen(
                   rideType: "Rider",
                 ));

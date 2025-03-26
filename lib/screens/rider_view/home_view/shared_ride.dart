@@ -1,9 +1,6 @@
-
-
 // The main SharedRideScreen widget using BugaFormFieldAutocomple for suggestions.
 import 'package:intl/intl.dart';
 import 'home_export.dart';
-
 
 class SharedRideScreen extends ConsumerWidget {
   final String rideType;
@@ -75,7 +72,7 @@ class SharedRideScreen extends ConsumerWidget {
                 const SizedBox(height: 16),
 
                 // "From" Field using BugaFormFieldAutocomple
-                BugaFormFieldAutocomple(
+                MapSearchInputAutocomplete(
                   label: 'From',
                   icon: Icons.location_on,
                   placeholder: 'Enter Starting Point',
@@ -90,7 +87,7 @@ class SharedRideScreen extends ConsumerWidget {
                 ),
                 const SizedBox(height: 8),
                 // "To" Field using BugaFormFieldAutocomple
-                BugaFormFieldAutocomple(
+                MapSearchInputAutocomplete(
                   label: 'To',
                   icon: Icons.location_on,
                   placeholder: 'Enter Destination',

@@ -1,7 +1,6 @@
+import 'package:buga/screens/rider_view/home_view/home_export.dart';
 
-import 'home_export.dart';
-
-class BugaFormFieldAutocomple extends StatelessWidget {
+class MapSearchInputAutocomplete extends StatelessWidget {
   final String label;
   final IconData icon;
   final String placeholder;
@@ -13,8 +12,8 @@ class BugaFormFieldAutocomple extends StatelessWidget {
   final bool isEditable;
   final TextEditingController? controller;
 
-  const BugaFormFieldAutocomple({
-    Key? key,
+  const MapSearchInputAutocomplete({
+    super.key,
     required this.label,
     required this.icon,
     required this.placeholder,
@@ -25,7 +24,7 @@ class BugaFormFieldAutocomple extends StatelessWidget {
     this.decoration,
     this.isEditable = true,
     this.controller,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

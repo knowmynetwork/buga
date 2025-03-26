@@ -31,8 +31,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         );
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     provider = ref;
@@ -122,14 +120,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 mainAxisSpacing: 12,
                 children: [
                   _RideOptionCard(
-                      title: 'Solo Ride',
-                      subtitle: 'Single Rider',
-                      icon: Icons.directions_car,
-                      onTap: () => SetUpBottomSheet.setUpBottomSheet(
-                              RideDetailsBottomSheet(
-                            rideTitle: 'Solo Ride',
-                            showSubmitButton: true,
-                          ))),
+                    title: 'Solo Ride',
+                    subtitle: 'Single Rider',
+                    icon: Icons.directions_car,
+                    onTap: () => SetUpBottomSheet.setUpBottomSheet(
+                        RideDetailsBottomSheet(
+                      rideTitle: 'Solo Ride',
+                      showSubmitButton: true,
+                    )),
+                  ),
                   _RideOptionCard(
                     title: 'Share A Ride',
                     subtitle: 'Shared Ride',

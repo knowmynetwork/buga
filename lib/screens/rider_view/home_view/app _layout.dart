@@ -1,4 +1,4 @@
-import 'screen_export.dart';
+import '../../global_screens/screen_export.dart';
 
 class AppLayout {
   static AppBar buildAppBar() {
@@ -24,7 +24,7 @@ class AppLayout {
       ),
       actions: [
         IconButton(
-          icon: const Icon(Icons.notifications_none, color: Colors.black),
+          icon: Icon(Icons.notifications_none, color: AppColors.black),
           onPressed: () {},
         ),
       ],

@@ -21,7 +21,7 @@ export 'package:buga/service/login_service.dart';
 export 'package:buga/viewmodels/login_model.dart';
 export 'package:buga/constant/images.dart';
 export 'package:buga/screens/rider_view/home_view/bottom_sheet_views/ride_details_bottom_sheet.dart';
-export 'package:buga/screens/rider_view/home_view/buga_form_field_autocomple.dart';
+export 'package:buga/screens/rider_view/home_view/map/autocomplete_map_pickup.dart';
 export 'package:buga/screens/rider_view/home_view/shared_ride.dart';
 export 'package:buga/screens/driver_view/screen/side_bar_view/Settings.dart';
 

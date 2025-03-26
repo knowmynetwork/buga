@@ -9,13 +9,15 @@ class RideDetailsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     provider = ref;
     return Scaffold(
-      body: Stack(
-        children: [
-          // Map layout
-          MapLayOut(),
-          // Bottom Sheet for input price
-          InputPriceView()
-        ],
+      body: SafeArea(
+        child: Stack(
+          children: [
+            // Map layout
+            MapLayOut(),
+            // Bottom Sheet for input price
+            InputPriceView()
+          ],
+        ),
       ),
     );
   }

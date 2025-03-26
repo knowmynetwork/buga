@@ -86,7 +86,7 @@ class _TokenCheckState extends State<TokenCheck> {
       final token = await Pref.getStringValue(tokenKey);
 
       debugPrint('token its $token');
-      debugPrint(' User TYPE is: $userType');
+      debugPrint(' User TYPE is : $userType');
 
       if (token.isEmpty) {
         _navigateBasedOnUserType(userType);

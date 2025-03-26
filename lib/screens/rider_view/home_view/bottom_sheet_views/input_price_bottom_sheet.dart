@@ -1,5 +1,7 @@
-import 'sheet_export.dart';
+import 'package:buga/screens/global_screens/setup_bottom_sheet.dart';
 
+import 'available_driver_view.dart';
+import 'sheet_export.dart';
 
 // ignore: must_be_immutable
 class InputPriceView extends ConsumerWidget {
@@ -108,6 +110,7 @@ class InputPriceView extends ConsumerWidget {
                     ref.read(rideDetailsProvider.notifier);
 
                 await rideDetailsNotifier.submitRideDetailsAndFindDriver();
+                SetUpBottomSheet.setUpBottomSheet(AvailableDriverView());
               },
               height: 7.h,
               width: double.infinity,
