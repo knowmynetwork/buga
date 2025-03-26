@@ -15,10 +15,10 @@ class OperationPeriodTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 250, // Fixed width for scrolling
+      width: 279, // Fixed width for scrolling
       margin: const EdgeInsets.only(right: 10),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(5),
         image: DecorationImage(
           image: AssetImage(imageUrl),
           fit: BoxFit.cover,
@@ -27,13 +27,13 @@ class OperationPeriodTile extends StatelessWidget {
       child: Stack(
         children: [
           Positioned(
-            bottom: 10,
-            left: 10,
-            right: 10,
+            bottom: 1,
+            left: 0,
+            right: 0,
             child: Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: Colors.black.withOpacity(0.6),
+                color: Colors.black.withOpacity(0.50),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Column(
@@ -43,14 +43,16 @@ class OperationPeriodTile extends StatelessWidget {
                     title,
                     style: const TextStyle(
                       color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 14,
                     ),
                   ),
+                  SizedBox(height: 6),
                   Text(
                     date,
                     style: const TextStyle(
-                      color: Colors.white70,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w700,
                       fontSize: 14,
                     ),
                   ),

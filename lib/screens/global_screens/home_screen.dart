@@ -97,6 +97,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             subtitle:
                 "Kindly submit all required documents to get verified and start earning.",
           ),
+          SizedBox(height: 1.5.h),
+
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Row(
@@ -110,21 +112,33 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     fontFamily: 'Satoshi-Bold',
                   ),
                 ),
-                TextButton(
-                  onPressed: () {},
-                  child: const Text(
-                    "See all  >",
-                    style: TextStyle(
-                      color: Colors.black,
+                Row(
+                  children: [
+                    Text(
+                      "See all",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontFamily: 'Satoshi-Bold',
+                        fontWeight: FontWeight.w500,
+                        fontSize: 14,
+                        decoration: TextDecoration.underline,
+                      ),
                     ),
-                  ),
+                    SizedBox(width: 0.5.w),
+                    const Icon(
+                      Icons.arrow_forward_ios,
+                      size: 12,
+                    )
+                  ],
                 ),
               ],
             ),
           ),
+          SizedBox(height: 1.h),
 
-          SizedBox(
-            height: 100, // Set height for the horizontal list
+          Expanded(
+            flex: 3,
+            // height: 120,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: pickups.length,
@@ -139,13 +153,51 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               },
             ),
           ),
+          SizedBox(height: 3.h),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  "Upcoming Operation Periods",
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                    fontFamily: 'Satoshi-Bold',
+                  ),
+                ),
+                Row(
+                  children: [
+                    Text(
+                      "See all",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontFamily: 'Satoshi-Bold',
+                        fontWeight: FontWeight.w500,
+                        fontSize: 14,
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                    SizedBox(width: 0.5.w),
+                    const Icon(
+                      Icons.arrow_forward_ios,
+                      size: 12,
+                    )
+                  ],
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 1.h),
 
-          const SizedBox(height: 10),
-          SizedBox(
-            height: 160, // Set height for horizontal list
+          Expanded(
+            flex: 4,
+            // height: 196,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: operationPeriods.length,
+              padding: const EdgeInsets.symmetric(horizontal: 10),
               itemBuilder: (context, index) {
                 return OperationPeriodTile(
                   title: operationPeriods[index]["title"]!,

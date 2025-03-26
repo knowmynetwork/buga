@@ -18,8 +18,6 @@ export 'package:buga/service/login_service.dart';
 export 'package:buga/viewmodels/login_model.dart';
 export 'package:buga/constant/images.dart';
 
-export 'package:buga/screens/driver_view/screen/side_bar_view/Settings.dart';
-
 export 'package:buga/viewmodels/register_model.dart';
 export 'package:buga/viewmodels/email_otp_model.dart';
 
