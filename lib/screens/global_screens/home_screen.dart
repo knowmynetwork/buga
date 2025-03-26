@@ -73,12 +73,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       {
         "title": "Covenant University Vacation",
         "date": "February 22, 2023",
-        "imageUrl": "https://example.com/covenant.jpg",
+        "imageUrl": "assets/images/driver/convenant_uni.png",
       },
       {
         "title": "Babcock University Break",
         "date": "February 28, 2023",
-        "imageUrl": "https://example.com/babcock.jpg",
+        "imageUrl": "assets/images/driver/convenant_uni.png",
       },
     ];
 
@@ -97,28 +97,30 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             subtitle:
                 "Kindly submit all required documents to get verified and start earning.",
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text(
-                "Scheduled Pickups",
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
-                  fontFamily: 'Satoshi-Bold',
-                ),
-              ),
-              TextButton(
-                onPressed: () {},
-                child: const Text(
-                  "See all >",
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  "Scheduled Pickups",
                   style: TextStyle(
-                    color: Colors.black,
-                    decoration: TextDecoration.underline,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                    fontFamily: 'Satoshi-Bold',
                   ),
                 ),
-              ),
-            ],
+                TextButton(
+                  onPressed: () {},
+                  child: const Text(
+                    "See all  >",
+                    style: TextStyle(
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
 
           SizedBox(
@@ -126,6 +128,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: pickups.length,
+              padding: const EdgeInsets.symmetric(horizontal: 10),
               itemBuilder: (context, index) {
                 return ScheduledPickupTile(
                   title: pickups[index]["title"]!,
