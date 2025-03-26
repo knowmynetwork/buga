@@ -108,6 +108,7 @@ class _RiderLoginViewState extends ConsumerState<RiderLoginView> {
               minWidth: double.infinity,
               height: 7.h,
               onPressed: () {
+                // pushReplacementScreen(MainHomeView());
                 if (_emailController.text.isEmpty ||
                     _passwordController.text.isEmpty) {
                   SnackBarView.showSnackBar('All input are required');

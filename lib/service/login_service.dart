@@ -1,12 +1,13 @@
 import 'dart:async';
 import 'package:buga/Provider/getuser_details.dart';
-import 'package:buga/screens/global_screens/bottom_nav.dart';
+import 'package:buga/screens/rider_view/home_view/main_home_view.dart';
 import 'package:http/http.dart' as http;
 import 'service_export.dart';
 
 class LoginService {
   static Future<Map<String, dynamic>?> userLogin(LoginModel loginModel) async {
-    debugPrint('trying to login now');
+    debugPrint(
+        'trying to login now email ${loginModel.email} pass ${loginModel.password}');
     try {
       final response = await http
           .post(
@@ -18,6 +19,7 @@ class LoginService {
           )
           .timeout(const Duration(seconds: 50));
 
+      debugPrint('trying jjjjjj ${response.statusCode}');
       final Map<String, dynamic> responseData = json.decode(response.body);
       JsonEncoder encoder = const JsonEncoder.withIndent('  ');
       String prettyprint = encoder.convert(responseData);

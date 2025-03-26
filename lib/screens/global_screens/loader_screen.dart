@@ -1,4 +1,5 @@
 import 'package:buga/riders/auth/login_view.dart';
+import '../../theme/app_text_styles.dart';
 import 'screen_export.dart';
 
 class LoadingScreen extends ConsumerStatefulWidget {

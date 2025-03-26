@@ -1,8 +1,8 @@
-import 'package:buga/riders/onboarding/screen/export.dart';
-import '../../riders/home/widgets/documents_status.dart';
-import '../../riders/home/widgets/operation_period.dart';
-import '../../riders/home/widgets/scheduledPickupTile.dart';
-import 'screen_export.dart';
+import '../../../riders/home/widgets/documents_status.dart';
+import '../../../riders/home/widgets/operation_period.dart';
+import '../../../riders/home/widgets/scheduledPickupTile.dart';
+import '../../global_screens/setup_bottom_sheet.dart';
+import 'home_export.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -32,23 +32,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           phoneNumber: getUserPhoneNumberKey,
           userType: getUserTypeKey,
         );
-  }
-
-  void _showRideDetailsBottomSheet(String rideTitle) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: AppColors.white,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
-      ),
-      builder: (BuildContext context) {
-        return RideDetailsBottomSheet(
-          rideTitle: rideTitle,
-          showSubmitButton: true,
-        );
-      },
-    );
   }
 
   @override
@@ -138,7 +121,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
           Expanded(
             flex: 3,
-            // height: 120,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: pickups.length,

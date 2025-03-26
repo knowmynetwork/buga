@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
+import 'package:buga/screens/rider_view/home_view/home_export.dart';
 
-class BugaFormFieldAutocomple extends StatelessWidget {
+class MapSearchInputAutocomplete extends StatelessWidget {
   final String label;
   final IconData icon;
   final String placeholder;
@@ -12,7 +12,7 @@ class BugaFormFieldAutocomple extends StatelessWidget {
   final bool isEditable;
   final TextEditingController? controller;
 
-  const BugaFormFieldAutocomple({
+  const MapSearchInputAutocomplete({
     super.key,
     required this.label,
     required this.icon,
@@ -77,7 +77,7 @@ class BugaFormFieldAutocomple extends StatelessWidget {
 
         return Row(
           children: [
-            Icon(icon, size: 20, color: Colors.black),
+            Icon(icon, size: 20),
             const SizedBox(width: 8),
             Expanded(
               child: TextField(
@@ -90,7 +90,7 @@ class BugaFormFieldAutocomple extends StatelessWidget {
                       hintText: placeholder,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
-                        borderSide: const BorderSide(color: Colors.grey),
+                        borderSide: BorderSide(color: AppColors.gray),
                       ),
                       filled: true,
                       fillColor: Colors.grey[200],

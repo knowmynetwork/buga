@@ -1,7 +1,9 @@
 import 'package:flutter_svg/svg.dart';
 
-import '../../riders/onboarding/screen/saved_places/all_saved_place.dart';
-import 'screen_export.dart';
+import '../../../riders/onboarding/screen/saved_places/all_saved_place.dart';
+import '../../../theme/app_text_styles.dart';
+import '../../../widgets/app_button.dart';
+import '../../global_screens/screen_export.dart';
 
 class AppLayout {
   static AppBar buildAppBar() {
@@ -38,6 +40,8 @@ class AppLayout {
           margin: EdgeInsets.only(right: 20),
           child: Badge.count(count: 2, child: const Icon(Icons.notifications)),
         ),
+
+      
         // IconButton(
         //   icon: const Icon(Icons.notifications_none, color: Colors.black),
         //   onPressed: () {},

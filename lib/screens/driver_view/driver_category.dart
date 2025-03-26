@@ -1,5 +1,10 @@
 import 'package:buga/riders/categories/ride_category.dart';
+
+import 'package:buga/riders/onboarding/screen/login_page.dart';
+import 'package:buga/riders/categories/ride_category.dart';
+import 'package:buga/screens/driver_view/screen/login_page.dart';
 import 'screen/export.dart';
+import 'package:buga/riders/onboarding/screen/login_page.dart' as bg;
 
 class DriverCategory extends StatefulWidget {
   const DriverCategory({super.key});
@@ -28,6 +33,7 @@ class _DriverCategoryState extends State<DriverCategory> {
             children: [
               SizedBox(height: 4.h),
               // AuthWidgets.headerText('Select Your Category'),
+             bg.AuthWidgets.headerText('Select Your Category'),
               SizedBox(height: 1.h),
               Center(
                 child: Text(

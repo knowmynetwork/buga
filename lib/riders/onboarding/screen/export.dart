@@ -7,7 +7,7 @@ export 'package:buga/riders/onboarding/screen/find_driver.dart';
 export 'package:buga/route/navigation.dart';
 export 'package:buga/route/route.dart';
 export 'package:buga/widgets/input_field.dart';
-export 'package:buga/screens/global_screens/ride_form_field.dart';
+export 'package:buga/screens/rider_view/home_view/ride_form_field.dart';
 export 'package:buga/theme/app_colors.dart';
 export 'package:buga/theme/app_text_styles.dart';
 export 'package:buga/widgets/app_button.dart';
@@ -20,12 +20,12 @@ export 'package:buga/riders/onboarding/screen/sign_up_page.dart';
 export 'package:buga/service/login_service.dart';
 export 'package:buga/viewmodels/login_model.dart';
 export 'package:buga/constant/images.dart';
-export 'package:buga/screens/ride_details_bottom_sheet.dart';
-export 'package:buga/screens/global_screens/buga_form_field_autocomple.dart';
 export 'package:buga/riders/onboarding/screen/shared_ride.dart';
 export 'package:buga/riders/onboarding/screen/side_bar_view/Settings.dart';
-
+export 'package:buga/service/login_service.dart';
+export 'package:buga/viewmodels/login_model.dart';
+export 'package:buga/constant/images.dart';
+export 'package:buga/screens/rider_view/home_view/bottom_sheet_views/ride_details_bottom_sheet.dart';
+export 'package:buga/screens/rider_view/home_view/map/autocomplete_map_pickup.dart';
 export 'package:buga/viewmodels/register_model.dart';
 export 'package:buga/viewmodels/email_otp_model.dart';
-
-

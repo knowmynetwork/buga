@@ -1,9 +1,12 @@
 import 'package:buga/riders/onboarding/screen/export.dart';
 import 'package:buga/riders/onboarding/screen/side_bar_view/vehicle.dart';
+import 'package:buga/riders/onboarding/screen/side_bar_view/vehicle.dart' as bg;
 import 'package:buga/screens/driver_view/screen/export.dart';
 import 'package:buga/screens/driver_view/screen/side_bar_view/vehicle.dart';
 import 'package:buga/theme/app_colors.dart';
-import 'package:buga/screens/driver_view/screen/side_bar_view/vehicle.dart' as bg;
+
+
+
 
 
 class SettingsScreen extends StatelessWidget {
