@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../theme/app_colors.dart';
+
 class DocumentStatusCard extends StatelessWidget {
   final String title;
   final String subtitle;
@@ -13,7 +15,7 @@ class DocumentStatusCard extends StatelessWidget {
     required this.subtitle,
     this.icon = Icons.error,
     this.backgroundColor = const Color(0xFFFFE9E9),
-    this.iconColor = Colors.red,
+    this.iconColor =  AppColors.red,
   });
 
   @override

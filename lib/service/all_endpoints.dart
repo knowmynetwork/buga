@@ -14,4 +14,17 @@ class Endpoints {
   static String estateEndpoint = '$baseUrl/api/v1/Component/GetEstates';
   static String universitiesEndpoint =
       '$baseUrl/api/v1/Component/GetUniversities';
+
+ // Driver 
+ static String addDriverRoutes = "/api/v1/Component/AddDriverRoute/driver-routes"; // POST
+ static String editDriverRoutes = "/api/v1/Component/EditDriverRoute/driver-routes/{id}"; // PATCH
+ static String deleteDriverRoutes = "/api/v1/Component/DeleteDriverRoute/driver-routes/{id}"; // DELETE
+ static String getDriverRoutes = "/api/v1/Component/GetMyDriverRoutes/driver-routes"; // GET
+ static String addDriverRoutesithAddress = "/api/v1/Component/AddDriverRouteWithAddresses/driver-routes/with-addresses"; // POST
+
+ static String getSavedAddress = "/api/v1/Component/GetSavedAddresses"; // GET
+ static String addSavedAddress = "/api/v1/Component/AddSavedAddress"; // POST
+ static String deleteSavedAddress = "/api/v1/Component/DeleteSavedAddress/{addressId}"; // DELETE
+ static String editSavedAddress = "/api/v1/Component/EditSavedAddress/{addressId}"; // PATCH
+
 }
