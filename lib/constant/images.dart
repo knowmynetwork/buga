@@ -5,3 +5,8 @@ String onboardingImage3 = 'assets/images/png/Onboarding 3.png';
 String onboardingImage4 = 'assets/images/png/Onboarding 4.png';
 String onboardingImage5 = 'assets/images/png/Onboarding5.png';
 
+// images on driver vehicle view
+String dLogo = "assets/images/applogo";
+String colollaImg = "assets/images/toyota_corolla.png";
+String siennaImg = "assets/images/toyota_sienna.png";
+
