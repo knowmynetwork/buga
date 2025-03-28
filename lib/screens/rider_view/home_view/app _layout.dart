@@ -176,35 +176,7 @@ class AppLayout {
                 size: 30,
               ),
             ),
-            //  Stack(
-            //   children: [
-            //     Icon(
-            //       Icons.notifications_none,
-            //       color: AppColors.black,
-            //       size: 30,
-            //     ),
-            //     Positioned(
-            //       right: 0,
-            //       top: 0,
-            //       child: Container(
-            //         padding: const EdgeInsets.all(4),
-            //         decoration: BoxDecoration(
-            //           color: AppColors.black,
-            //           shape: BoxShape.circle,
-            //         ),
-            //         child: const Text(
-            //           '2',
-            //           style: TextStyle(
-            //             color: Colors.red,
-            //             fontSize: 12,
-            //             fontWeight: FontWeight.bold,
-            //           ),
-            //         ),
-            //       ),
-            //     ),
-            //   ],
-            // ),
-
+         
             title: Text(
               'Notifications',
               style: TextStyle(

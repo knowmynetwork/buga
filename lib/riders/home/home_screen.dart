@@ -1,17 +1,17 @@
-import '../../../riders/home/widgets/documents_status.dart';
-import '../../../riders/home/widgets/operation_period.dart';
-import '../../../riders/home/widgets/scheduledPickupTile.dart';
-import '../../global_screens/setup_bottom_sheet.dart';
-import 'home_export.dart';
+import 'widgets/documents_status.dart';
+import 'widgets/operation_period.dart';
+import 'widgets/scheduledPickupTile.dart';
+import '../../screens/global_screens/setup_bottom_sheet.dart';
+import '../../screens/rider_view/home_view/home_export.dart';
 
-class HomeScreen extends ConsumerStatefulWidget {
-  const HomeScreen({super.key});
+class DriverHomeScreen extends ConsumerStatefulWidget {
+  const DriverHomeScreen({super.key});
 
   @override
-  ConsumerState<HomeScreen> createState() => _HomeScreenState();
+  ConsumerState<DriverHomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends ConsumerState<HomeScreen> {
+class _HomeScreenState extends ConsumerState<DriverHomeScreen> {
   @override
   void initState() {
     super.initState();

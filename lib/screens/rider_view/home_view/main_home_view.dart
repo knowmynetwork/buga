@@ -1,11 +1,10 @@
 import 'package:flutter_svg/svg.dart';
 
 import 'home_export.dart';
-import 'home_screen.dart';
-
+import '../../../riders/home/home_screen.dart';
 
 List<Widget> navViews = [
-  HomeScreen(),
+  DriverHomeScreen(),
   Container(color: AppColors.white, child: Center(child: Text('Trips View'))),
   Container(color: AppColors.white, child: Center(child: Text('Profile View'))),
 ];
