@@ -1,9 +1,10 @@
-import 'home_export.dart';
-import 'home_screen.dart';
+import 'package:flutter_svg/svg.dart';
 
+import 'home_export.dart';
+import '../../../riders/home/home_screen.dart';
 
 List<Widget> navViews = [
-  HomeScreen(),
+  DriverHomeScreen(),
   Container(color: AppColors.white, child: Center(child: Text('Trips View'))),
   Container(color: AppColors.white, child: Center(child: Text('Profile View'))),
 ];
@@ -37,10 +38,25 @@ class _MainHomeViewState extends ConsumerState<MainHomeView> {
           });
         },
         selectedItemColor: AppColors.yellow,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.local_taxi), label: 'Trips'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
+        items: [
+          BottomNavigationBarItem(
+              icon: SvgPicture.asset(
+                'assets/icons/driver/activity.svg',
+                color: _currentIndex == 0 ? AppColors.yellow : AppColors.black,
+              ),
+              label: 'Activity'),
+          BottomNavigationBarItem(
+              icon: SvgPicture.asset(
+                'assets/icons/driver/trips.svg',
+                color: _currentIndex == 1 ? AppColors.yellow : AppColors.black,
+              ),
+              label: 'Trips'),
+          BottomNavigationBarItem(
+              icon: SvgPicture.asset(
+                'assets/icons/driver/drive.svg',
+                color: _currentIndex == 2 ? AppColors.yellow : AppColors.black,
+              ),
+              label: 'Drive,'),
         ],
       ),
     );

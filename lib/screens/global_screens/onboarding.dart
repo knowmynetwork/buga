@@ -1,5 +1,6 @@
-import 'package:buga/screens/rider_view/auth_views/login_view.dart';
+import 'package:buga/riders/auth/login_view.dart';
 
+import '../../theme/app_text_styles.dart';
 import 'screen_export.dart';
 
 class OnboardingView extends StatefulWidget {

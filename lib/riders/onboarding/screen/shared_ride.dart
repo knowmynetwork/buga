@@ -1,7 +1,6 @@
 // The main SharedRideScreen widget using BugaFormFieldAutocomple for suggestions.
 import 'package:intl/intl.dart';
-import 'bottom_sheet_views/ride_details_bottom_sheet.dart';
-import 'home_export.dart';
+import 'export.dart';
 
 class SharedRideScreen extends ConsumerWidget {
   final String rideType;
