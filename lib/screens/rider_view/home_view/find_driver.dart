@@ -1,5 +1,6 @@
 import 'package:buga/screens/rider_view/home_view/bottom_sheet_views/input_price_bottom_sheet.dart';
 import 'home_export.dart';
+import 'map/map_model.dart';
 import 'map/map_view.dart';
 
 class RideDetailsScreen extends ConsumerWidget {
@@ -13,7 +14,17 @@ class RideDetailsScreen extends ConsumerWidget {
         child: Stack(
           children: [
             // Map layout
-            MapLayOut(),
+            SizedBox(width: double.infinity, height: 55.h, child: MapLayOut()),
+            Positioned(
+              top: 3.h,
+              left: 5.w,
+              child: IconButton(
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () {
+                  popScreen();
+                },
+              ),
+            ),
             // Bottom Sheet for input price
             InputPriceView()
           ],

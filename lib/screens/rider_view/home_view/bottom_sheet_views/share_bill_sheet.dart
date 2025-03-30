@@ -117,7 +117,7 @@ class ShareBillView extends ConsumerWidget {
                     borderRadius: BorderRadius.circular(5)),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [Text('Share'), Icon(Icons.add_circle_outlined)],
+                  children: [Text('Top up'), Icon(Icons.add_circle_outlined)],
                 ),
               )),
         ],

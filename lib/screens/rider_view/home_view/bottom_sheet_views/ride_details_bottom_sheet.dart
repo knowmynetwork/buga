@@ -1,5 +1,6 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:buga/constant/images.dart';
 import 'package:buga/viewmodels/ridermodel/rides_type.dart';
+import 'package:flutter_svg/svg.dart';
 import 'sheet_export.dart';
 
 class RideDetailsBottomSheet extends ConsumerStatefulWidget {
@@ -57,7 +58,7 @@ class _RideDetailsBottomSheetState
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              _buildOptionCard(Icons.directions_car, 'Saloon Car', '2 riders',
+              _buildOptionCard(shareRideImg, 'Saloon Car', '2 riders',
                   isSelected: rideDetails.rideOption == 'Saloon Car',
                   onTap: () {
                 setState(() {
@@ -74,7 +75,7 @@ class _RideDetailsBottomSheetState
                     .read(rideDetailsProvider.notifier)
                     .updateRideOption('Saloon Car');
               }),
-              _buildOptionCard(Icons.car_rental, 'SUV/Minibus', '2+ riders',
+              _buildOptionCard(interStateImg, 'SUV/Minibus', '2+ riders',
                   isSelected: rideDetails.rideOption == 'SUV/Minibus',
                   onTap: () {
                 setState(() {
@@ -137,7 +138,7 @@ class _RideDetailsBottomSheetState
     );
   }
 
-  Widget _buildOptionCard(IconData icon, String title, String subtitle,
+  Widget _buildOptionCard(String img, String title, String subtitle,
       {bool isSelected = false, VoidCallback? onTap}) {
     return GestureDetector(
       onTap: onTap,
@@ -151,7 +152,15 @@ class _RideDetailsBottomSheetState
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            Icon(icon, size: 50),
+            SizedBox(
+              child: Transform.scale(
+                scaleX: -1, // Flip horizontally
+                child: SvgPicture.asset(
+                  img,
+                  height: 9.h,
+                ),
+              ),
+            ),
             Text(
               title,
               style: AppTextStyle.medium(FontWeight.w500,

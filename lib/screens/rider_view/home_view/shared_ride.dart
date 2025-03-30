@@ -1,13 +1,26 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 // The main SharedRideScreen widget using BugaFormFieldAutocomple for suggestions.
+import 'package:buga/screens/rider_view/home_view/map/location_prediction.dart';
 import 'package:intl/intl.dart';
 import 'home_export.dart';
+import 'map/map_model.dart';
 
-class SharedRideScreen extends ConsumerWidget {
+SearchLocation apiSearch = SearchLocation(mapApiKey: mapKey);
+
+class SharedRideScreen extends ConsumerStatefulWidget {
   final String rideType;
   const SharedRideScreen({super.key, required this.rideType});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<SharedRideScreen> createState() => _SharedRideScreenState();
+}
+
+class _SharedRideScreenState extends ConsumerState<SharedRideScreen> {
+  // TextEditingController userPickUpInput = TextEditingController();
+  // TextEditingController userDropOffInput = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
     provider = ref;
     final rideDetails = ref.watch(rideDetailsProvider);
     final rideDetailsNotifier = ref.read(rideDetailsProvider.notifier);
@@ -71,35 +84,95 @@ class SharedRideScreen extends ConsumerWidget {
                 ),
                 const SizedBox(height: 16),
 
-                // "From" Field using BugaFormFieldAutocomple
-                MapSearchInputAutocomplete(
-                  label: 'From',
-                  icon: Icons.location_on,
-                  placeholder: 'Enter Starting Point',
-                  initialValue: rideDetails.fromLocation,
-                  options: rideDetailsNotifier.allLocations,
-                  onSelected: (selection) {
-                    rideDetailsNotifier.selectFromLocation(selection);
+                // MapSearchInputAutocomplete(
+                //   label: 'From',
+                //   controller: userPickUpInput,
+                //   icon: Icons.location_on,
+                //   placeholder: 'Enter Starting Point',
+                //   initialValue: rideDetails.fromLocation,
+                //   // options: rideDetailsNotifier.allLocations,
+                //   onSelected: (selection) {
+                //     // rideDetailsNotifier.selectFromLocation(selection);
+                //   },
+                //   onChanged: (value) {
+                //     // rideDetailsNotifier.updateFromLocation(value);
+
+                // ref.read(UserLatLong.userLocationSearch.notifier).state =
+                //     userPickUpInput.text;
+                //     setState(() {
+                //       if (userPickUpInput.text.length > 2) {
+                //         apiSearch.getCurrentLocation(ref);
+                //       } else {
+                //         ref.read(predictionProvider.notifier).state =
+                //             <Prediction>[];
+                //       }
+                //     });
+                //   },
+                // ),
+                PredictionTextField(
+                  placeholder: 'Enter location',
+                  onSuggestionSelected: (prediction) {
+                    print('Selected: ${prediction.description}');
                   },
-                  onChanged: (value) {
-                    rideDetailsNotifier.updateFromLocation(value);
+                  onTextChanged: (text) {
+                    if (text.length > 2) {
+                      ref.read(UserLatLong.userLocationSearch.notifier).state =
+                          text;
+                      debugPrint('Text Changed: $text');
+                      apiSearch.getCurrentLocation(ref);
+                    } else {
+                      ref.read(predictionProvider.notifier).state =
+                          <Prediction>[];
+                      debugPrint('Invalid length: $text');
+                    }
                   },
                 ),
                 const SizedBox(height: 8),
-                // "To" Field using BugaFormFieldAutocomple
-                MapSearchInputAutocomplete(
-                  label: 'To',
-                  icon: Icons.location_on,
-                  placeholder: 'Enter Destination',
-                  initialValue: rideDetails.toLocation,
-                  options: rideDetailsNotifier.allLocations,
-                  onSelected: (selection) {
-                    rideDetailsNotifier.selectToLocation(selection);
+                PredictionTextField(
+                  placeholder: 'Enter location',
+                  onSuggestionSelected: (prediction) {
+                    print('Selected: ${prediction.description}');
                   },
-                  onChanged: (value) {
-                    rideDetailsNotifier.updateToLocation(value);
+                  onTextChanged: (text) {
+                    if (text.length > 2) {
+                      ref.read(UserLatLong.userLocationSearch.notifier).state =
+                          text;
+                      debugPrint('Text Changed: $text');
+                      apiSearch.getCurrentLocation(ref);
+                    } else {
+                      ref.read(predictionProvider.notifier).state =
+                          <Prediction>[];
+                      debugPrint('Invalid length: $text');
+                    }
                   },
                 ),
+                // "To" Field using BugaFormFieldAutocomple
+                // MapSearchInputAutocomplete(
+                //   label: 'To',
+                //   icon: Icons.location_on,
+                //   controller: userDropOffInput,
+                //   placeholder: 'Enter Destination',
+                //   initialValue: rideDetails.toLocation,
+                //   // options: rideDetailsNotifier.allLocations,
+                //   onSelected: (selection) {
+                //     // rideDetailsNotifier.selectToLocation(selection);
+                //     debugPrint('selected $selection');
+                //   },
+                //   onChanged: (value) {
+                //     // rideDetailsNotifier.updateToLocation(value);
+                // ref.read(UserLatLong.userLocationSearch.notifier).state =
+                //     userDropOffInput.text;
+                //     setState(() {
+                //       if (userPickUpInput.text.length > 2) {
+                //         apiSearch.getCurrentLocation(ref);
+                //       } else {
+                // ref.read(predictionProvider.notifier).state =
+                //     <Prediction>[];
+                //       }
+                //     });
+                //   },
+
+                // ),
                 SizedBox(height: 3.h),
                 // Date Picker Field
                 _DatePickerField(

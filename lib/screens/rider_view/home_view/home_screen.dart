@@ -1,3 +1,6 @@
+import 'package:buga/constant/images.dart';
+import 'package:flutter_svg/svg.dart';
+
 import '../../global_screens/setup_bottom_sheet.dart';
 import 'home_export.dart';
 
@@ -122,7 +125,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   _RideOptionCard(
                     title: 'Solo Ride',
                     subtitle: 'Single Rider',
-                    icon: Icons.directions_car,
+                    img: soloRideImg,
                     onTap: () => SetUpBottomSheet.setUpBottomSheet(
                         RideDetailsBottomSheet(
                       rideTitle: 'Solo Ride',
@@ -132,7 +135,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   _RideOptionCard(
                     title: 'Share A Ride',
                     subtitle: 'Shared Ride',
-                    icon: Icons.car_rental,
+                    img: shareRideImg,
                     onTap: () => navigateTo(
                       SharedRideScreen(
                         rideType: 'Share A Ride',
@@ -142,13 +145,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   _RideOptionCard(
                     title: 'Airport Shuttle',
                     subtitle: '20 Seater Bus',
-                    icon: Icons.airport_shuttle,
+                    img: interStateImg,
                     onTap: () => ('Airport Shuttle'),
                   ),
                   _RideOptionCard(
                     title: 'Intra-School',
                     subtitle: 'Electric Tricycle',
-                    icon: Icons.electric_bike,
+                    img: electricImg,
                     onTap: () => ('Intra-School'),
                   ),
                 ],
@@ -164,13 +167,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 class _RideOptionCard extends StatelessWidget {
   final String title;
   final String subtitle;
-  final IconData icon;
+  final String img;
   final VoidCallback onTap;
 
   const _RideOptionCard({
     required this.title,
     required this.subtitle,
-    required this.icon,
+    required this.img,
     required this.onTap,
   });
 
@@ -188,7 +191,10 @@ class _RideOptionCard extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(icon, size: 50, color: AppColors.black),
+              SvgPicture.asset(
+                img,
+                height: 9.h,
+              ),
               const SizedBox(height: 12),
               Text(
                 title,

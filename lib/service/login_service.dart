@@ -19,7 +19,7 @@ class LoginService {
           )
           .timeout(const Duration(seconds: 50));
 
-      debugPrint('trying jjjjjj ${response.statusCode}');
+      debugPrint('get Status code ${response.statusCode}');
       final Map<String, dynamic> responseData = json.decode(response.body);
       JsonEncoder encoder = const JsonEncoder.withIndent('  ');
       String prettyprint = encoder.convert(responseData);
