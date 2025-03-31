@@ -1,8 +1,7 @@
-
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:buga/Provider/driver_provider/saved_places.dart';
+import 'package:buga/screens/global_screens/screen_export.dart';
 import 'package:flutter_svg/svg.dart';
-
+import 'dart:convert';
 import 'saved_place.dart';
 
 class SavedPlacesListScreen extends ConsumerStatefulWidget {

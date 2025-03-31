@@ -1,6 +1,5 @@
-
-
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 
 class ScheduleRideScreen extends StatefulWidget {
   const ScheduleRideScreen({super.key});

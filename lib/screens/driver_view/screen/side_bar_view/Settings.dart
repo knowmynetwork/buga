@@ -1,6 +1,10 @@
-import 'package:buga/screens/driver_view/screen/export.dart';
-import 'package:buga/screens/driver_view/screen/side_bar_view/vehicle.dart';
+
+import 'package:buga/constant/images.dart';
+import 'package:buga/driver/onboarding/screen/side_bar_view/vehicle.dart' as bg;
+import 'package:buga/route/navigation.dart';
 import 'package:buga/theme/app_colors.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 
 
@@ -45,7 +49,7 @@ class SettingsScreen extends StatelessWidget {
                 icon: Icons.directions_car,
                 title: 'Vehicles',
                 onTap: () {
-                  navigateTo(VehiclesScreen());
+                  navigateTo(bg.VehiclesScreen());
                 },
               ),
               _buildSettingsOption(
