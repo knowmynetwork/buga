@@ -1,4 +1,4 @@
-import 'package:buga/screens/rider_view/home_view/bottom_sheet_views/input_price_bottom_sheet.dart';
+import 'package:buga/screens/user_view/home_view/bottom_sheet_views/input_price_bottom_sheet.dart';
 import 'home_export.dart';
 import 'map/map_view.dart';
 

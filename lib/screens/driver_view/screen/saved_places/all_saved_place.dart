@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
-import '../../Provider/riders/saved_places.dart';
+import '../../../../Provider/riders/saved_places.dart';
 import 'saved_place.dart';
 
 class SavedPlacesListScreen extends ConsumerStatefulWidget {

@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../driver/use_cases/saved_places.dart';
+import '../../screens/driver_view/screen/use_cases/saved_places.dart';
 import '../../service/riders/saved_place_repository.dart';
 import '../../viewmodels/ridermodel/saved_place.dart';
 

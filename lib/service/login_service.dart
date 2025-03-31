@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:buga/Provider/getuser_details.dart';
-import 'package:buga/screens/rider_view/home_view/main_home_view.dart';
+import 'package:buga/screens/user_view/home_view/main_home_view.dart';
 import 'package:http/http.dart' as http;
 import 'service_export.dart';
 

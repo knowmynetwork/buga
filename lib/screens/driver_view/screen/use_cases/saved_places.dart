@@ -1,5 +1,5 @@
-import '../../service/riders/saved_place_repository.dart';
-import '../../viewmodels/ridermodel/saved_place.dart';
+import '../../../../service/riders/saved_place_repository.dart';
+import '../../../../viewmodels/ridermodel/saved_place.dart';
 
 
 class GetSavedPlaces {

@@ -5,7 +5,7 @@ export 'package:buga/constant/global_variable.dart';
 export 'package:buga/constant/snackbar_view.dart';
 export 'package:buga/local_storage/pref.dart';
 export 'package:buga/route/navigation.dart';
-export 'package:buga/driver/home/home_screen.dart';
+export 'package:buga/screens/driver_view/screen/home/home_screen.dart';
 export 'package:buga/service/all_endpoints.dart';
 export 'package:buga/viewmodels/login_model.dart';
 export 'package:flutter/material.dart';

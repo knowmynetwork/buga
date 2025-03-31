@@ -1,8 +1,8 @@
 import 'package:flutter_svg/svg.dart';
 
-import '../../../driver/trips/trips.dart';
+import '../../driver_view/screen/trips/trips.dart';
 import 'home_export.dart';
-import '../../../driver/home/home_screen.dart';
+import '../../driver_view/screen/home/home_screen.dart';
 
 List<Widget> navViews = [
   DriverHomeScreen(),

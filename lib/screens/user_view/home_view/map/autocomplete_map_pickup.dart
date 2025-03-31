@@ -1,4 +1,4 @@
-import 'package:buga/screens/rider_view/home_view/home_export.dart';
+import 'package:buga/screens/user_view/home_view/home_export.dart';
 
 class MapSearchInputAutocomplete extends StatelessWidget {
   final String label;

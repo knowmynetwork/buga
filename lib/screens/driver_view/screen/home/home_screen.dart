@@ -1,8 +1,8 @@
 import 'widgets/documents_status.dart';
 import 'widgets/operation_period.dart';
 import 'widgets/scheduledPickupTile.dart';
-import '../../screens/global_screens/setup_bottom_sheet.dart';
-import '../../screens/rider_view/home_view/home_export.dart';
+import '../../../global_screens/setup_bottom_sheet.dart';
+import '../../../user_view/home_view/home_export.dart';
 
 class DriverHomeScreen extends ConsumerStatefulWidget {
   const DriverHomeScreen({super.key});

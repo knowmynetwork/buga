@@ -7,7 +7,7 @@ import 'package:buga/screens/global_screens/splash_view.dart';
 import 'package:buga/driver/auth/login_view.dart';
 import 'package:buga/theme/app_theme.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
-import 'screens/rider_view/home_view/main_home_view.dart';
+import 'screens/user_view/home_view/main_home_view.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

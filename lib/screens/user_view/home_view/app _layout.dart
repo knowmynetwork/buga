@@ -1,7 +1,7 @@
 import 'package:flutter_svg/svg.dart';
 
-import '../../../driver/saved_places/all_saved_place.dart';
-import '../../../driver/scheduled_ride.dart';
+import '../../driver_view/screen/saved_places/all_saved_place.dart';
+import '../../driver_view/screen/scheduled_ride.dart';
 import '../../../theme/app_text_styles.dart';
 import '../../../widgets/app_button.dart';
 import '../../global_screens/screen_export.dart';
