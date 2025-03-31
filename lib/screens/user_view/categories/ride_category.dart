@@ -1,17 +1,23 @@
-import 'package:buga/screens/driver_view/screen/login_page.dart';
-import 'package:buga/screens/user_view/categories/ride_category.dart';
-import 'screen/export.dart';
+import 'package:buga/constant/global_variable.dart';
+import 'package:buga/constant/snackbar_view.dart';
+import 'package:buga/service/category_search_service.dart';
+import 'package:buga/service/get_otp_service.dart';
+import 'package:buga/service/sign_up.dart';
+import 'package:buga/viewmodels/register_model.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'categories_export.dart';
 
-class DriverCategory extends StatefulWidget {
-  const DriverCategory({super.key});
+class RiderCategory extends StatefulWidget {
+  const RiderCategory({super.key});
 
   @override
-  State<DriverCategory> createState() => _DriverCategoryState();
+  State<RiderCategory> createState() => _RiderCategoryState();
 }
 
-class _DriverCategoryState extends State<DriverCategory> {
+class _RiderCategoryState extends State<RiderCategory> {
   bool box1 = false;
   bool box2 = false;
+  bool box3 = false;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +38,7 @@ class _DriverCategoryState extends State<DriverCategory> {
               SizedBox(height: 1.h),
               Center(
                 child: Text(
-                  'So we can personalize your experience',
+                  'So we know how to serve you better',
                   style: AppTextStyle.medium(
                     FontWeight.w500,
                     color: AppColors.gray,
@@ -49,22 +55,35 @@ class _DriverCategoryState extends State<DriverCategory> {
                     setState(() {
                       box1 = true;
                       box2 = false;
+                      box3 = false;
                     });
                   },
                       box1 ? AppColors.white : AppColors.lightGray1,
                       box1 ? AppColors.yellow : AppColors.lightGray1,
-                      'Car',
-                      Icons.person_add_alt_1),
+                      'Student',
+                      Icons.abc),
                   optionBox(() {
                     setState(() {
                       box2 = true;
                       box1 = false;
+                      box3 = false;
                     });
                   },
                       box2 ? AppColors.white : AppColors.lightGray1,
                       box2 ? AppColors.yellow : AppColors.lightGray1,
-                      'E-trike',
-                      Icons.people_outline_sharp),
+                      'Resident',
+                      Icons.abc),
+                  optionBox(() {
+                    setState(() {
+                      box3 = true;
+                      box2 = false;
+                      box1 = false;
+                    });
+                  },
+                      box3 ? AppColors.white : AppColors.lightGray1,
+                      box3 ? AppColors.yellow : AppColors.lightGray1,
+                      'Employee',
+                      Icons.abc),
                 ],
               ),
               SizedBox(height: 10.h),
@@ -73,14 +92,24 @@ class _DriverCategoryState extends State<DriverCategory> {
                 height: 7.h,
                 onPressed: () {
                   if (box1) {
-                    ref.read(RegisterProviders.category.notifier).state = 'Car';
+                    ref.read(RegisterProviders.category.notifier).state =
+                        'Student';
+                    debugPrint('User clicks on Student');
+                    CategoriesSearch.getStudentUniversities();
+                    // navigateTo(StudentSearchView());
                   } else if (box2) {
                     ref.read(RegisterProviders.category.notifier).state =
-                        'Etrike';
+                        'Resident';
+                    debugPrint('User clicks on Resident');
+                    CategoriesSearch.getResidentSearch();
+                    // navigateTo(ResidentSearchView());
+                  } else if (box3) {
+                    ref.read(RegisterProviders.category.notifier).state =
+                        'Employee';
+                    debugPrint('User clicks on Employee');
+                    CategoriesSearch.getOrganizationSearch();
+                    // navigateTo(EmployeeSearch());
                   }
-                  ref.read(loadingAnimationSpinkit.notifier).state = true;
-                  UpdateCategoryProviders.updateModel();
-                  // pushReplacementScreen(LoadingScreen());
                 },
                 color: AppColors.yellow,
                 child: Center(
@@ -138,5 +167,38 @@ class _DriverCategoryState extends State<DriverCategory> {
         ),
       ),
     );
+  }
+}
+
+class UpdateCategoryProviders {
+  static updateModel() async {
+    if (provider.read(GetOtpService.isRiderAccountClick)) {
+      debugPrint('Updating Rider model');
+      var userData = RegisterRiderModel(
+          email: provider.read(RegisterProviders.email),
+          name: provider.read(RegisterProviders.name),
+          number: provider.read(RegisterProviders.phoneNumber),
+          altNumber: provider.read(RegisterProviders.altNumber),
+          password: provider.read(RegisterProviders.password),
+          otp: provider.read(RegisterProviders.otp),
+          category: provider.read(RegisterProviders.category),
+          id: provider.read(RegisterProviders.id));
+      await SignUpService.riderSignUp(userData);
+    } else {
+      debugPrint('Updating Driver model');
+      var userDate = RegisterDriverModel(
+        email: provider.read(RegisterProviders.email),
+        name: provider.read(RegisterProviders.name),
+        number: provider.read(RegisterProviders.phoneNumber),
+        altNumber: provider.read(RegisterProviders.altNumber),
+        password: provider.read(RegisterProviders.password),
+        otp: provider.read(RegisterProviders.otp),
+        address: provider.read(RegisterProviders.address),
+        city: provider.read(RegisterProviders.city),
+        state: provider.read(RegisterProviders.state),
+        category: provider.read(RegisterProviders.category),
+      );
+      await SignUpService.driverSignUp(userDate);
+    }
   }
 }

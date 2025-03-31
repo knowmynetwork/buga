@@ -1,4 +1,4 @@
-import 'package:buga/screens/rider_view/auth_views/login_view.dart';
+import 'package:buga/screens/user_view/auth_views/login_view.dart';
 
 import 'screen_export.dart';
 
@@ -192,7 +192,7 @@ class _OnboardingViewState extends State<OnboardingView> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        tabView("Rider", AppColors.black, AppColors.white),
+                        tabView("User", AppColors.black, AppColors.white),
                         SizedBox(width: 3.w),
                         GestureDetector(
                             onTap: () {
