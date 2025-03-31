@@ -1,10 +1,6 @@
 
-
-
-
 // Dio Provider
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import '../../screens/driver_view/screen/use_cases/saved_places.dart';
 
 final dioProvider = Provider((ref) => Dio());
