@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
-import '../../../../Provider/riders/saved_places.dart';
+import '../../Provider/riders/saved_places.dart';
 import 'saved_place.dart';
 
 class SavedPlacesListScreen extends ConsumerStatefulWidget {
@@ -88,8 +88,14 @@ class _SavedPlacesListScreenState extends ConsumerState<SavedPlacesListScreen> {
                           title: Text(places[index].title),
                           subtitle: Text(places[index].address),
                           trailing: IconButton(
-                              icon: const Icon(Icons.delete, color: Colors.red),
-                              onPressed: () {}),
+                            icon: const Icon(Icons.delete, color: Colors.red),
+                            onPressed: () {
+                              
+                              // deleteSavedPlace.repository
+                              //     .deleteSavedPlace(places[index].id);
+
+                            },
+                          ),
                         ),
                       );
                     },

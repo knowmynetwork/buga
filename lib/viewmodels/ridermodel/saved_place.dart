@@ -14,8 +14,8 @@ class SavedPlaceResponse {
   factory SavedPlaceResponse.fromJson(Map<String, dynamic> json) {
     return SavedPlaceResponse(
       data: (json['data'] as List).map((e) => SavedPlace.fromJson(e)).toList(),
-      message: json['message'],
-      status: json['status'],
+      message: json['message'] ?? "",
+      status: json['status'] ?? false,
     );
   }
 
@@ -31,7 +31,7 @@ class SavedPlaceResponse {
 class SavedPlace {
   final String id;
   final DateTime dateCreated;
-  final DateTime dateModified;
+  final DateTime? dateModified;
   final String title;
   final String address;
   final double latitude;
@@ -41,7 +41,7 @@ class SavedPlace {
   SavedPlace({
     required this.id,
     required this.dateCreated,
-    required this.dateModified,
+    this.dateModified, // Nullable
     required this.title,
     required this.address,
     required this.latitude,
@@ -53,11 +53,13 @@ class SavedPlace {
     return SavedPlace(
       id: json['id'],
       dateCreated: DateTime.parse(json['dateCreated']),
-      dateModified: DateTime.parse(json['dateModified']),
+      dateModified: json['dateModified'] != null
+          ? DateTime.tryParse(json['dateModified'])
+          : null,
       title: json['title'],
       address: json['address'],
-      latitude: json['latitude'].toDouble(),
-      longitude: json['longitude'].toDouble(),
+      latitude: (json['latitude'] as num).toDouble(),
+      longitude: (json['longitude'] as num).toDouble(),
       type: json['type'],
     );
   }
@@ -66,7 +68,7 @@ class SavedPlace {
     return {
       "id": id,
       "dateCreated": dateCreated.toIso8601String(),
-      "dateModified": dateModified.toIso8601String(),
+      "dateModified": dateModified?.toIso8601String(), // Nullable handling
       "title": title,
       "address": address,
       "latitude": latitude,

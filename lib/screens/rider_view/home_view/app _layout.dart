@@ -1,9 +1,11 @@
 import 'package:flutter_svg/svg.dart';
 
-import '../../../riders/onboarding/screen/saved_places/all_saved_place.dart';
+import '../../../driver/saved_places/all_saved_place.dart';
+import '../../../driver/scheduled_ride.dart';
 import '../../../theme/app_text_styles.dart';
 import '../../../widgets/app_button.dart';
 import '../../global_screens/screen_export.dart';
+import 'shared_ride.dart';
 
 class AppLayout {
   static AppBar buildAppBar() {
@@ -41,7 +43,6 @@ class AppLayout {
           child: Badge.count(count: 2, child: const Icon(Icons.notifications)),
         ),
 
-      
         // IconButton(
         //   icon: const Icon(Icons.notifications_none, color: Colors.black),
         //   onPressed: () {},
@@ -176,7 +177,6 @@ class AppLayout {
                 size: 30,
               ),
             ),
-         
             title: Text(
               'Notifications',
               style: TextStyle(
@@ -248,6 +248,38 @@ class AppLayout {
                 context,
                 MaterialPageRoute(
                   builder: (context) => const SavedPlacesListScreen(),
+                ),
+              );
+              // Navigator.pop(context);
+            },
+          ),
+
+          ListTile(
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            leading: Icon(
+              Icons.route_outlined,
+              color: AppColors.black,
+              size: 30,
+            ),
+            title: Text(
+              'Scheduled Ride', // Find a more intuitive text for this
+              style: TextStyle(
+                color: AppColors.black,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            trailing: const Icon(
+              Icons.arrow_forward_ios,
+              color: Colors.black,
+              size: 16,
+            ),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ScheduleRideScreen(),
                 ),
               );
               // Navigator.pop(context);

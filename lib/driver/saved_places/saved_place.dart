@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_google_places_sdk/flutter_google_places_sdk.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:convert';
-
 import '../../../../Provider/riders/saved_places.dart';
+import '../../../../service/service_export.dart';
 import '../../../../viewmodels/ridermodel/saved_place.dart';
 
 class SavedPlaces extends ConsumerStatefulWidget {
@@ -17,6 +16,58 @@ class _SavedPlacesState extends ConsumerState<SavedPlaces> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _infoController = TextEditingController();
+
+  late FlutterGooglePlacesSdk places;
+  List<AutocompletePrediction> predictions = [];
+
+  /// Fetch address suggestions from Google Places API
+  Future<void> fetchPredictions(String input) async {
+    if (input.isEmpty) return;
+
+    final result = await places.findAutocompletePredictions(
+      input,
+      countries: ["NG"], // Restrict search to a specific country (optional)
+    );
+
+    setState(() {
+      predictions = result.predictions;
+    });
+  }
+
+  Future<void> getPlaceDetails(String placeId) async {
+    final result = await places.fetchPlace(
+      placeId,
+      fields: [
+        PlaceField.Location,
+        PlaceField.Name,
+        PlaceField.Address,
+        PlaceField.Id,
+        PlaceField.PhoneNumber,
+        PlaceField.Rating,
+        PlaceField.Types,
+        PlaceField.PriceLevel,
+        PlaceField.AddressComponents,
+      ], // Fetch required fields
+    );
+
+    if (result.place?.latLng != null) {
+      final lat = result.place!.latLng!.lat;
+      final lng = result.place!.latLng!.lng;
+
+      print("🏠 Selected Place: ${result.place!.name}");
+      print("📍 Latitude: $lat, Longitude: $lng");
+
+      print('This is  the complete result$result ');
+    } else {
+      print("⚠️ Failed to fetch location details.");
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    places = FlutterGooglePlacesSdk(mapKey);
+  }
 
   @override
   void dispose() {
@@ -48,11 +99,27 @@ class _SavedPlacesState extends ConsumerState<SavedPlaces> {
             const SizedBox(height: 10),
             TextField(
               controller: _addressController,
+              onChanged: (String val) {
+                fetchPredictions(_addressController.text);
+              },
               decoration: const InputDecoration(
                 labelText: "Address",
                 border: OutlineInputBorder(),
               ),
             ),
+            ...predictions.map((prediction) {
+              return ListTile(
+                title: Text(prediction.fullText ?? ""),
+                onTap: () {
+                  _addressController.text = prediction.fullText;
+                  getPlaceDetails(prediction.placeId);
+
+                  // getPlaceDetails(prediction.placeId!);
+                  setState(() =>
+                      predictions.clear()); // Clear suggestions after selection
+                },
+              );
+            }),
             const SizedBox(height: 10),
             TextField(
               controller: _infoController,
@@ -83,9 +150,6 @@ class _SavedPlacesState extends ConsumerState<SavedPlaces> {
                       .then((value) {
                     print('success');
                   });
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text("Place saved successfully!")),
-                  );
                 },
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 14),

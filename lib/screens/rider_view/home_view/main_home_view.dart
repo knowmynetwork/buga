@@ -1,11 +1,12 @@
 import 'package:flutter_svg/svg.dart';
 
+import '../../../driver/trips/trips.dart';
 import 'home_export.dart';
-import '../../../riders/home/home_screen.dart';
+import '../../../driver/home/home_screen.dart';
 
 List<Widget> navViews = [
   DriverHomeScreen(),
-  Container(color: AppColors.white, child: Center(child: Text('Trips View'))),
+  RideRequestsScreen(),
   Container(color: AppColors.white, child: Center(child: Text('Profile View'))),
 ];
 
@@ -25,8 +26,8 @@ class _MainHomeViewState extends ConsumerState<MainHomeView> {
 
     return Scaffold(
       backgroundColor: AppColors.yellow,
-      appBar: AppLayout.buildAppBar(),
-      drawer: AppLayout.buildSidebar(),
+      appBar: _currentIndex == 0 ? AppLayout.buildAppBar() : null,
+      drawer: _currentIndex == 0 ? AppLayout.buildSidebar() : null,
       body: SafeArea(
         child: navViews.elementAt(_currentIndex),
       ),

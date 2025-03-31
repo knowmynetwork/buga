@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:http/http.dart' as http;
-import '../riders/onboarding/driver_category.dart';
+import '../driver/onboarding/driver_category.dart';
 import 'service_export.dart';
 
 class GetOtpService {

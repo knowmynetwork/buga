@@ -1,5 +1,5 @@
-import 'package:buga/riders/onboarding/screen/login_page.dart';
-import 'package:buga/riders/categories/ride_category.dart';
+import 'package:buga/driver/onboarding/screen/login_page.dart';
+import 'package:buga/driver/categories/ride_category.dart';
 import 'package:buga/screens/driver_view/screen/login_page.dart';
 import 'screen/export.dart';
 import 'package:buga/screens/driver_view/screen/login_page.dart' as rm;

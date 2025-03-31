@@ -1,5 +1,5 @@
 
-import 'package:buga/riders/onboarding/screen/export.dart';
+import 'package:buga/driver/onboarding/screen/export.dart';
 import 'package:buga/screens/driver_view/screen/export.dart';
 
 class VehiclesScreen extends StatelessWidget {
