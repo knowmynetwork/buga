@@ -1,5 +1,6 @@
-import '../../../../service/riders/saved_place_repository.dart';
-import '../../../../viewmodels/ridermodel/saved_place.dart';
+import 'package:buga/service/driver_service/saved_place_repository.dart';
+
+import '../../../../viewmodels/drivermodel/saved_place.dart';
 
 
 class GetSavedPlaces {

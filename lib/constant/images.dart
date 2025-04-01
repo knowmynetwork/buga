@@ -10,3 +10,11 @@ String dLogo = "assets/images/applogo";
 String colollaImg = "assets/images/toyota_corolla.png";
 String siennaImg = "assets/images/toyota_sienna.png";
 
+
+String electricImg = "assets/images/svg/electricTricycleImg.svg";
+String interStateImg= "assets/images/svg/InterstateImg 1.svg";
+String shareRideImg = "assets/images/svg/shareRideImg.svg";
+String soloRideImg= "assets/images/svg/soloRideImg.svg";
+
+
+

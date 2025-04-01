@@ -13,7 +13,17 @@ class RideDetailsScreen extends ConsumerWidget {
         child: Stack(
           children: [
             // Map layout
-            MapLayOut(),
+            SizedBox(width: double.infinity, height: 55.h, child: MapLayOut()),
+            Positioned(
+              top: 3.h,
+              left: 5.w,
+              child: IconButton(
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () {
+                  popScreen();
+                },
+              ),
+            ),
             // Bottom Sheet for input price
             InputPriceView()
           ],

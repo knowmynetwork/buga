@@ -1,13 +1,9 @@
-import 'package:buga/driver/onboarding/screen/export.dart';
-import 'package:buga/driver/onboarding/screen/side_bar_view/vehicle.dart';
-import 'package:buga/driver/onboarding/screen/side_bar_view/vehicle.dart' as bg;
-import 'package:buga/screens/driver_view/screen/export.dart';
+import 'package:buga/constant/images.dart';
+import 'package:buga/route/navigation.dart';
 import 'package:buga/screens/driver_view/screen/side_bar_view/vehicle.dart';
 import 'package:buga/theme/app_colors.dart';
-
-
-
-
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -20,8 +16,10 @@ class SettingsScreen extends StatelessWidget {
         elevation: 0,
         title: Text(
           'Settings',
-          style: TextStyle(color
-          : AppColors.black, fontSize: 20, fontWeight: FontWeight.bold),
+          style: TextStyle(
+              color: AppColors.black,
+              fontSize: 20,
+              fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
         leading: IconButton(
@@ -48,7 +46,7 @@ class SettingsScreen extends StatelessWidget {
                 icon: Icons.directions_car,
                 title: 'Vehicles',
                 onTap: () {
-                  navigateTo(bg.VehiclesScreen());
+                  navigateTo(VehiclesScreen());
                 },
               ),
               _buildSettingsOption(
@@ -94,9 +92,10 @@ class SettingsScreen extends StatelessWidget {
           children: const [
             Text(
               'Oreoluwa Okunade',
-              style: TextStyle(color: Colors.black,
-               fontSize: 20, 
-               fontWeight: FontWeight.bold),
+              style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 4),
             Text(
@@ -111,8 +110,8 @@ class SettingsScreen extends StatelessWidget {
         CircleAvatar(
           radius: 40,
           child: Image.asset(
-                    appLogo,
-                  ),
+            appLogo,
+          ),
         ),
       ],
     );
@@ -128,7 +127,8 @@ class SettingsScreen extends StatelessWidget {
       leading: Icon(icon, color: iconColor),
       title: Text(
         title,
-        style: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
+        style: TextStyle(
+            color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
       ),
       trailing: const Icon(Icons.chevron_right, color: Colors.black),
       onTap: onTap,

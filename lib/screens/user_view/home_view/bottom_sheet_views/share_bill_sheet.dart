@@ -2,7 +2,7 @@ import 'package:buga/constant/global_variable.dart';
 import 'package:buga/route/navigation.dart';
 import 'package:buga/theme/app_colors.dart';
 import 'package:buga/theme/app_text_styles.dart';
-import 'package:buga/viewmodels/ridermodel/rides_type.dart';
+import 'package:buga/viewmodels/user_model/rides_type.dart';
 import 'package:buga/widgets/app_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -117,7 +117,7 @@ class ShareBillView extends ConsumerWidget {
                     borderRadius: BorderRadius.circular(5)),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [Text('Share'), Icon(Icons.add_circle_outlined)],
+                  children: [Text('Top up'), Icon(Icons.add_circle_outlined)],
                 ),
               )),
         ],

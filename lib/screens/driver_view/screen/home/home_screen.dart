@@ -1,8 +1,8 @@
+
+import 'package:buga/screens/global_screens/screen_export.dart';
 import 'widgets/documents_status.dart';
-import 'widgets/operation_period.dart';
+import 'widgets/opration_period.dart';
 import 'widgets/scheduledPickupTile.dart';
-import '../../../global_screens/setup_bottom_sheet.dart';
-import '../../../user_view/home_view/home_export.dart';
 
 class DriverHomeScreen extends ConsumerStatefulWidget {
   const DriverHomeScreen({super.key});

@@ -1,11 +1,4 @@
-import 'package:flutter_svg/svg.dart';
-
-import '../../driver_view/screen/saved_places/all_saved_place.dart';
-import '../../driver_view/screen/scheduled_ride.dart';
-import '../../../theme/app_text_styles.dart';
-import '../../../widgets/app_button.dart';
 import '../../global_screens/screen_export.dart';
-import 'shared_ride.dart';
 
 class AppLayout {
   static AppBar buildAppBar() {
@@ -14,14 +7,11 @@ class AppLayout {
       backgroundColor: AppColors.yellow,
       elevation: 0,
       leading: Builder(
-        builder: (context) => InkWell(
-          onTap: () {
+        builder: (context) => IconButton(
+          icon: Icon(Icons.menu, color: AppColors.black),
+          onPressed: () {
             Scaffold.of(context).openDrawer();
           },
-          child: SvgPicture.asset(
-            'assets/icons/driver/menu.svg',
-            fit: BoxFit.scaleDown,
-          ),
         ),
       ),
       title: Text(
@@ -33,20 +23,10 @@ class AppLayout {
         ),
       ),
       actions: [
-        Container(
-          decoration: BoxDecoration(
-            color: AppColors.white,
-            borderRadius: BorderRadius.circular(10),
-          ),
-          padding: const EdgeInsets.symmetric(horizontal: 7.33, vertical: 5.67),
-          margin: EdgeInsets.only(right: 20),
-          child: Badge.count(count: 2, child: const Icon(Icons.notifications)),
+        IconButton(
+          icon: Icon(Icons.notifications_none, color: AppColors.black),
+          onPressed: () {},
         ),
-
-        // IconButton(
-        //   icon: const Icon(Icons.notifications_none, color: Colors.black),
-        //   onPressed: () {},
-        // ),
       ],
       centerTitle: true,
     );
@@ -58,57 +38,37 @@ class AppLayout {
       decoration: BoxDecoration(
         color: AppColors.yellow,
         borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(20),
-          bottomRight: Radius.circular(20),
+          bottomLeft: Radius.circular(30),
+          bottomRight: Radius.circular(30),
         ),
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.end,
+      child: Column(
         children: [
-          SvgPicture.asset('assets/icons/driver/left_pattern.svg'),
-          Column(
-            children: [
-              SizedBox(height: 1.h),
-              Center(
-                child: Icon(Icons.account_balance_wallet, size: 62),
-              ),
-              SizedBox(height: 1.h),
-              Text(
-                '₦15,235',
-                style: AppTextStyle.bold(
-                  FontWeight.w700,
-                  fontSize: 32,
-                ),
-              ),
-              SizedBox(height: 2),
-              Text(
-                'WALLET BALANCE',
-                style: AppTextStyle.bold(
-                  FontWeight.w700,
-                  fontSize: 12,
-                  color: Color(0xFF565656),
-                ),
-              ),
-              SizedBox(height: 15),
-              materialButton(
-                  buttonBkColor: AppColors.white,
-                  onPres: () {},
-                  borderRadiusSize: 5,
-                  height: 5.h,
-                  width: 30.w,
-                  widget: Text(
-                    'Withdraw',
-                    style: TextStyle(
-                      color: AppColors.black,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  )),
-              SizedBox(height: 3.h),
-            ],
+          SizedBox(height: 1.h),
+          const Center(
+            child: Icon(Icons.account_balance_wallet, size: 60),
           ),
-          SvgPicture.asset('assets/icons/driver/right_pattern.svg'),
+          SizedBox(height: 1.h),
+          Text(
+            '\u20A615,235',
+            style:
+                AppTextStyle.bold(FontWeight.w400, fontSize: FontSize.font30),
+          ),
+          SizedBox(height: 1.h),
+          Text(
+            'WALLET BALANCE',
+            style:
+                AppTextStyle.bold(FontWeight.w400, fontSize: FontSize.font16),
+          ),
+          SizedBox(height: 1.h),
+          materialButton(
+              buttonBkColor: AppColors.white,
+              onPres: () {},
+              borderRadiusSize: 5,
+              height: 5.h,
+              width: 30.w,
+              widget: Text('Top Up')),
+          SizedBox(height: 3.h),
         ],
       ),
     );
@@ -168,14 +128,33 @@ class AppLayout {
           ListTile(
             contentPadding:
                 const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            leading: Badge.count(
-              count: 2,
-              offset: Offset(2, -2),
-              child: Icon(
-                Icons.notifications_none,
-                color: AppColors.black,
-                size: 30,
-              ),
+            leading: Stack(
+              children: [
+                Icon(
+                  Icons.notifications_none,
+                  color: AppColors.black,
+                  size: 30,
+                ),
+                Positioned(
+                  right: 0,
+                  top: 0,
+                  child: Container(
+                    padding: const EdgeInsets.all(4),
+                    decoration: BoxDecoration(
+                      color: AppColors.black,
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Text(
+                      '2',
+                      style: TextStyle(
+                        color: Colors.red,
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
             title: Text(
               'Notifications',
@@ -221,71 +200,6 @@ class AppLayout {
               // Navigate to Payment Screen
             },
           ),
-          // For adding of new saved place for the driver
-          ListTile(
-            contentPadding:
-                const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            leading: Icon(
-              Icons.add_location_sharp,
-              color: AppColors.black,
-              size: 30,
-            ),
-            title: Text(
-              'Add Place', // Find a more intuitive text for this
-              style: TextStyle(
-                color: AppColors.black,
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            trailing: const Icon(
-              Icons.arrow_forward_ios,
-              color: Colors.black,
-              size: 16,
-            ),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const SavedPlacesListScreen(),
-                ),
-              );
-              // Navigator.pop(context);
-            },
-          ),
-
-          ListTile(
-            contentPadding:
-                const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            leading: Icon(
-              Icons.route_outlined,
-              color: AppColors.black,
-              size: 30,
-            ),
-            title: Text(
-              'Scheduled Ride', // Find a more intuitive text for this
-              style: TextStyle(
-                color: AppColors.black,
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            trailing: const Icon(
-              Icons.arrow_forward_ios,
-              color: Colors.black,
-              size: 16,
-            ),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const ScheduleRideScreen(),
-                ),
-              );
-              // Navigator.pop(context);
-            },
-          ),
-
           ListTile(
             contentPadding:
                 const EdgeInsets.symmetric(horizontal: 20, vertical: 10),

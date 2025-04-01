@@ -1,6 +1,6 @@
 
 
-export 'package:buga/Provider/ride_details_provider.dart';
+export 'package:buga/Provider/user_provider/user_details_provider.dart';
 export 'package:buga/constant/global_variable.dart';
 export 'package:buga/screens/user_view/home_view/ride_form_field.dart';
 export 'package:buga/theme/app_colors.dart';
