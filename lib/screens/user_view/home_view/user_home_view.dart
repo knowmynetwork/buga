@@ -1,11 +1,16 @@
+import 'package:buga/screens/user_view/user_trip/trip.dart';
+import 'package:flutter/services.dart';
+
 import 'home_export.dart';
 import 'home_screen.dart';
 
 List<Widget> navViews = [
   HomeScreen(),
-  Container(color: AppColors.white, child: Center(child: Text('Trips View'))),
+  TripView(),
   Container(color: AppColors.white, child: Center(child: Text('Profile View'))),
 ];
+
+final showAppBar = StateProvider((ref) => true);
 
 class UserHomeView extends ConsumerStatefulWidget {
   const UserHomeView({super.key});
@@ -20,27 +25,38 @@ class _MainHomeViewState extends ConsumerState<UserHomeView> {
   @override
   Widget build(BuildContext context) {
     provider = ref;
+    final displayAppBar = ref.watch(showAppBar);
 
-    return Scaffold(
-      backgroundColor: AppColors.yellow,
-      appBar: AppLayout.buildAppBar(),
-      drawer: AppLayout.buildSidebar(),
-      body: SafeArea(
-        child: navViews.elementAt(_currentIndex),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex,
-        onTap: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
-        selectedItemColor: AppColors.yellow,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.local_taxi), label: 'Trips'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
-        ],
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) {
+        SystemNavigator.pop();
+      },
+      child: Scaffold(
+        backgroundColor: AppColors.yellow,
+        appBar: displayAppBar ? AppLayout.buildAppBar() : null,
+        drawer: AppLayout.buildSidebar(),
+        body: SafeArea(
+          child: navViews.elementAt(_currentIndex),
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: _currentIndex,
+          onTap: (index) {
+            setState(() {
+              _currentIndex = index;
+              index == 1
+                  ? ref.read(showAppBar.notifier).state = false
+                  : ref.read(showAppBar.notifier).state = true;
+            });
+          },
+          selectedItemColor: AppColors.yellow,
+          items: const [
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.local_taxi), label: 'Trips'),
+            BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
+          ],
+        ),
       ),
     );
   }

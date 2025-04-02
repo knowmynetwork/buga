@@ -1,6 +1,6 @@
 
 import 'package:flutter_svg/svg.dart';
-import '../../user_view/home_view/app _layout.dart';
+import '../../global_screens/app _layout.dart';
 import 'export.dart';
 import 'home/home_screen.dart';
 import 'trip/trips.dart';

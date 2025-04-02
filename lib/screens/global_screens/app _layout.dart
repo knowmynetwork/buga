@@ -1,4 +1,4 @@
-import '../../global_screens/screen_export.dart';
+import 'screen_export.dart';
 
 class AppLayout {
   static AppBar buildAppBar() {
@@ -248,7 +248,8 @@ class AppLayout {
               size: 16,
             ),
             onTap: () {
-              navigateTo(SettingsScreen());
+              // this setting its driver setting 
+              // navigateTo(SettingsScreen());
               // Navigate to Payment Screen
             },
           ),

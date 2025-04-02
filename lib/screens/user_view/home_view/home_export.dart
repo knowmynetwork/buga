@@ -3,7 +3,7 @@ export 'package:buga/constant/global_variable.dart';
 export 'package:buga/local_storage/pref.dart';
 export 'package:buga/route/navigation.dart';
 export 'package:buga/screens/user_view/home_view/shared_ride.dart';
-export 'package:buga/screens/user_view/home_view/app%20_layout.dart';
+export 'package:buga/screens/global_screens/app%20_layout.dart';
 export 'package:buga/screens/user_view/home_view/bottom_sheet_views/ride_details_bottom_sheet.dart';
 export 'package:buga/theme/app_colors.dart';
 export 'package:buga/theme/app_text_styles.dart';
