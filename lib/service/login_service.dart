@@ -1,6 +1,7 @@
 import 'dart:async';
-import 'package:buga/Provider/getuser_details.dart';
-import 'package:buga/screens/rider_view/home_view/main_home_view.dart';
+import 'package:buga/Provider/user_provider/getuser_details.dart';
+import 'package:buga/screens/driver_view/screen/main_home_view.dart';
+import 'package:buga/screens/user_view/home_view/user_home_view.dart';
 import 'package:http/http.dart' as http;
 import 'service_export.dart';
 
@@ -19,7 +20,7 @@ class LoginService {
           )
           .timeout(const Duration(seconds: 50));
 
-      debugPrint('trying jjjjjj ${response.statusCode}');
+      debugPrint('get Status code ${response.statusCode}');
       final Map<String, dynamic> responseData = json.decode(response.body);
       JsonEncoder encoder = const JsonEncoder.withIndent('  ');
       String prettyprint = encoder.convert(responseData);
@@ -77,8 +78,11 @@ class LoginService {
         if (rememberPasswordStatus) {
           Pref.setStringValue(userPassKey, loginModel.password);
         }
+        debugPrint('user Type $userType');
 
-        pushReplacementScreen(MainHomeView());
+        userType == 'Passenger'
+            ? pushReplacementScreen(UserHomeView())
+            : pushReplacementScreen(MainHomeView());
       } else {
         debugPrint('Error $responseData');
         EndpointUpdateUI.updateUi(message);

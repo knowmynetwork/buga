@@ -4,10 +4,11 @@ import 'package:buga/screens/driver_view/screen/export.dart';
 import 'package:buga/screens/driver_view/screen/forget_password.dart';
 import 'package:buga/screens/driver_view/screen/login_page.dart';
 import 'package:buga/screens/global_screens/splash_view.dart';
-import 'package:buga/riders/auth/login_view.dart';
+import 'package:buga/screens/user_view/auth_views/login_view.dart';
 import 'package:buga/theme/app_theme.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
-import 'screens/rider_view/home_view/main_home_view.dart';
+import 'screens/driver_view/screen/main_home_view.dart';
+import 'screens/user_view/home_view/user_home_view.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -103,7 +104,10 @@ class _TokenCheckState extends State<TokenCheck> {
         } else {
           debugPrint('Token valid - going to home screen');
           _safeNavigate(() {
-            pushReplacementScreen(const MainHomeView());
+            // pushReplacementScreen(const UserHomeView());
+             userType == 'Passenger'
+            ? pushReplacementScreen(UserHomeView())
+            : pushReplacementScreen(MainHomeView());
           });
         }
       }
@@ -150,5 +154,3 @@ class _TokenCheckState extends State<TokenCheck> {
     return const SizedBox.shrink();
   }
 }
-
-
