@@ -4,8 +4,6 @@ import 'package:flutter_svg/svg.dart';
 import 'dart:convert';
 import 'saved_place.dart';
 
-
-// this is the real code the end too its mark
 class SavedPlacesListScreen extends ConsumerStatefulWidget {
   const SavedPlacesListScreen({super.key});
 

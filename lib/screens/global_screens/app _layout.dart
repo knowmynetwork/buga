@@ -1,6 +1,6 @@
 import '../driver_view/screen/notification/notification_screen.dart';
 import '../driver_view/screen/saved_places/all_saved_place.dart';
-import '../driver_view/screen/scheduled_ride.dart';
+import '../driver_view/drivers_routes/drivers_route.dart';
 import '../driver_view/screen/trips/trips.dart';
 import 'screen_export.dart';
 
