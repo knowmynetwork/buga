@@ -210,7 +210,7 @@ class ShowTripDetails extends StatelessWidget {
 }
 
 class RideDetailsScreen extends StatefulWidget {
-  const RideDetailsScreen({Key? key}) : super(key: key);
+  const RideDetailsScreen({super.key});
 
   @override
   State<RideDetailsScreen> createState() => _RideDetailsScreenState();
@@ -274,13 +274,13 @@ class DetailsDropdown extends StatelessWidget {
   final String? badgeText;
 
   const DetailsDropdown({
-    Key? key,
+    super.key,
     required this.title,
     required this.isExpanded,
     required this.onTap,
     this.content,
     this.badgeText,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -355,7 +355,7 @@ class DetailsDropdown extends StatelessWidget {
 }
 
 class DriverDetailsContent extends StatelessWidget {
-  const DriverDetailsContent({Key? key}) : super(key: key);
+  const DriverDetailsContent({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -450,7 +450,7 @@ class DriverDetailsContent extends StatelessWidget {
 }
 
 class RiderDetailsContent extends StatelessWidget {
-  const RiderDetailsContent({Key? key}) : super(key: key);
+  const RiderDetailsContent({super.key});
 
   @override
   Widget build(BuildContext context) {

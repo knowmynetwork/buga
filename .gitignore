@@ -44,3 +44,6 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 android/app/.cxx/
+
+
+lib/constant/global_variable.dart

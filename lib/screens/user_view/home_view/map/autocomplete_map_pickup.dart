@@ -116,7 +116,7 @@ class PredictionTextField extends ConsumerStatefulWidget {
   final Function(Prediction)? onSuggestionSelected;
   final Function(String)? onTextChanged;
 
-  PredictionTextField({
+  const PredictionTextField({super.key, 
     required this.placeholder,
     this.onSuggestionSelected,
     this.onTextChanged,

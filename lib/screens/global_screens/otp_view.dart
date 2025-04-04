@@ -1,5 +1,4 @@
 import 'package:buga/viewmodels/email_otp_model.dart';
-import 'package:flutter/services.dart';
 import 'screen_export.dart';
 
 class RiderOtpView extends StatefulWidget {

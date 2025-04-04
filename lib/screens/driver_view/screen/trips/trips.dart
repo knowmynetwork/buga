@@ -1,3 +1,4 @@
+import 'package:buga/screens/global_screens/screen_export.dart';
 import 'package:flutter/material.dart';
 
 class RideRequestsScreen extends StatefulWidget {
@@ -50,12 +51,15 @@ class _RideRequestsScreenState extends State<RideRequestsScreen> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 2,
+      length: 3,
       child: Scaffold(
+        backgroundColor: AppColors.white,
         appBar: AppBar(
-          title: Text('Ride Requests'),
+          backgroundColor: AppColors.yellow,
+          title: Text('Trips'),
           bottom: TabBar(
             tabs: [
+              Tab(text: 'Pending'),
               Tab(text: 'Upcoming'),
               Tab(text: 'Completed'),
             ],
@@ -64,6 +68,7 @@ class _RideRequestsScreenState extends State<RideRequestsScreen> {
         body: TabBarView(
           children: [
             RideList(rides: upcomingRides),
+            RideList(rides: completedRides),
             RideList(rides: completedRides),
           ],
         ),

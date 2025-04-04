@@ -1,4 +1,3 @@
-
 import 'package:buga/screens/global_screens/screen_export.dart';
 import 'widgets/documents_status.dart';
 import 'widgets/opration_period.dart';
@@ -120,7 +119,7 @@ class _HomeScreenState extends ConsumerState<DriverHomeScreen> {
           SizedBox(height: 1.h),
 
           Expanded(
-            flex: 3,
+            flex: 4,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: pickups.length,

@@ -1,13 +1,13 @@
-
+import 'package:buga/screens/driver_view/screen/trips/trips.dart';
 import 'package:flutter_svg/svg.dart';
 import '../../global_screens/app _layout.dart';
 import 'export.dart';
 import 'home/home_screen.dart';
-import 'trip/trips.dart';
 
 List<Widget> navViews = [
   DriverHomeScreen(),
   RideRequestsScreen(),
+  Container(color: AppColors.white, child: Center(child: Text('Chat View'))),
   Container(color: AppColors.white, child: Center(child: Text('Profile View'))),
 ];
 
@@ -39,7 +39,14 @@ class _MainHomeViewState extends ConsumerState<MainHomeView> {
             _currentIndex = index;
           });
         },
+        showSelectedLabels: true,
+        showUnselectedLabels: true,
         selectedItemColor: AppColors.yellow,
+        unselectedItemColor: AppColors.black,
+        // unselectedLabelStyle: TextStyle(
+        //   color: AppColors.black,
+        //   fontSize: 20,
+        // ),
         items: [
           BottomNavigationBarItem(
               icon: SvgPicture.asset(
@@ -54,11 +61,17 @@ class _MainHomeViewState extends ConsumerState<MainHomeView> {
               ),
               label: 'Trips'),
           BottomNavigationBarItem(
-              icon: SvgPicture.asset(
-                'assets/icons/driver/drive.svg',
-                color: _currentIndex == 2 ? AppColors.yellow : AppColors.black,
-              ),
-              label: 'Drive,'),
+              icon: Icon(Icons.message_outlined,
+                  color:
+                      _currentIndex == 2 ? AppColors.yellow : AppColors.black),
+              label: 'Chat'),
+          BottomNavigationBarItem(
+            icon: SvgPicture.asset(
+              'assets/icons/driver/drive.svg',
+              color: _currentIndex == 3 ? AppColors.yellow : AppColors.black,
+            ),
+            label: 'Drive,',
+          ),
         ],
       ),
     );

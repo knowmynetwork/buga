@@ -1,5 +1,5 @@
-
 import 'package:flutter/material.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 class ScheduledPickupTile extends StatelessWidget {
   final String title;
@@ -18,7 +18,7 @@ class ScheduledPickupTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 256,
+      width: 70.w,
       margin: const EdgeInsets.only(right: 10),
       // padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
