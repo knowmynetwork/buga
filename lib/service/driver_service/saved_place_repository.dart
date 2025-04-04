@@ -1,4 +1,3 @@
-
 import 'package:buga/constant/global_variable.dart';
 import 'package:buga/local_storage/pref.dart';
 import 'package:dio/dio.dart';
@@ -43,11 +42,17 @@ class SavedPlaceRepository {
         options: Options(
           headers: {
             'Authorization': 'Bearer $token',
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
           },
         ),
       );
     } catch (e) {
-      print('thisss is $e');
+      if (e is DioException) {
+        print('Error: ${e.response?.data}');
+      } else {
+        print('Unexpected error: $e');
+      }
       throw Exception("Failed to add saved place");
     }
   }

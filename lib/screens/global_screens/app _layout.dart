@@ -125,7 +125,7 @@ class AppLayout {
               size: 16,
             ),
             onTap: () {
-              navigateTo(ScheduleRideScreen());
+              navigateTo(AddDriverRoute());
               // Navigate to Payment Screen
             },
           ),

@@ -17,6 +17,16 @@ class _SavedPlacesState extends ConsumerState<SavedPlaces> {
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _infoController = TextEditingController();
 
+  String? name;
+  String? formatted_address;
+  double? latitude;
+  double? longitude;
+  String? vicinity;
+  String? type;
+  String? secondary_text;
+  String? main_text;
+  String? postal_code;
+
   var uuid = Uuid();
   String? _sessionToken;
   List<dynamic> _placeList = [];
@@ -86,10 +96,23 @@ class _SavedPlacesState extends ConsumerState<SavedPlaces> {
     var response = await http.get(Uri.parse(detailsUrl));
     if (response.statusCode == 200) {
       var result = json.decode(response.body)['result'];
+
+      // Extract relevant information from the response
+      name = result['name'];
+      formatted_address = result['formatted_address'];
+      latitude = result['geometry']['location']['lat'];
+      longitude = result['geometry']['location']['lng'];
+      vicinity = result['vicinity'];
+      type = result['types'][0];
+      secondary_text = result['address_components'][1]['long_name'];
+      main_text = result['address_components'][0]['long_name'];
+      postal_code = result['address_components'][2]['long_name'];
+
       print('Detailed Place Information:');
-      print('Latitude: ${result['geometry']['location']['lat']}');
-      print('Longitude: ${result['geometry']['location']['lng']}');
-      print('others....: $result...');
+      print('Latitude: ${result['geometry']}');
+      print('Address: ${result['formatted_address']}');
+      print('Name: ${result['name']}');
+      print('Address components...: ${result['address_components']}');
     } else {
       print('Failed to fetch detailed place information');
     }
@@ -121,17 +144,6 @@ class _SavedPlacesState extends ConsumerState<SavedPlaces> {
                 border: OutlineInputBorder(),
               ),
             ),
-
-
-
-
-
-
-
-
-
-
-
             if (_showSuggestions)
               ListView.builder(
                 physics: NeverScrollableScrollPhysics(),
@@ -158,22 +170,54 @@ class _SavedPlacesState extends ConsumerState<SavedPlaces> {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () async {
-                  final newPlace = SavedPlace(
-                    id: "new-id",
-                    dateCreated: DateTime.now(),
-                    dateModified: DateTime.now(),
-                    title: "New Place",
-                    address: "New Address",
-                    latitude: 10.0,
-                    longitude: 20.0,
-                    type: "Home",
-                  );
-                  await ref
-                      .read(addSavedPlaceProvider)
-                      .call(newPlace)
-                      .then((value) {
-                    print('success');
-                  });
+                  if (_nameController.text.isNotEmpty &&
+                      _addressController.text.isNotEmpty &&
+                      _infoController.text.isNotEmpty) {
+                    final newPlace = SavedPlace(
+                      addressFullName: formatted_address ?? 'Unknown',
+                      adminArea: vicinity ?? 'Unkown',
+                      cityName: 'UNKNOWN',
+                      countryName: 'Nigeria',
+                      countryCode: '+234',
+                      featureName: 'UNKNOWN',
+                      locality: main_text ?? 'UNKNOWN',
+                      postalCode: postal_code ?? 'UNKNOWN',
+                      subAdminArea: secondary_text ?? 'UNKNOWN',
+                      subLocality: main_text ?? 'UNKNOWN',
+                      name: name ?? 'Unknown',
+                      neighbourhood: '',
+                      raw: 'UNKNOWN',
+                      streetName: 'UNKNOWN',
+                      dateCreated: DateTime.now(),
+                      dateModified: DateTime.now(),
+                      title: _nameController.text,
+                      address: _addressController.text,
+                      latitude: latitude ?? 0.0,
+                      longitude: longitude ?? 0.0,
+                      type: 'Home',
+                    );
+                    // print('New Place: ${newPlace.toJson()}');
+
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return Center(
+                            child: loadingAnimation(),
+                          );
+                        });
+
+                    await ref
+                        .read(addSavedPlaceProvider)
+                        .call(newPlace)
+                        .then((value) {
+                      SnackBarView.showSnackBar('Place saved successfully!');
+
+                      Navigator.pop(context);
+                      Navigator.pop(context);
+                    });
+                  } else {
+                    SnackBarView.showSnackBar('Please fill all fields');
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 14),
@@ -187,5 +231,4 @@ class _SavedPlacesState extends ConsumerState<SavedPlaces> {
       ),
     );
   }
-
 }
