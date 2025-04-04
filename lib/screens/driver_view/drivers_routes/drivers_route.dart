@@ -3,6 +3,7 @@ import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../Provider/driver_provider/saved_places.dart';
+import 'custom_route.dart';
 
 class AddDriverRoute extends ConsumerStatefulWidget {
   const AddDriverRoute({super.key});
@@ -74,7 +75,7 @@ class _AddDriverRouteState extends ConsumerState<AddDriverRoute> {
         ),
         body: TabBarView(
           children: [
-            // Tab One
+            // Tab One migrate it to saved places screen later
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
@@ -166,28 +167,7 @@ class _AddDriverRouteState extends ConsumerState<AddDriverRoute> {
               ),
             ),
 
-            // Tab Two
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                children: [
-                  ElevatedButton(
-                    onPressed: () {},
-                    child: Text("Select Start Location"),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {},
-                    child: Text("Select End Location"),
-                  ),
-                  TextField(
-                    decoration: InputDecoration(labelText: "Price"),
-                    keyboardType: TextInputType.number,
-                    onChanged: (val) => price = double.tryParse(val) ?? 0,
-                  ),
-                  ElevatedButton(onPressed: submitTabTwo, child: Text("Submit"))
-                ],
-              ),
-            ),
+            CustomRoute(),
           ],
         ),
       ),
