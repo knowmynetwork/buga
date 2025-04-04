@@ -53,27 +53,27 @@ class SettingsScreen extends StatelessWidget {
                   navigateTo(VehiclesScreen());
                 },
               ),
-               _buildSettingsOption(
-                icon: Icons.payment,
-                title: 'Saved Places',
-                onTap: () {
-                    navigateTo(SavedPlacesListScreen());
-                },
-              ),
-               _buildSettingsOption(
-                icon: Icons.payment,
-                title: 'Trips',
-                onTap: () {
-                    navigateTo(RideRequestsScreen());
-                },
-              ),
-                 _buildSettingsOption(
-                icon: Icons.payment,
-                title: 'Notifications',
-                onTap: () {
-                    navigateTo(NotificationScreen());
-                },
-              ),
+              //  _buildSettingsOption(
+              //   icon: Icons.payment,
+              //   title: 'Saved Places',
+              //   onTap: () {
+              //       navigateTo(SavedPlacesListScreen());
+              //   },
+              // ),
+              //  _buildSettingsOption(
+              //   icon: Icons.payment,
+              //   title: 'Trips',
+              //   onTap: () {
+              //       navigateTo(RideRequestsScreen());
+              //   },
+              // ),
+              //    _buildSettingsOption(
+              //   icon: Icons.payment,
+              //   title: 'Notifications',
+              //   onTap: () {
+              //       navigateTo(NotificationScreen());
+              //   },
+              // ),
 
               _buildSettingsOption(
                 icon: Icons.payment,

@@ -1,332 +1,300 @@
-// import 'package:flutter/material.dart';
-// import 'package:geolocator/geolocator.dart';
+import 'package:flutter/material.dart';
+import 'dart:convert';
 
-// class ScheduleRideScreen extends StatefulWidget {
-//   const ScheduleRideScreen({super.key});
+class ScheduleRideScreen extends StatefulWidget {
+  const ScheduleRideScreen({super.key});
 
-//   @override
-//   _ScheduleRideScreenState createState() => _ScheduleRideScreenState();
-// }
+  @override
+  _ScheduleRideScreenState createState() => _ScheduleRideScreenState();
+}
 
-// class _ScheduleRideScreenState extends State<ScheduleRideScreen> {
-//   final TextEditingController _startLocationController =
-//       TextEditingController();
-//   final TextEditingController _endLocationController = TextEditingController();
-//   String _selectedTime = "Select Time";
-//   String _selectedDays = "Everyday";
-//   String _selectedFrequency = "One-time";
-//   final List<String> _savedPlaces = [
-//     "Home",
-//     "Work",
-//     "Gym"
-//   ]; // Example saved places
+class _ScheduleRideScreenState extends State<ScheduleRideScreen> with SingleTickerProviderStateMixin {
+  late TabController _tabController;
+  final TextEditingController _startLocationController = TextEditingController();
+  final TextEditingController _endLocationController = TextEditingController();
+  final TextEditingController _amountController = TextEditingController();
+  final TextEditingController _priceController = TextEditingController();
+  List<String> _selectedDays = [];
+  List<Map<String, dynamic>> _savedPlaces = [];
 
-//   void _pickTime() async {
-//     TimeOfDay? pickedTime = await showTimePicker(
-//       context: context,
-//       initialTime: TimeOfDay.now(),
-//     );
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 2, vsync: this);
+    _fetchSavedPlaces();
+  }
 
-//     if (pickedTime != null) {
-//       setState(() {
-//         _selectedTime = pickedTime.format(context);
-//       });
-//     }
-//   }
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
 
-//   void _pickDays() {
-//     showDialog(
-//       context: context,
-//       builder: (BuildContext context) {
-//         return AlertDialog(
-//           title: const Text("Select Days"),
-//           content: Column(
-//             mainAxisSize: MainAxisSize.min,
-//             children: [
-//               ListTile(
-//                 title: const Text("Everyday"),
-//                 onTap: () {
-//                   setState(() {
-//                     _selectedDays = "Everyday";
-//                   });
-//                   Navigator.pop(context);
-//                 },
-//               ),
-//               ListTile(
-//                 title: const Text("Custom"),
-//                 onTap: () {
-//                   _pickCustomDays();
-//                   Navigator.pop(context);
-//                 },
-//               ),
-//             ],
-//           ),
-//         );
-//       },
-//     );
-//   }
+  void _fetchSavedPlaces() async {
+    // TODO: Implement API call to fetch saved places
+    // For now, we'll use dummy data
+    _savedPlaces = [
+      {"id": "3fa85f64-5717-4562-b3fc-2c963f66afa6", "name": "Home"},
+      {"id": "3fa85f64-5717-4562-b3fc-2c963f66afa7", "name": "Work"},
+    ];
+  }
 
-//   void _pickCustomDays() async {
-//     List<String> days = [
-//       "Monday",
-//       "Tuesday",
-//       "Wednesday",
-//       "Thursday",
-//       "Friday",
-//       "Saturday",
-//       "Sunday"
-//     ];
-//     List<String> selected = [];
+  void _pickSavedPlace(TextEditingController controller) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Select Saved Place"),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: _savedPlaces.map((place) {
+              return ListTile(
+                title: Text(place['name']),
+                onTap: () {
+                  setState(() {
+                    controller.text = place['name'];
+                  });
+                  Navigator.pop(context);
+                },
+              );
+            }).toList(),
+          ),
+        );
+      },
+    );
+  }
 
-//     await showDialog(
-//       context: context,
-//       builder: (BuildContext context) {
-//         return AlertDialog(
-//           title: const Text("Select Days"),
-//           content: Column(
-//             mainAxisSize: MainAxisSize.min,
-//             children: days.map((day) {
-//               return CheckboxListTile(
-//                 title: Text(day),
-//                 value: selected.contains(day),
-//                 onChanged: (bool? checked) {
-//                   setState(() {
-//                     if (checked == true) {
-//                       selected.add(day);
-//                     } else {
-//                       selected.remove(day);
-//                     }
-//                   });
-//                 },
-//               );
-//             }).toList(),
-//           ),
-//           actions: [
-//             TextButton(
-//               onPressed: () {
-//                 setState(() {
-//                   _selectedDays =
-//                       selected.isEmpty ? "Custom" : selected.join(", ");
-//                 });
-//                 Navigator.pop(context);
-//               },
-//               child: const Text("Done"),
-//             ),
-//           ],
-//         );
-//       },
-//     );
-//   }
+  void _pickDays() {
+    List<String> days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Select Days"),
+          content: StatefulBuilder(
+            builder: (BuildContext context, StateSetter setState) {
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                children: days.map((day) {
+                  return CheckboxListTile(
+                    title: Text(day),
+                    value: _selectedDays.contains(day),
+                    onChanged: (bool? checked) {
+                      setState(() {
+                        if (checked == true) {
+                          _selectedDays.add(day);
+                        } else {
+                          _selectedDays.remove(day);
+                        }
+                      });
+                    },
+                  );
+                }).toList(),
+              );
+            },
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text("Done"),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
-//   void _pickFrequency() {
-//     showDialog(
-//       context: context,
-//       builder: (BuildContext context) {
-//         return AlertDialog(
-//           title: const Text("Select Frequency"),
-//           content: Column(
-//             mainAxisSize: MainAxisSize.min,
-//             children: [
-//               ListTile(
-//                 title: const Text("One-time"),
-//                 onTap: () {
-//                   setState(() {
-//                     _selectedFrequency = "One-time";
-//                   });
-//                   Navigator.pop(context);
-//                 },
-//               ),
-//               ListTile(
-//                 title: const Text("Daily"),
-//                 onTap: () {
-//                   setState(() {
-//                     _selectedFrequency = "Daily";
-//                   });
-//                   Navigator.pop(context);
-//                 },
-//               ),
-//               ListTile(
-//                 title: const Text("Weekly"),
-//                 onTap: () {
-//                   setState(() {
-//                     _selectedFrequency = "Weekly";
-//                   });
-//                   Navigator.pop(context);
-//                 },
-//               ),
-//             ],
-//           ),
-//         );
-//       },
-//     );
-//   }
+  void _submitUserSchedule() {
+    final fromAddressId = _savedPlaces.firstWhere((place) => place['name'] == _startLocationController.text)['id'];
+    final toAddressId = _savedPlaces.firstWhere((place) => place['name'] == _endLocationController.text)['id'];
+    final amount = double.tryParse(_amountController.text) ?? 0;
 
-//   Future<void> _fetchCurrentLocation(TextEditingController controller) async {
-//     bool serviceEnabled;
-//     LocationPermission permission;
+    final scheduleData = {
+      "fromAddressId": fromAddressId,
+      "toAddressId": toAddressId,
+      "amount": amount,
+      "daysOfTravel": _selectedDays,
+    };
 
-//     serviceEnabled = await Geolocator.isLocationServiceEnabled();
-//     if (!serviceEnabled) {
-//       ScaffoldMessenger.of(context).showSnackBar(
-//         const SnackBar(content: Text("Location services are disabled.")),
-//       );
-//       return;
-//     }
+    print(json.encode(scheduleData));
+    // TODO: Send this data to the backend
+  }
 
-//     permission = await Geolocator.checkPermission();
-//     if (permission == LocationPermission.denied) {
-//       permission = await Geolocator.requestPermission();
-//       if (permission == LocationPermission.denied) {
-//         ScaffoldMessenger.of(context).showSnackBar(
-//           const SnackBar(content: Text("Location permissions are denied.")),
-//         );
-//         return;
-//       }
-//     }
+  void _submitDriverSchedule() {
+    final startLocation = {
+      "title": _startLocationController.text,
+      "address": _startLocationController.text,
+      // Add other fields as needed
+    };
 
-//     if (permission == LocationPermission.deniedForever) {
-//       ScaffoldMessenger.of(context).showSnackBar(
-//         const SnackBar(
-//             content: Text("Location permissions are permanently denied.")),
-//       );
-//       return;
-//     }
+    final endLocation = {
+      "title": _endLocationController.text,
+      "address": _endLocationController.text,
+      // Add other fields as needed
+    };
 
-//     Position position = await Geolocator.getCurrentPosition(
-//         desiredAccuracy: LocationAccuracy.high);
-//     setState(() {
-//       controller.text = "Lat: ${position.latitude}, Lng: ${position.longitude}";
-//     });
-//   }
+    final price = double.tryParse(_priceController.text) ?? 0;
 
-//   void _pickSavedPlace(TextEditingController controller) {
-//     showDialog(
-//       context: context,
-//       builder: (BuildContext context) {
-//         return AlertDialog(
-//           title: const Text("Select Saved Place"),
-//           content: Column(
-//             mainAxisSize: MainAxisSize.min,
-//             children: _savedPlaces.map((place) {
-//               return ListTile(
-//                 title: Text(place),
-//                 onTap: () {
-//                   setState(() {
-//                     controller.text = place;
-//                   });
-//                   Navigator.pop(context);
-//                 },
-//               );
-//             }).toList(),
-//           ),
-//         );
-//       },
-//     );
-//   }
+    final scheduleData = {
+      "startLocation": startLocation,
+      "endLocation": endLocation,
+      "price": price,
+      "daysOfWeek": _selectedDays,
+    };
 
-//   void _submitSchedule() {
-//     // Here you would typically send the schedule to your backend
-//     // For now, we'll just show a snackbar with the details
-//     ScaffoldMessenger.of(context).showSnackBar(
-//       SnackBar(
-//           content: Text(
-//               "Ride scheduled from ${_startLocationController.text} to ${_endLocationController.text} at $_selectedTime, $_selectedDays, $_selectedFrequency")),
-//     );
-//   }
+    print(json.encode(scheduleData));
+    // TODO: Send this data to the backend
+  }
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: const Text("Schedule a Ride"),
-//         backgroundColor: Colors.blueAccent,
-//       ),
-//       body: SingleChildScrollView(
-//         child: Padding(
-//           padding: const EdgeInsets.all(16.0),
-//           child: Column(
-//             crossAxisAlignment: CrossAxisAlignment.start,
-//             children: [
-//               const Text("Route Start",
-//                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-//               const SizedBox(height: 10),
-//               Row(
-//                 children: [
-//                   Expanded(
-//                     child: TextField(
-//                       controller: _startLocationController,
-//                       decoration: const InputDecoration(
-//                         labelText: "Enter Start Location",
-//                         border: OutlineInputBorder(),
-//                       ),
-//                     ),
-//                   ),
-//                   IconButton(
-//                     icon: const Icon(Icons.my_location),
-//                     onPressed: () =>
-//                         _fetchCurrentLocation(_startLocationController),
-//                   ),
-//                   IconButton(
-//                     icon: const Icon(Icons.place),
-//                     onPressed: () => _pickSavedPlace(_startLocationController),
-//                   ),
-//                 ],
-//               ),
-//               const SizedBox(height: 20),
-//               const Text("Route End",
-//                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-//               const SizedBox(height: 10),
-//               Row(
-//                 children: [
-//                   Expanded(
-//                     child: TextField(
-//                       controller: _endLocationController,
-//                       decoration: const InputDecoration(
-//                         labelText: "Enter End Location",
-//                         border: OutlineInputBorder(),
-//                       ),
-//                     ),
-//                   ),
-//                   IconButton(
-//                     icon: const Icon(Icons.my_location),
-//                     onPressed: () =>
-//                         _fetchCurrentLocation(_endLocationController),
-//                   ),
-//                   IconButton(
-//                     icon: const Icon(Icons.place),
-//                     onPressed: () => _pickSavedPlace(_endLocationController),
-//                   ),
-//                 ],
-//               ),
-//               const SizedBox(height: 20),
-//               ListTile(
-//                 title: Text("Time: $_selectedTime"),
-//                 trailing: const Icon(Icons.access_time),
-//                 onTap: _pickTime,
-//               ),
-//               ListTile(
-//                 title: Text("Days: $_selectedDays"),
-//                 trailing: const Icon(Icons.calendar_today),
-//                 onTap: _pickDays,
-//               ),
-//               ListTile(
-//                 title: Text("Frequency: $_selectedFrequency"),
-//                 trailing: const Icon(Icons.repeat),
-//                 onTap: _pickFrequency,
-//               ),
-//               const SizedBox(height: 20),
-//               ElevatedButton(
-//                 onPressed: _submitSchedule,
-//                 style: ElevatedButton.styleFrom(
-//                   backgroundColor: Colors.blueAccent,
-//                   minimumSize: const Size(double.infinity, 50),
-//                 ),
-//                 child: const Text("Schedule Ride"),
-//               ),
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Schedule a Ride"),
+        backgroundColor: Colors.blueAccent,
+        bottom: TabBar(
+          controller: _tabController,
+          tabs: const [
+            Tab(text: "User"),
+            Tab(text: "Driver"),
+          ],
+        ),
+      ),
+      body: TabBarView(
+        controller: _tabController,
+        children: [
+          // User Tab
+          SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text("From", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                  const SizedBox(height: 10),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: TextField(
+                          controller: _startLocationController,
+                          decoration: const InputDecoration(
+                            labelText: "Choose start location",
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.place),
+                        onPressed: () => _pickSavedPlace(_startLocationController),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  const Text("To", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                  const SizedBox(height: 10),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: TextField(
+                          controller: _endLocationController,
+                          decoration: const InputDecoration(
+                            labelText: "Choose end location",
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.place),
+                        onPressed: () => _pickSavedPlace(_endLocationController),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  TextField(
+                    controller: _amountController,
+                    decoration: const InputDecoration(
+                      labelText: "Amount",
+                      border: OutlineInputBorder(),
+                    ),
+                    keyboardType: TextInputType.number,
+                  ),
+                  const SizedBox(height: 20),
+                  ListTile(
+                    title: Text("Days: ${_selectedDays.join(", ")}"),
+                    trailing: const Icon(Icons.calendar_today),
+                    onTap: _pickDays,
+                  ),
+                  const SizedBox(height: 20),
+                  ElevatedButton(
+                    onPressed: _submitUserSchedule,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blueAccent,
+                      minimumSize: const Size(double.infinity, 50),
+                    ),
+                    child: const Text("Schedule Ride"),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          // Driver Tab
+          SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text("From", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                  const SizedBox(height: 10),
+                  TextField(
+                    controller: _startLocationController,
+                    decoration: const InputDecoration(
+                      labelText: "Enter start location",
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  const Text("To", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                  const SizedBox(height: 10),
+                  TextField(
+                    controller: _endLocationController,
+                    decoration: const InputDecoration(
+                      labelText: "Enter end location",
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  TextField(
+                    controller: _priceController,
+                    decoration: const InputDecoration(
+                      labelText: "Price",
+                      border: OutlineInputBorder(),
+                    ),
+                    keyboardType: TextInputType.number,
+                  ),
+                  const SizedBox(height: 20),
+                  ListTile(
+                    title: Text("Days: ${_selectedDays.join(", ")}"),
+                    trailing: const Icon(Icons.calendar_today),
+                    onTap: _pickDays,
+                  ),
+                  const SizedBox(height: 20),
+                  ElevatedButton(
+                    onPressed: _submitDriverSchedule,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blueAccent,
+                      minimumSize: const Size(double.infinity, 50),
+                    ),
+                    child: const Text("Schedule Ride"),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

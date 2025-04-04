@@ -1,3 +1,7 @@
+import '../driver_view/screen/notification/notification_screen.dart';
+import '../driver_view/screen/saved_places/all_saved_place.dart';
+import '../driver_view/screen/scheduled_ride.dart';
+import '../driver_view/screen/trips/trips.dart';
 import 'screen_export.dart';
 
 class AppLayout {
@@ -103,12 +107,12 @@ class AppLayout {
             contentPadding:
                 const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             leading: Icon(
-              Icons.payment,
+              Icons.route,
               color: AppColors.black,
               size: 30,
             ),
             title: Text(
-              'Trip',
+              'Driver Routes',
               style: TextStyle(
                 color: AppColors.black,
                 fontSize: 20,
@@ -121,7 +125,59 @@ class AppLayout {
               size: 16,
             ),
             onTap: () {
-              popScreen();
+              navigateTo(ScheduleRideScreen());
+              // Navigate to Payment Screen
+            },
+          ),
+          ListTile(
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            leading: Icon(
+              Icons.time_to_leave_sharp,
+              color: AppColors.black,
+              size: 30,
+            ),
+            title: Text(
+              'Trips',
+              style: TextStyle(
+                color: AppColors.black,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            trailing: const Icon(
+              Icons.arrow_forward_ios,
+              color: Colors.black,
+              size: 16,
+            ),
+            onTap: () {
+              navigateTo(RideRequestsScreen());
+              // Navigate to Payment Screen
+            },
+          ),
+          ListTile(
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            leading: Icon(
+              Icons.my_location_outlined,
+              color: AppColors.black,
+              size: 30,
+            ),
+            title: Text(
+              'Saved Places',
+              style: TextStyle(
+                color: AppColors.black,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            trailing: const Icon(
+              Icons.arrow_forward_ios,
+              color: Colors.black,
+              size: 16,
+            ),
+            onTap: () {
+              navigateTo(SavedPlacesListScreen());
               // Navigate to Payment Screen
             },
           ),
@@ -170,7 +226,8 @@ class AppLayout {
               size: 16,
             ),
             onTap: () {
-              Navigator.pop(context);
+              navigateTo(NotificationScreen());
+
               // Navigate to Notifications Screen
             },
           ),
@@ -248,8 +305,8 @@ class AppLayout {
               size: 16,
             ),
             onTap: () {
-              // this setting its driver setting 
-              // navigateTo(SettingsScreen());
+              // this setting its driver setting
+              navigateTo(SettingsScreen());
               // Navigate to Payment Screen
             },
           ),

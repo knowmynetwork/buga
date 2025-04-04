@@ -20,6 +20,7 @@ class _SavedPlacesState extends ConsumerState<SavedPlaces> {
   var uuid = Uuid();
   String? _sessionToken;
   List<dynamic> _placeList = [];
+  bool _showSuggestions = true;
 
   @override
   void initState() {
@@ -44,6 +45,9 @@ class _SavedPlacesState extends ConsumerState<SavedPlaces> {
       });
     }
     getSuggestion(_addressController.text);
+    setState(() {
+      _showSuggestions = true;
+    });
   }
 
   void getSuggestion(String input) async {
@@ -67,7 +71,8 @@ class _SavedPlacesState extends ConsumerState<SavedPlaces> {
   void _onSuggestionTap(Map<String, dynamic> place) async {
     setState(() {
       _addressController.text = place['description'];
-      _placeList = [];
+
+      _showSuggestions = false;
     });
     print('Selected Place Details:');
     print(json.encode(place));
@@ -116,17 +121,29 @@ class _SavedPlacesState extends ConsumerState<SavedPlaces> {
                 border: OutlineInputBorder(),
               ),
             ),
-            ListView.builder(
-              physics: NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: _placeList.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(_placeList[index]["description"]),
-                  onTap: () => _onSuggestionTap(_placeList[index]),
-                );
-              },
-            ),
+
+
+
+
+
+
+
+
+
+
+
+            if (_showSuggestions)
+              ListView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: _placeList.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    title: Text(_placeList[index]["description"]),
+                    onTap: () => _onSuggestionTap(_placeList[index]),
+                  );
+                },
+              ),
             const SizedBox(height: 10),
             TextField(
               controller: _infoController,
@@ -170,4 +187,5 @@ class _SavedPlacesState extends ConsumerState<SavedPlaces> {
       ),
     );
   }
+
 }
