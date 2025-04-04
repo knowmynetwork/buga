@@ -23,7 +23,7 @@ class _AvailableDriverViewState extends ConsumerState<AvailableDriverView> {
         child: ListView.builder(
           itemCount: 6,
           itemBuilder: (context, index) {
-            return Container(
+            return SizedBox(
               // color: Colors.red,
               width: double.infinity,
               child: Column(

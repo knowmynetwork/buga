@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 class SavedPlaceResponse {
   final List<SavedPlace> data;

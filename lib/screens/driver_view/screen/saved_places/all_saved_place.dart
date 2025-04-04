@@ -4,6 +4,8 @@ import 'package:flutter_svg/svg.dart';
 import 'dart:convert';
 import 'saved_place.dart';
 
+
+// this is the real code the end too its mark
 class SavedPlacesListScreen extends ConsumerStatefulWidget {
   const SavedPlacesListScreen({super.key});
 
@@ -106,6 +108,27 @@ class _SavedPlacesListScreenState extends ConsumerState<SavedPlacesListScreen> {
   }
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // class SavedPlacesListScreen extends ConsumerWidget {
 //   const SavedPlacesListScreen({super.key});
 
@@ -189,92 +212,3 @@ class _SavedPlacesListScreenState extends ConsumerState<SavedPlacesListScreen> {
 //   }
 // }
 
-
-
-
-
-
-
-
-
-// class SavedPlacesListScreen extends StatefulWidget {
-//   const SavedPlacesListScreen({super.key});
-
-//   @override
-//   _SavedPlacesListScreenState createState() => _SavedPlacesListScreenState();
-// }
-
-// class _SavedPlacesListScreenState extends State<SavedPlacesListScreen> {
-//   List<Map<String, String>> savedPlaces = [];
-
-//   @override
-//   void initState() {
-//     super.initState();
-//     _loadSavedPlaces();
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       backgroundColor: Colors.white,
-//       appBar: AppBar(
-//         title:
-//             const Text("Saved Places", style: TextStyle(color: Colors.black)),
-//         backgroundColor: Colors.yellow[700],
-//         actions: [
-//           IconButton(
-//             icon: const Icon(Icons.add),
-//             onPressed: _navigateToAddPlace,
-//           ),
-//         ],
-//       ),
-//       body: savedPlaces.isEmpty
-//           ? Center(
-//               child: Column(
-//                 mainAxisAlignment: MainAxisAlignment.center,
-//                 children: [
-//                   SvgPicture.asset('assets/icons/driver/empty_state.svg'),
-//                   SizedBox(height: 10),
-//                   const Text(
-//                     "No saved places found.",
-//                     style: TextStyle(
-//                       fontSize: 20,
-//                       fontWeight: FontWeight.w400,
-//                       color: Colors.black,
-//                     ),
-//                   ),
-//                   const SizedBox(height: 20),
-//                   Padding(
-//                     padding: const EdgeInsets.symmetric(horizontal: 40),
-//                     child: ElevatedButton(
-//                       style: ButtonStyle(
-//                         backgroundColor:
-//                             WidgetStateProperty.all<Color>(Colors.yellow[700]!),
-//                       ),
-//                       onPressed: _navigateToAddPlace,
-//                       child: const Text("Add Place"),
-//                     ),
-//                   ),
-//                 ],
-//               ),
-//             )
-//           : 
-//     );
-//   }
-
-//   Future<void> _deletePlace(int index) async {
-//     SharedPreferences prefs = await SharedPreferences.getInstance();
-//     List<String> savedPlacesData = prefs.getStringList('saved_places') ?? [];
-
-//     savedPlacesData.removeAt(index);
-//     await prefs.setStringList('saved_places', savedPlacesData);
-
-//     setState(() {
-//       savedPlaces.removeAt(index);
-//     });
-
-//     ScaffoldMessenger.of(context).showSnackBar(
-//       const SnackBar(content: Text("Place deleted successfully!")),
-//     );
-//   }
-// }

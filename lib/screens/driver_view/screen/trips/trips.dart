@@ -50,12 +50,13 @@ class _RideRequestsScreenState extends State<RideRequestsScreen> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 2,
+      length: 3,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Ride Requests'),
+          title: Text('Trips'),
           bottom: TabBar(
             tabs: [
+              Tab(text: 'Pending'),
               Tab(text: 'Upcoming'),
               Tab(text: 'Completed'),
             ],
@@ -64,6 +65,7 @@ class _RideRequestsScreenState extends State<RideRequestsScreen> {
         body: TabBarView(
           children: [
             RideList(rides: upcomingRides),
+            RideList(rides: completedRides),
             RideList(rides: completedRides),
           ],
         ),

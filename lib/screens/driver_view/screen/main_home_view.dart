@@ -1,13 +1,16 @@
 
+import 'package:buga/screens/driver_view/screen/trips/trips.dart';
 import 'package:flutter_svg/svg.dart';
-import '../../user_view/home_view/app _layout.dart';
+import '../../global_screens/app _layout.dart';
 import 'export.dart';
 import 'home/home_screen.dart';
-import 'trip/trips.dart';
 
 List<Widget> navViews = [
   DriverHomeScreen(),
+
   RideRequestsScreen(),
+    Container(color: AppColors.white, child: Center(child: Text('Chat View'))),
+
   Container(color: AppColors.white, child: Center(child: Text('Profile View'))),
 ];
 
@@ -53,6 +56,9 @@ class _MainHomeViewState extends ConsumerState<MainHomeView> {
                 color: _currentIndex == 1 ? AppColors.yellow : AppColors.black,
               ),
               label: 'Trips'),
+              BottomNavigationBarItem(
+              icon: Icon(Icons.chat, color: _currentIndex == 2 ? AppColors.yellow : AppColors.black), 
+              label: 'Chat'),
           BottomNavigationBarItem(
               icon: SvgPicture.asset(
                 'assets/icons/driver/drive.svg',

@@ -5,6 +5,10 @@ import 'package:buga/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+import '../notification/notification_screen.dart';
+import '../saved_places/all_saved_place.dart';
+import '../trips/trips.dart';
+
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
 
@@ -49,6 +53,28 @@ class SettingsScreen extends StatelessWidget {
                   navigateTo(VehiclesScreen());
                 },
               ),
+               _buildSettingsOption(
+                icon: Icons.payment,
+                title: 'Saved Places',
+                onTap: () {
+                    navigateTo(SavedPlacesListScreen());
+                },
+              ),
+               _buildSettingsOption(
+                icon: Icons.payment,
+                title: 'Trips',
+                onTap: () {
+                    navigateTo(RideRequestsScreen());
+                },
+              ),
+                 _buildSettingsOption(
+                icon: Icons.payment,
+                title: 'Notifications',
+                onTap: () {
+                    navigateTo(NotificationScreen());
+                },
+              ),
+
               _buildSettingsOption(
                 icon: Icons.payment,
                 title: 'Payment',

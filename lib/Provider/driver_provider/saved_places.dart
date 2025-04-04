@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:buga/service/driver_service/saved_place_repository.dart';
 import 'package:buga/viewmodels/drivermodel/saved_place.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../screens/driver_view/screen/use_cases/saved_places.dart';
+import '../../driver/use_cases/saved_places.dart';
 
 final dioProvider = Provider((ref) => Dio());
 
