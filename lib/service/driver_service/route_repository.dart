@@ -11,7 +11,7 @@ class RouteRepository {
 
   RouteRepository({required this.dio});
 
-  Future<List<RouteModel>> getRoutes() async {
+  Future<List<RouteData>> getRoutes() async {
     final token = await Pref.getStringValue(tokenKey);
 
     try {
@@ -22,16 +22,16 @@ class RouteRepository {
             },
           ));
       return (response.data['data'] as List)
-          .map((e) => RouteModel.fromJson(e))
+          .map((e) => RouteData.fromJson(e))
           .toList();
     } catch (e) {
       throw Exception('Failed to fetch routes');
     }
   }
 
-  Future<void> createRoute(RouteResponse routeResponse) async {
+  Future<void> createRoute(RouteModel routeResponse) async {
     final token = await Pref.getStringValue(tokenKey);
-   try {
+    try {
       await dio.post(
         Endpoints.addDriverRoutes,
         data: routeResponse.toJson(),
@@ -52,9 +52,10 @@ class RouteRepository {
       throw Exception("Failed to add saved place");
     }
   }
-   Future<void> createRouteWithAddress(RouteAddress routeAddress) async {
+
+  Future<void> createRouteWithAddress(RouteAddress routeAddress) async {
     final token = await Pref.getStringValue(tokenKey);
-   try {
+    try {
       await dio.post(
         Endpoints.addDriverRoutesithAddress,
         data: routeAddress.toJson(),
@@ -75,5 +76,4 @@ class RouteRepository {
       throw Exception("Failed to add saved place");
     }
   }
-  
 }
