@@ -9,6 +9,7 @@ class CustomTextField extends StatelessWidget {
   final bool obscureText;
   final TextInputType? keyboardType;
   final TextEditingController? controller;
+  final Widget? suffixIcon;
 
   const CustomTextField({
     super.key,
@@ -17,6 +18,7 @@ class CustomTextField extends StatelessWidget {
     this.obscureText = false,
     this.keyboardType,
     this.controller,
+    this.suffixIcon,
   });
 
   @override
@@ -27,7 +29,8 @@ class CustomTextField extends StatelessWidget {
       keyboardType: keyboardType,
       decoration: InputDecoration(
         hintText: hintText,
-        prefixIcon: Icon(prefixIcon,color: Colors.black),
+        prefixIcon: Icon(prefixIcon, color: Colors.black),
+        suffixIcon: suffixIcon,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8.0),
         ),
@@ -35,7 +38,6 @@ class CustomTextField extends StatelessWidget {
     );
   }
 }
-
 
 // Reusable CustomPasswordField Widget
 class CustomPasswordField extends StatefulWidget {

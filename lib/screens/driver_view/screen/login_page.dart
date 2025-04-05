@@ -15,6 +15,7 @@ class _LoginScreenState extends State<LoginScreen> {
   // please leave these controller outside the build widget
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  bool obscureText = true;
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +64,19 @@ class _LoginScreenState extends State<LoginScreen> {
               CustomTextField(
                 hintText: 'Password',
                 prefixIcon: Icons.lock,
-                obscureText: true,
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    obscureText ? Icons.visibility : Icons.visibility_off,
+                    color: Colors.black,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      obscureText = !obscureText;
+                    });
+                  },
+                ),
+                keyboardType: TextInputType.visiblePassword,
+                obscureText: obscureText,
                 controller: _passwordController,
               ),
               SizedBox(height: 2.h),

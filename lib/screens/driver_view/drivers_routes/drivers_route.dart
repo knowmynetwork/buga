@@ -61,7 +61,7 @@ class _AddDriverRouteState extends ConsumerState<AddDriverRoute> {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Add Driver Route"),
+          title: Text("Add Route"),
           bottom: TabBar(
             labelStyle: TextStyle(
               fontSize: 16,
@@ -69,7 +69,7 @@ class _AddDriverRouteState extends ConsumerState<AddDriverRoute> {
             ),
             tabs: [
               Tab(text: "Saved Places"),
-              Tab(text: "Custom Route"),
+              Tab(text: "Choose Location"),
             ],
           ),
         ),
