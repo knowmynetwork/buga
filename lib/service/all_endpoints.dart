@@ -17,15 +17,15 @@ class Endpoints {
 
   // Driver
   static String addDriverRoutes =
-      "$baseUrl/api/v1/Component/AddDriverRoute/driver-routes"; // POST
+      "$baseUrl/api/v1/Component/AddDriverRoute"; // POST
   static String editDriverRoutes =
-      "$baseUrl/api/v1/Component/EditDriverRoute/driver-routes/{id}"; // PATCH
+      "$baseUrl/api/v1/Component/EditDriverRoute/{id}"; // PATCH
   static String deleteDriverRoutes =
-      "$baseUrl/api/v1/Component/DeleteDriverRoute/driver-routes/{id}"; // DELETE
+      "$baseUrl/api/v1/Component/EditDriverRoute/{id}"; // DELETE
   static String getDriverRoutes =
-      "$baseUrl/api/v1/Component/GetMyDriverRoutes/driver-routes"; // GET
+      "$baseUrl/api/v1/Component/GetMyDriverRoutes"; // GET
   static String addDriverRoutesithAddress =
-      "$baseUrl/api/v1/Component/AddDriverRouteWithAddresses/driver-routes/with-addresses"; // POST
+      "$baseUrl/api/v1/Component/AddDriverRouteWithAddresses"; // POST
 
   static String getSavedAddress =
       "$baseUrl/api/v1/Component/GetSavedAddresses"; // GET

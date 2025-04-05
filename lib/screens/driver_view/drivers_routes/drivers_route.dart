@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../Provider/driver_provider/routes_provider.dart';
 import '../../../Provider/driver_provider/saved_places.dart';
+import '../../../constant/snackbar_view.dart';
+import '../../../viewmodels/drivermodel/add_route_model.dart';
 import 'custom_route.dart';
 
 class AddDriverRoute extends ConsumerStatefulWidget {
@@ -33,14 +36,48 @@ class _AddDriverRouteState extends ConsumerState<AddDriverRoute> {
   Map<String, dynamic>? startLocation;
   Map<String, dynamic>? endLocation;
 
-  void submitTabOne() {
-    final data = {
-      "fromAddressId": fromAddressId,
-      "toAddressId": toAddressId,
-      "amount": amount,
-      "daysOfTravel": selectedDaysTab1
-    };
-    print(data); // Replace with API call
+  void submitTabOne() async {
+    if (fromAddressId != null && toAddressId != null && amount != 0) {
+      final data = RouteModel(
+        fromAddressId: fromAddressId ?? '',
+        toAddressId: toAddressId ?? '',
+        amount: amount,
+        daysOfTravel: selectedDaysTab1,
+      );
+      print(data.toJson());
+      showDialog(
+          context: context,
+          builder: (context) {
+            return Center(
+              child: loadingAnimation(),
+            );
+          });
+
+      await ref.read(addRoutesProvider).call(data).then((val) {
+        Navigator.pop(context);
+        SnackBarView.showSnackBar('Route Added successfully!');
+        Navigator.pop(context);
+        Navigator.pop(context);
+      });
+    } else {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Error"),
+            content: Text("Please fill in all fields."),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text("OK"),
+              ),
+            ],
+          );
+        },
+      );
+    }
   }
 
   void submitTabTwo() {
@@ -102,9 +139,9 @@ class _AddDriverRouteState extends ConsumerState<AddDriverRoute> {
                       onChanged: (value) =>
                           setState(() => fromAddressId = value),
                       items: savedPlaces.value
-                          ?.where((place) => place.address != toAddressId)
+                          ?.where((place) => place.id != toAddressId)
                           .map((place) => DropdownMenuItem(
-                              value: place.address, child: Text(place.name)))
+                              value: place.id, child: Text(place.name)))
                           .toList(),
                     ),
                   ),
@@ -122,9 +159,9 @@ class _AddDriverRouteState extends ConsumerState<AddDriverRoute> {
                       hint: Text(" To "),
                       onChanged: (value) => setState(() => toAddressId = value),
                       items: savedPlaces.value
-                          ?.where((place) => place.address != fromAddressId)
+                          ?.where((place) => place.id != fromAddressId)
                           .map((place) => DropdownMenuItem(
-                              value: place.address, child: Text(place.name)))
+                              value: place.id, child: Text(place.name)))
                           .toList(),
                     ),
                   ),

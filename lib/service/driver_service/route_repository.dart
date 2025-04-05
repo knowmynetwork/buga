@@ -1,6 +1,7 @@
 import 'package:buga/constant/global_variable.dart';
 import 'package:buga/local_storage/pref.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import '../../viewmodels/drivermodel/add_route_address.dart';
 import '../../viewmodels/drivermodel/add_route_model.dart';
 import '../../viewmodels/drivermodel/get_routes.dart';
@@ -31,6 +32,7 @@ class RouteRepository {
 
   Future<void> createRoute(RouteModel routeResponse) async {
     final token = await Pref.getStringValue(tokenKey);
+    print('check after ${routeResponse.toJson()}');
     try {
       await dio.post(
         Endpoints.addDriverRoutes,
@@ -49,6 +51,7 @@ class RouteRepository {
       } else {
         print('Unexpected error: $e');
       }
+      print('error is $e...');
       throw Exception("Failed to add saved place");
     }
   }

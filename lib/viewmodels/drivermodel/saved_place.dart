@@ -27,6 +27,7 @@ class SavedPlaceResponse {
 }
 
 class SavedPlace {
+  final String? id;
   final DateTime dateCreated;
   final DateTime? dateModified;
   final String title;
@@ -50,6 +51,7 @@ class SavedPlace {
   final String featureName;
 
   SavedPlace({
+    this.id,
     required this.dateCreated,
     this.dateModified,
     required this.title,
@@ -75,6 +77,7 @@ class SavedPlace {
 
   factory SavedPlace.fromJson(Map<String, dynamic> json) {
     return SavedPlace(
+      id: json['id'],
       dateCreated: DateTime.parse(json['dateCreated']),
       dateModified: json['dateModified'] != null
           ? DateTime.tryParse(json['dateModified'])
@@ -103,6 +106,7 @@ class SavedPlace {
 
   Map<String, dynamic> toJson() {
     return {
+      "id": id,
       "dateCreated": dateCreated.toIso8601String(),
       "dateModified": dateModified?.toIso8601String(),
       "title": title,

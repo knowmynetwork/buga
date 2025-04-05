@@ -1,4 +1,4 @@
-// import 'package:buga/constant/global_variable.dart';
+import 'package:buga/constant/global_variable.dart';
 import 'package:buga/local_storage/pref.dart';
 import 'package:dio/dio.dart';
 import 'package:buga/service/all_endpoints.dart';
